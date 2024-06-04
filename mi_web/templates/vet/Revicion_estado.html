@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--Encabezado de links-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../Css/cssmain.css">
+    <link rel="icon" href="../img/logo.png">
+    <title>Mi_cuenta</title>
+</head>
+
+<body>
+    <!--El título-->
+    <header class="cotainer-fluid bg-primary d-flex justify-content-center">
+        <p class="text-light pt-3 fs-2"> Veterinaria Santa Marta</p>
+    </header>
+    <!--Menú-->
+    <nav class="navbar navbar-expand-sm bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><samp class="fw-bold ml-3"><img src="../img/logo.png" width="90"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!--Barra de menú-->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index_trabajador.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tienda_trabajador.html">Tienda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="usuarios_admin.html">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="trabajador.html">Admin</a>
+                    </li>
+                </ul>
+                <!--Botón de despligue para ver o cerrar cuenta-->
+                <form class="d-flex" role="search">
+                    <div class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Mi Cuenta Admin
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="trabajador.html">Mi Cuenta</a></li>
+                            <li><a class="dropdown-item" href="index.html">Cerrar cuenta</a></li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row m-2">
+            <div class="col-md-4 col-sm-12 d-flex justify-content-center">
+                <img src="../img/comia.png" alt="producto">
+            </div>
+            <div class="col-md-8 col-sm-12 ">
+                <div class="text-center">
+                    <h1>Descripción </h1>
+                    <p>Producto XD (Descripción)</p>
+                </div>
+                <div class="text-center">
+                    <div class="col-md-12 col-sm-12">
+                        <p>Precio=$5000</p>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <p>Estado=en almacén</p>
+                    </div>
+                    <div class="m-1">
+                        <button class="btn btn-primary"> En almacén</button>
+                        <button class="btn btn-primary"> En carretera</button>
+                        <button class="btn btn-primary"> Completada</button>
+                    </div>
+                    <div class="m-1">
+                        <a class="btn btn-primary" href="trabajador.html"> Guardar cambios</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--Formulario de información e historial de compras efectuadas por usuarios-->
+    <!--Contactos-->
+    <header class="container-fluid bg-primary text-center py-4">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="text-light pt-3 fs-4"> Contactos: </p>
+                <p>
+                    <a href="mailto:vet.santamarta@gmail.com" style="text-decoration: none; color: #ffffff;">
+                        <i class="fas fa-envelope" aria-current="page" style="cursor: pointer;"></i> vet.santamarta@gmail.com
+                    </a>
+                </p>
+                <p>
+                    <a href="https://www.instagram.com/veterinaria_santa_marta/" target="_blank" style="text-decoration: none; color: #ffffff;">
+                        <i class="bi bi-instagram" aria-current="page" style="cursor: pointer;"></i> veterinaria_santa_marta
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p class="text-light pt-3 fs-4"> Dirección: </p>
+                <p class="text-light pt-1 fs-4"> Calle Manuel Bayón Sector Santa Marta</p>
+                <p class="text-light pt-1 fs-4">Talcahuano</p>
+            </div>
+        </div>
+    </header>
+</body>
+</html>
