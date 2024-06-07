@@ -10,14 +10,14 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
             integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"/>
-        <link rel="stylesheet" href="../css/cssmain.css">
-        <link rel="icon" href="../img/logo.png">
+        <link rel="stylesheet" href="{% static 'vet/css/cssmain.css'%}">
+        <link rel="icon" href="{% static 'vet/img/logo.png'%}">
         <title>cuenta_perdida</title>
     </head>
     <body class=" bg-primary d-flex justify-content-center align-items-center  vh-100 ">
         <div class="cotainer-fluid bg-white p-5 rounded-5 text-secudary " style="width: 25rem;" id="login">
             <div class=" d-flex justify-content-center">
-                <img src="../img/logo.png" style="height: 8rem; " alt="logo tienda">
+                <img src="{% static 'vet/img/logo.png'%}" style="height: 8rem; " alt="logo tienda">
             </div>
             <h4 class="text-center">¿Se olvidó de su contraseña?</h4>
             <h6 class="text-center">No se preocupe, solo ingrese su correo</h6>
@@ -41,8 +41,8 @@
                 <a href="login.html">Iniciar sesión</a>
             </div>
         </div>
-        <script src="../js/jquery-3.7.1.min.js"></script>
-        <script src="../js/reco.js"></script>
-        <script src="../js/reco_jq.js"></script>
+        <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
+        <script src="{% static 'vet/js/reco.js'%}"></script>
+        <script src="{% static 'vet/js/reco_jq.js'%}"></script>
     </body>
 </html>
