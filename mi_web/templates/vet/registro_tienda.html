@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -148,10 +149,10 @@
                     <button type="submit" class="btn btn-success w-100" onclick="validarDatos()">Crear cuenta</button>
                 </div>
                 <div class="mb-3">
-                    <a href="index.html">Menú</a>
+                    <a href="{% url "index" %}">Menú</a>
                 </div>
                 <div class="mb-3">
-                    <a href="login_tienda.html">Inicio sesión</a>
+                    <a href="{% url "login_tienda" %}">Inicio sesión</a>
                 </div>
             </form>
         </div>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,7 +34,7 @@
                             <a class="nav-link" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="tienda_login.html">Tienda</a>
+                            <a class="nav-link" aria-current="page" href="{% url "tienda_login" %}">Tienda</a>
                         </li>
                     </ul>
                     <!--Botón de despligue para ver o cerrar cuenta-->
@@ -44,8 +45,8 @@
                                 Mi Cuenta
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="mi_cuenta.html">Mi Cuenta</a></li>
-                                <li><a class="dropdown-item" href="index.html">Cerrar cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "mi_cuenta" %}">Mi Cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "index" %}">Cerrar cuenta</a></li>
                             </ul>
                         </div>
                     </form>

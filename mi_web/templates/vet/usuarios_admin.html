@@ -1,6 +1,7 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <>
+    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Tienda Online</title>
@@ -22,7 +23,7 @@
     <!--Barra de menú-->
     <nav class="navbar navbar-expand-sm bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand"><samp class="fw-bold ml-3"><img src="../img/logo.png" width="90"></samp></a>
+        <a class="navbar-brand"><samp class="fw-bold ml-3"><img src="{% static 'vet/img/logo.png'%}" width="90"></samp></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -31,16 +32,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="index_trabajador.html">Home</a>
+              <a class="nav-link" aria-current="page" href="{% url "index_trabajador" %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="tienda_trabajador.html">Tienda</a>
+              <a class="nav-link" aria-current="page" href="{% url "tienda_trabajador" %}">Tienda</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="#">Usuarios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="trabajador.html">Admin</a>
+              <a class="nav-link" aria-current="page" href="{% url "trabajador" %}">Admin</a>
             </li>
           </ul>
           <!--Botón de despligue para ver o cerrar cuenta-->
@@ -51,8 +52,8 @@
                 Mi Cuenta Admin
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="trabajador.html">Mi Cuenta</a></li>
-                <li><a class="dropdown-item" href="tienda.html">Cerrar cuenta</a></li>
+                <li><a class="dropdown-item" href="{% url "trabajador" %}">Mi Cuenta</a></li>
+                <li><a class="dropdown-item" href="{% url "tienda" %}">Cerrar cuenta</a></li>
               </ul>
             </div>
           </form>

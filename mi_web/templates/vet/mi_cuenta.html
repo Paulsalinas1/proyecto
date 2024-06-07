@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,10 +32,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index_login.html">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{% url "index_login" %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="tienda_login.html">Tienda</a>
+                            <a class="nav-link" href="{% url "tienda_login" %}">Tienda</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
@@ -44,8 +45,8 @@
                                 Mi cuenta
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="mi_cuenta.html">Mi Cuenta</a></li>
-                                <li><a class="dropdown-item" href="index.html">Cerrar cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "mi_cuenta" %}">Mi Cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "index" %}">Cerrar cuenta</a></li>
                             </ul>
                         </div>
                     </form>
@@ -181,21 +182,21 @@
                                         <td class="col-md-3">Royal Canin adulto Mini Adult alimento para perro</td>
                                         <td class="col-md-3">En reparto</td>
                                         <td class="col-md-3">$50.000</td>
-                                        <td class="col-md-1"><a href="compras_login.html" class=" boton"> Recibo</a></td>
+                                        <td class="col-md-1"><a href="{% url "compras_login" %}" class=" boton"> Recibo</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
                                         <td>Bravery Chicken Adult alimento para perro</td>
                                         <td class="col-md-1">En tienda</td>
                                         <td class="col-md-2">$100.000</td>
-                                        <td class="col-md-1"><a href="compras_login.html" class=" boton"> Recibo</a></td>
+                                        <td class="col-md-1"><a href="{% url "compras_login" %}" class=" boton"> Recibo</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Comida perro</td>
                                         <td >En reparto</td>
                                         <td>$60.000</td>
-                                        <td><a href="compras_login.html" class=" boton"> Recibo</a></td>
+                                        <td><a href="{% url "compras_login" %}" class=" boton"> Recibo</a></td>
                                     </tr>
                                     </tbody>
                                 </table>
