@@ -57,8 +57,8 @@
                                     <li><a class="dropdown-item" href=" {% url "mi_cuenta" %}">Mi Cuenta</a></li>
                                     <li><a class="dropdown-item" href="{% url "index" %}">Cerrar cuenta</a></li>
                                     {% else %}
-                                    <li><a class="dropdown-item" href="login.html">Iniciar sesión</a></li>
-                                    <li><a class="dropdown-item" href="registro.html">Crear cuenta</a></li>
+                                    <li><a class="dropdown-item" href="{% url "login" %}">Iniciar sesión</a></li>
+                                    <li><a class="dropdown-item" href="{% url "registro" %}">Crear cuenta</a></li>
                                     {% endif %}
                                 </ul>
                             </div>

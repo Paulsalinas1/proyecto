@@ -45,19 +45,17 @@ def trabajador(request):
 def usuarios_admin(request):
     return render(request,'vet/usuarios_admin.html')
 
+def login(request):
+    return render(request,'vet/login.html')
 
+def login_tienda(request):
+    return render(request,'vet/login_tienda.html')
 
-# def login(request):
-#     return render(request,'vet/login.html')
+def tienda_login(request):
+    return render(request,'vet/tienda_login.html')
 
-# def login_tienda(request):
-#     return render(request,'vet/login_tienda.html')
+def registro(request):
+     return render(request,'vet/registro.html')
 
-# def tienda_login(request):
-#     return render(request,'vet/tienda_login.html')
-
-# def registro(request):
-#     return render(request,'vet/registro.html')
-
-# def registro_tienda(request):
-#     return render(request,'vet/registro_tienda.html')
+def registro_tienda(request):
+    return render(request,'vet/registro_tienda.html')
