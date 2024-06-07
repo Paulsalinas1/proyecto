@@ -33,16 +33,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index_trabajador.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{% url "index_trabajador" %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="tienda_trabajador.html">Tienda</a>
+                        <a class="nav-link" href="{% url "tienda_trabajador" %}">Tienda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="usuarios_admin.html">Usuarios</a>
+                        <a class="nav-link" href="{% url "usuarios_admin" %}">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="trabajador.html">Admin</a>
+                        <a class="nav-link" href="{% url "trabajador" %}">Admin</a>
                     </li>
                 </ul>
                 <!--Botón de despligue para ver o cerrar cuenta-->
@@ -53,8 +53,8 @@
                             Mi Cuenta Admin
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="trabajador.html">Mi Cuenta</a></li>
-                            <li><a class="dropdown-item" href="index.html">Cerrar cuenta</a></li>
+                            <li><a class="dropdown-item" href="{% url "trabajador" %}">Mi Cuenta</a></li>
+                            <li><a class="dropdown-item" href="{% url "index" %}">Cerrar cuenta</a></li>
                         </ul>
                     </div>
                 </form>
@@ -84,7 +84,7 @@
                         <button class="btn btn-primary"> Completada</button>
                     </div>
                     <div class="m-1">
-                        <a class="btn btn-primary" href="trabajador.html"> Guardar cambios</a>
+                        <a class="btn btn-primary" href="{% url "trabajador" %}"> Guardar cambios</a>
                     </div>
                 </div>
 

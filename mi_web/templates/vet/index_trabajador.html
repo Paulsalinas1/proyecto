@@ -35,13 +35,13 @@
                             <a class="nav-link" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="tienda_trabajador.html">Tienda</a>
+                            <a class="nav-link" aria-current="page" href="{% url "tienda_trabajador" %}">Tienda</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="usuarios_admin.html">Usuarios</a>
+                            <a class="nav-link" aria-current="page" href="{% url "usuarios_admin" %}">Usuarios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="trabajador.html">Admin</a>
+                            <a class="nav-link" aria-current="page" href="{% url "trabajador" %}">Admin</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
@@ -51,8 +51,8 @@
                                 Mi Cuenta Admin
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="trabajador.html">Mi Cuenta</a></li>
-                                <li><a class="dropdown-item" href="index.html">Cerrar cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "trabajador" %}">Mi Cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "index" %}">Cerrar cuenta</a></li>
                             </ul>
                         </div>
                     </form>

@@ -38,9 +38,9 @@
                 </div>
             </form>
             <div class="mb-3">
-                <h6>¿No tiene cuenta? <a href="registro.html">Crear cuenta</a></h6>
-                <a href="index.html">Menú</a>
-                <a href="login.html">Iniciar sesión</a>
+                <h6>¿No tiene cuenta? <a href="{% url "registro" %}">Crear cuenta</a></h6>
+                <a href="{% url "index" %}">Menú</a>
+                <a href="{% url "login" %}">Iniciar sesión</a>
             </div>
         </div>
         <script src="{% static 'vet/js/reco.js'%}"></script>
