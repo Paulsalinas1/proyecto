@@ -11,9 +11,8 @@
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/cssmain.css">
-        <link rel="icon" href="../img/logo.png">
-        
+        <link rel="stylesheet" href="{% static 'vet/css/cssmain.css'%}">
+        <link rel="icon" href="{% static 'vet/img/logo.png'%}">
         <title>Login</title>
     </head>
     <!--Fondo y cápsula de datos-->
@@ -21,7 +20,7 @@
         <div class="cotainer-fluid bg-white p-5 rounded-5 text-secudary " style="width: 25rem;" id="login">
             <form id="ini_f_c" class="row needs-validation" method="get"  novalidate>
                 <div class=" d-flex justify-content-center">
-                    <img src="../img/logo.png" style="height: 8rem; " alt="logo tienda">
+                    <img src="{% static 'vet/img/logo.png'%}" style="height: 8rem; " alt="logo tienda">
                 </div>
                 <!--Cápssula de login-->
                 <h2 class="text-center">Login</h2>
@@ -63,8 +62,8 @@
             </form>
         </div>
         <!-- Vinculación del archivo js  -->
-        <script src="../js/jquery-3.7.1.min.js"></script>
-        <script src="../js/login.js"></script>
-        <script src="../js/login_jq.js"></script>
+        <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
+        <script src="{% static 'vet/js/login.js'%}"></script>
+        <script src="{% static 'vet/js/login_jq.js'%}"></script>
     </body>
 </html>
