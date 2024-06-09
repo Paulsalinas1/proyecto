@@ -13,9 +13,11 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 h1 {
     text-align: center;
 }
+
 .producto {
     display: flex;
     align-items: center;
@@ -24,7 +26,7 @@ h1 {
     padding-bottom: 20px;
 }
 .producto img {
-    width: 100px;
+    
     margin-right: 20px;
 }
 .producto-info {
