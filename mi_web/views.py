@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from .models import producto
+from django.shortcuts import get_object_or_404, redirect
+from datetime import date
 
 # Create your views here.
 def index(request):
@@ -31,8 +34,6 @@ def recordando(request):
 def recordando_tienda(request):
     return render(request,'vet/recordando_tienda.html')
 
-
-
 def Revision_estado(request):
     return render(request,'vet/Revision_estado.html')
 
@@ -52,10 +53,18 @@ def login_tienda(request):
     return render(request,'vet/login_tienda.html')
 
 def tienda_login(request):
-    return render(request,'vet/tienda_login.html')
+    prod=producto.objects.all()
+    datos={
+        "productos":prod  
+        
+    }
+    return render(request,'vet/tienda_login.html' , datos)
 
 def registro(request):
      return render(request,'vet/registro.html')
 
 def registro_tienda(request):
     return render(request,'vet/registro_tienda.html')
+
+
+
