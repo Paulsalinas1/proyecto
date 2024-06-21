@@ -15,7 +15,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
         
-        
     </head>
     <body>
         <!--El título-->
@@ -47,7 +46,10 @@
                             <a class="nav-link" aria-current="page" href="{% url "index_trabajador" %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Tienda</a>
+                            <a class="nav-link" aria-current="page" href="{% url "tienda_trabajador" %}">productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url "añadir_trabajador" %}">añadir productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{% url "usuarios_admin" %}">Usuarios</a>
@@ -75,275 +77,45 @@
         </nav>
         <!--Productos existentes en la tienda-->
         <div class="container">
-            <h1>Tienda Online</h1>
-            <a class="btn btn-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                Añadir producto
-            </a>
-            </h1>
-            <div class="producto">
-                <img src="{% static 'vet/img/comiaperro.png'%}" alt="Producto 1">
-                <div class="producto-info">
-                    <h3>Royal Canin adulto Mini Adult alimento para perro</h3>
-                    <p class="text-success">Stock disponible: 28</p>
-                    <p>Descripción del producto: Alimento para perros de razas pequeñas.</p>
-                    <p>Precio: <span class="precio">$50.000</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d1">-</button>
-                            <input type="number" id="cantidad1" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a1">+</button>
-                        </div>
-                        
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <a type="submit" class="btn btn-success btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample2">Modificar producto</a>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/comiaperropollo.png'%}" alt="Producto 2">
-                <div class="producto-info">
-                    <h3>Bravery Chicken Adult alimento para perro</h3>
-                    <p class="text-success">Stock disponible: 46</p>
-                    <p>Descripción del producto: Alimento completo para perros de razas medianas y grandes.</p>
-                    <p>Precio: <span class="precio">$42.500</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d2">-</button>
-                            <input type="number" id="cantidad2" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a2">+</button>
+            <div>
+                <div class="container-fluid row m-1">
+                    <h1>Tienda Online</h1>
+                    <a class="btn btn-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    Añadir producto
+                    </a>
+                    </h1>
+                    <div class="col-md-2 col-sm-12"></div>
+                    <div class="col-md-8 col-sm-12">
+                        {% for p in productos %}
+                        <div class="producto">
+                            <img src="{{p.foto.url}}" alt="foto" width="300" height="150">
+                            <div class="producto-info">
+                                <h3>{{p.nombre}}</h3>
+                                <p>Descripción del producto: {{p.descripción}}</p>
+                                <p class="text-success">Stock disponible: {{p.stock}}</p>
+                                <p>Precio: <span class="precio">${{p.precio}}</span></p>
+                                <form>
+                                    <div class="d-flex align-items-center">
+                                        <button type="button" id="btn_d1">-</button>
+                                        <input type="number" id="cantidad1" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
+                                        <button type="button" id="btn_a1">+</button>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
+                                        <a type="submit" class="btn btn-success btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample2">Modificar producto</a>
+                                        <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
+                                    </div>
+                                </form>
+                            </div>
                             
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <a type="submit" class="btn btn-success btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample2">Modificar producto</a>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
+                        </div>  
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-2 col-sm-12"></div>
                 </div>
             </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/comiagato.png'%}" alt="Producto 4">
-                <div class="producto-info">
-                    <h3>Purina Gato</h3>
-                    <p class="text-success">Stock disponible: 34</p>
-                    <p>Descripción del producto: Sobres alimento para gatos.</p>
-                    <p>Precio: <span class="precio">$2.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d3">-</button>
-                            <input type="number" id="cantidad3" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a3">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <a type="submit" class="btn btn-success btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample2">Modificar producto</a>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/lataternero.png' %}" alt="Producto 3">
-                <div class="producto-info">
-                    <h3>Bewi dog latas carne de ternero</h3>
-                    <p class="text-success">Stock disponible: 21</p>
-                    <p>Descripción del producto: Bewidog latas rico en ternera alimento húmedo para perros.</p>
-                    <p>Precio: <span class="precio">$4.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d4">-</button>
-                            <input type="number" id="cantidad4" name="Cantidad4" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a4">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <a type="submit" class="btn btn-success btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample2">Modificar producto</a>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/latavenado.png'%}" alt="Producto 4">
-                <div class="producto-info">
-                    <h3>Bewi dog latas carne de venado</h3>
-                    <p class="text-success">Stock disponible: 85</p>
-                    <p>Descripción del producto: Bewidog latas rico en venado alimento húmedo para perros.</p>
-                    <p>Precio: <span class="precio">$8.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d5">-</button>
-                            <input type="number" id="cantidad5" name="Cantidad5" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a5">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/latapollo.png'%}" alt="Producto 5">
-                <div class="producto-info">
-                    <h3>Bewi dog latas carne de pollo</h3>
-                    <p class="text-success">Stock disponible: 68</p>
-                    <p>Descripción del producto: Bewidog latas rico en pollo alimento húmedo para perros.</p>
-                    <p>Precio: <span class="precio">$4.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d6">-</button>
-                            <input type="number" id="cantidad6" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a6">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/latacordero.png'%}" alt="Producto 6">
-                <div class="producto-info">
-                    <h3>Bewi dog latas carne de cordero</h3>
-                    <p class="text-success">Stock disponible: 84</p>
-                    <p>Descripción del producto: Bewidog latas rico en cordero alimento húmedo para perros.</p>
-                    <p>Precio: <span class="precio">$7.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d7">-</button>
-                            <input type="number" id="cantidad7" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a7">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/latapanza.png'%}" alt="Producto 7">
-                <div class="producto-info">
-                    <h3>Bewi dog latas panzitas</h3>
-                    <p class="text-success">Stock disponible: 77</p>
-                    <p>Descripción del producto: Bewidog latas rico en panza alimento húmedo para perros.</p>
-                    <p>Precio: <span class="precio">$6.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d8">-</button>
-                            <input type="number" id="cantidad8" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a8">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/latavacuno.png'%}" alt="Producto 8">
-                <div class="producto-info">
-                    <h3>Bewi dog latas carne de vacuno</h3>
-                    <p class="text-success">Stock disponible: 43</p>
-                    <p>Descripción del producto: Bewidog latas rico en res alimento húmedo para perros.</p>
-                    <p>Precio: <span class="precio">$5.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d9">-</button>
-                            <input type="number" id="cantidad9" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a9">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/lataave.png'%}" alt="Producto 9">
-                <div class="producto-info">
-                    <h3>Bewi dog latas carne de aves</h3>
-                    <p class="text-success">Stock disponible: 88</p>
-                    <p>Descripción del producto: Bewidog latas rico en aves alimento húmedo para perros.</p>
-                    <p>Precio: <span class="precio">$6.990</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d10">-</button>
-                            <input type="number" id="cantidad10" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a10">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/galletaperro.png'%}" alt="Producto 9">
-                <div class="producto-info">
-                    <h3>Galletas para perros adultos</h3>
-                    <p class="text-success">Stock disponible: 14</p>
-                    <p>Descripción del producto: Galletas horneadas para perros adultos sabor a grill.</p>
-                    <p>Precio: <span class="precio">$4.490</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d11">-</button>
-                            <input type="number" id="cantidad11" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a11">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="producto">
-                <img src="{% static 'vet/img/pulgas.png'%}" alt="Producto 9">
-                <div class="producto-info">
-                    <h3>Drontal plus perro</h3>
-                    <p class="text-success">Stock disponible: 32</p>
-                    <p>Antiparasitario interno de amplio espectro.Contenido: 2 tabletas sabor a carne, cada uno para hasta 10 kg.</p>
-                    <p>Precio: <span class="precio">$7.100</span></p>
-                    <form>
-                        <div class="d-flex align-items-center">
-                            <button type="button" id="btn_d12">-</button>
-                            <input type="number" id="cantidad12" name="Cantidad" min="0" step="1" value="0" readonly style="width: 50px;">
-                            <button type="button" id="btn_a12">+</button>
-                            
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success btn-block mb-2">Reponer stock</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Modificar producto</button>
-                            <button type="submit" class="btn btn-success btn-block mb-2">Eliminar producto</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasExampleLabel">Añadir productos</h5>
@@ -353,36 +125,16 @@
                     <form class="row needs-validation" action="../html/tienda_trabajador.html" method="get" novalidate>
                         <div>
                             <p> Ingrese datos del producto </p>
-                            <div class="card card-body">
-                                <div class="col-md-12 mb-1">
-                                    <label for="validationCustom01" class="form-label">Nombre producto</label>
-                                    <input type="text" class="form-control" id="validationCustom01" value="" required>
-                                    <div class="valid-feedback">nombre valido</div>
-                                    <div class="invalid-feedback"> no puede estar vacio</div>
-                                 </div>
-                                <div class="col-md-12 col-sm-12 mb-2 ">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Descripción producto</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
-                                    <div class="valid-feedback">descripcion valido</div>
-                                    <div class="invalid-feedback"> no puede estar vacio</div>
-                                </div>
-
-                                <div class="col-md-12 col-sm-12 mb-2 ">
-                                    <label for="valorp_1" class="form-label">precio producto</label>
-                                    <input type="text" class="form-control" id="valorp_1"  required>
-                                    <div class="valid-feedback">precio valido</div>
-                                    <div class="invalid-feedback"> no puede estar vacio</div>
-                                </div>
-    
-                                <div class="input-group mb-3">
-                                    <input type="file" class="form-control" id="modi_p1" required>
-                                    <div class="valid-feedback">imagen valido</div>
-                                    <div class="invalid-feedback"> no puede estar vacio</div>
-                                </div>
-                                
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %} 
+                                {{form }}
+            
                                 <div class="mb-3">
                                     <button type="submit" class="btn btn-success w-100 " >Agregar</button>
                                 </div>
+                            </form>
+                                
+                                
                             </div>
                         </div>
                     </form>

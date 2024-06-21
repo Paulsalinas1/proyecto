@@ -2,6 +2,10 @@ from django.shortcuts import render
 from .models import producto
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
+from .forms import ProductoForm
+from os import remove, path
+from django.conf import settings
+from django.contrib.auth import logout
 
 # Create your views here.
 def index(request):
@@ -38,7 +42,13 @@ def Revision_estado(request):
     return render(request,'vet/Revision_estado.html')
 
 def tienda_trabajador(request):
-    return render(request,'vet/tienda_trabajador.html')
+    prod=producto.objects.all()
+    datos={
+        "productos":prod  
+        
+    }
+    
+    return render(request,'vet/tienda_trabajador.html', datos)
 
 def trabajador(request):
     return render(request,'vet/trabajador.html')
@@ -67,4 +77,15 @@ def registro_tienda(request):
     return render(request,'vet/registro_tienda.html')
 
 
-
+def crearproducto(request):
+    form=ProductoForm()
+    if request.method=="POST":
+        form=ProductoForm(data=request.POST,files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(to="tienda_trabajador")
+            #Redirigir
+    datos={
+        "form":form
+    }
+    return render(request,'vet/añadir_trabajador.html',datos)
