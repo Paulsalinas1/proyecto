@@ -7,3 +7,9 @@ class ProductoForm(forms.ModelForm):
          model = producto
          fields = ['nombre','stock','descripción','precio','foto']
          
+         
+class upProductoForm(forms.ModelForm):
+     class Meta:
+         model = producto
+         fields = ['nombre','stock','descripción','precio','foto']
+         

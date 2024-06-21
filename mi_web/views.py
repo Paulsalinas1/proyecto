@@ -41,14 +41,7 @@ def recordando_tienda(request):
 def Revision_estado(request):
     return render(request,'vet/Revision_estado.html')
 
-def tienda_trabajador(request):
-    prod=producto.objects.all()
-    datos={
-        "productos":prod  
-        
-    }
-    
-    return render(request,'vet/tienda_trabajador.html', datos)
+
 
 def trabajador(request):
     return render(request,'vet/trabajador.html')
@@ -62,13 +55,6 @@ def login(request):
 def login_tienda(request):
     return render(request,'vet/login_tienda.html')
 
-def tienda_login(request):
-    prod=producto.objects.all()
-    datos={
-        "productos":prod  
-        
-    }
-    return render(request,'vet/tienda_login.html' , datos)
 
 def registro(request):
      return render(request,'vet/registro.html')
@@ -77,15 +63,29 @@ def registro_tienda(request):
     return render(request,'vet/registro_tienda.html')
 
 
-def crearproducto(request):
+def tienda_trabajador(request):
+    prod=producto.objects.all()
     form=ProductoForm()
+    
     if request.method=="POST":
         form=ProductoForm(data=request.POST,files=request.FILES)
         if form.is_valid():
             form.save()
             return redirect(to="tienda_trabajador")
             #Redirigir
+            
     datos={
-        "form":form
+        "productos":prod ,
+        "form2":form 
     }
-    return render(request,'vet/añadir_trabajador.html',datos)
+    
+    return render(request,'vet/tienda_trabajador.html',datos)
+
+def tienda_login(request):
+    prod=producto.objects.all()
+    datos={
+        "productos":prod  
+        
+    }
+    
+    return render(request,'vet/tienda_trabajador.html', datos)

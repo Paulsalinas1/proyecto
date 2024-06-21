@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -67,7 +68,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url "trabajador" %}">Mi Cuenta</a></li>
-                            <li><a class="dropdown-item" href="{% url "tienda" %}">Cerrar cuenta</a></li>
+                            <li><a class="dropdown-item" href="{% url "index" %}">Cerrar cuenta</a></li>
                             </ul>
                         </div>
                     </form>
@@ -83,7 +84,7 @@
                     <a class="btn btn-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
                     Añadir producto
                     </a>
-                    </h1>
+                   
                     <div class="col-md-2 col-sm-12"></div>
                     <div class="col-md-8 col-sm-12">
                         {% for p in productos %}
@@ -118,26 +119,22 @@
                     
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Añadir productos</h5>
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Añadir producto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <form class="row needs-validation" action="../html/tienda_trabajador.html" method="get" novalidate>
                         <div>
-                            <p> Ingrese datos del producto </p>
+                            <p class="text-center"> Ingrese datos del producto </p>
                             <form action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %} 
-                                {{form }}
-            
+                                
+                                 {{form2 | crispy}}
+
                                 <div class="mb-3">
-                                    <button type="submit" class="btn btn-success w-100 " >Agregar</button>
+                                    <button type="submit" value="Crear producto" class="btn btn-success w-100 " >Agregar</button>
                                 </div>
-                            </form>
-                                
-                                
-                            </div>
+                            </form>  
                         </div>
-                    </form>
                 </div>
             </div>
 
