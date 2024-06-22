@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm
+from .forms import ProductoForm ,upProductoForm
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout
@@ -72,20 +72,32 @@ def tienda_trabajador(request):
         if form.is_valid():
             form.save()
             return redirect(to="tienda_trabajador")
-            #Redirigir
-            
+            #Redirigir       
     datos={
         "productos":prod ,
         "form2":form 
     }
-    
     return render(request,'vet/tienda_trabajador.html',datos)
 
 def tienda_login(request):
-    prod=producto.objects.all()
+    return render(request,'vet/tienda_trabajador.html')
+
+
+def detalleP_trabajador(request, id):
+    produc=get_object_or_404(producto,nombre= id)
+    form=upProductoForm(instance=produc)
+    
+    if request.method=="POST":
+            form=upProductoForm(data=request.POST,files=request.FILES,instance=produc)
+            if form.is_valid():
+                form.save()
+                return redirect(to="tienda_trabajador")
+            
     datos={
-        "productos":prod  
-        
+        "form":form ,
+        "pro":produc
     }
     
-    return render(request,'vet/tienda_trabajador.html', datos)
+    return render(request,'vet/detalleP_trabajador.html',datos)
+
+
