@@ -41,8 +41,6 @@ def recordando_tienda(request):
 def Revision_estado(request):
     return render(request,'vet/Revision_estado.html')
 
-
-
 def trabajador(request):
     return render(request,'vet/trabajador.html')
 
