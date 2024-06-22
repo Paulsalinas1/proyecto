@@ -1,5 +1,8 @@
+from typing import Iterable
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+import os
+from django.conf import settings
 # Create your models here.
 
 class producto(models.Model):
@@ -9,5 +12,9 @@ class producto(models.Model):
     precio=models.IntegerField(default=0, validators=[MinValueValidator(0),MaxValueValidator(999999)])
     foto=models.ImageField(upload_to='producto',null=False)
     
+    
     def __str__(self):
         return f"{self.nombre}"
+
+ 
+    

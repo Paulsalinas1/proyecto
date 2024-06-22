@@ -2,10 +2,13 @@ from django.shortcuts import render
 from .models import producto
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm
+from .forms import ProductoForm ,upProductoForm , loginForm
 from os import remove, path
 from django.conf import settings
-from django.contrib.auth import logout
+from django.contrib.auth import logout , login , authenticate 
+from django.db import IntegrityError 
+from django.contrib import messages
+
 
 # Create your views here.
 def index(request):
@@ -47,8 +50,23 @@ def trabajador(request):
 def usuarios_admin(request):
     return render(request,'vet/usuarios_admin.html')
 
-def login(request):
-    return render(request,'vet/login.html')
+def login_xd(request):
+    if request.method=="POST":
+        form = loginForm(data=request.POST)
+        if form.is_valid():
+            user = form.user_cache
+              
+            login(request ,user)
+            return redirect("index")
+        else :
+            messages.warning(request, "usuario o contraseña incorrectos") 
+            return redirect("login")
+    else :
+        form = loginForm()
+    datos ={
+        "form":form
+    }
+    return render(request,'vet/login.html',datos)
 
 def login_tienda(request):
     return render(request,'vet/login_tienda.html')
@@ -59,7 +77,6 @@ def registro(request):
 
 def registro_tienda(request):
     return render(request,'vet/registro_tienda.html')
-
 
 def tienda_trabajador(request):
     prod=producto.objects.all()
@@ -84,13 +101,22 @@ def tienda_login(request):
 def detalleP_trabajador(request, id):
     produc=get_object_or_404(producto,nombre= id)
     form=upProductoForm(instance=produc)
+    imagen_anterior = produc.foto.path if produc.foto else None
     
     if request.method=="POST":
             form=upProductoForm(data=request.POST,files=request.FILES,instance=produc)
             if form.is_valid():
+                imagen_nueva = form.cleaned_data.get('foto')
+                if imagen_nueva and imagen_anterior:
+                # Comprobar si la nueva imagen es diferente de la anterior
+                    if imagen_nueva.name != path.basename(imagen_anterior):
+                    # Eliminar la imagen anterior
+                        if path.exists(imagen_anterior):
+                            remove(imagen_anterior)
+                    
                 form.save()
                 return redirect(to="tienda_trabajador")
-            
+                
     datos={
         "form":form ,
         "pro":produc
@@ -113,3 +139,7 @@ def eliminarP_trabajador(request, id):
     }
     
     return render(request,'vet/eliminarP_trabajador.html',datos)
+
+def cerrar(request):
+    logout(request)
+    return redirect("index") 
