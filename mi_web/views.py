@@ -100,4 +100,18 @@ def detalleP_trabajador(request, id):
     
     return render(request,'vet/detalleP_trabajador.html',datos)
 
-
+def eliminarP_trabajador(request, id):
+    produc=get_object_or_404(producto,nombre= id)
+    form=upProductoForm(instance=produc)
+    
+    if request.method=="POST":
+            remove(path.join(str(settings.MEDIA_ROOT).replace('/media',''))+produc.foto.url)
+            produc.delete()
+            return redirect(to="tienda_trabajador")
+            
+    datos={
+        "form":form ,
+        "pro":produc
+    }
+    
+    return render(request,'vet/eliminarP_trabajador.html',datos)
