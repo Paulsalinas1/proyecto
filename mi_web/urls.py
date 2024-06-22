@@ -42,6 +42,8 @@ urlpatterns = [
     path('login_tienda/',views.login_tienda,name='login_tienda'),
     path('tienda_login/',views.tienda_login,name='tienda_login'),
     
+    path('detalleP_trabajador/<id>',views.detalleP_trabajador,name='detalleP_trabajador'),
+    path('eliminarP_trabajador/<id>',views.eliminarP_trabajador,name='eliminarP_trabajador'),
 ]
 
 if settings.DEBUG:
