@@ -36,16 +36,15 @@ urlpatterns = [
     path('tienda_trabajador/',views.tienda_trabajador,name='tienda_trabajador'),
     path('trabajador/',views.trabajador,name='trabajador'),
     path('usuarios_admin/',views.usuarios_admin,name='usuarios_admin'),
-    path('registro/',views.registro,name='registro'),
     path('registro_tienda/',views.registro_tienda,name='registro_tienda'),
     path('login/',views.login_xd,name='login'),
     path('login_tienda/',views.login_tienda,name='login_tienda'),
     path('tienda_login/',views.tienda_login,name='tienda_login'),
     path('detalleP_trabajador/<id>',views.detalleP_trabajador,name='detalleP_trabajador'),
     path('eliminarP_trabajador/<id>',views.eliminarP_trabajador,name='eliminarP_trabajador'),
-    
     path('cerrar/',views.cerrar,name='cerrar'),
     
+    path('registro/',views.registro,name='registro'),
     
 ]
 

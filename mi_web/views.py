@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate 
@@ -72,9 +72,6 @@ def login_tienda(request):
     return render(request,'vet/login_tienda.html')
 
 
-def registro(request):
-     return render(request,'vet/registro.html')
-
 def registro_tienda(request):
     return render(request,'vet/registro_tienda.html')
 
@@ -143,3 +140,16 @@ def eliminarP_trabajador(request, id):
 def cerrar(request):
     logout(request)
     return redirect("index") 
+
+def registro(request):
+    form = createUser()
+    
+    datos= {
+        "form":form
+    }
+    
+    return render(request , 'vet/registro.html' , datos)
+
+
+
+     

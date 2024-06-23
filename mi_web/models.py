@@ -1,8 +1,7 @@
-from typing import Iterable
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-import os
-from django.conf import settings
+from django.contrib.auth.models import AbstractBaseUser , BaseUserManager , PermissionsMixin
+
 # Create your models here.
 
 class producto(models.Model):
@@ -16,5 +15,38 @@ class producto(models.Model):
     def __str__(self):
         return f"{self.nombre}"
 
- 
+
+class Usuariomanager(BaseUserManager):
+    def create_user(self, correo, password=None, **extra_fields):
+        if not correo:
+            raise ValueError("El correo es obligatorio")
+        usuario = self.model(correo=self.normalize_email(correo), **extra_fields)
+        usuario.set_password(password)
+        usuario.save()
+        return usuario
+    def create_superuser(self, correo, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        return self.create_user(correo=correo, password=password, **extra_fields)   
+class Usuario(AbstractBaseUser,PermissionsMixin):
+    run = models.CharField( "rut" ,max_length=12 ,primary_key=True ) 
+    correo = models.EmailField("correo", max_length=150 , unique=True)
+    nombre = models.CharField("nombre", max_length=50)
+    apellido = models.CharField("apellido", max_length=50)
+    telefono= models.IntegerField("teléfono")
+    comuna= models.CharField("comuna", max_length=50)
+    direccion= models.CharField("direccion", max_length=50)
+    tarjeta= models.ForeignKey("mi_web.Tarjeta", verbose_name="tarjeta", on_delete=models.CASCADE)
+    is_staff = models.BooleanField("empleado",default=False)
+    is_superuser = models.BooleanField("superuser",default=False)
+    
+    USERNAME_FIELD="correo"
+    objects=Usuariomanager()
+    REQUIRED_FIELDS=["run","nombre","apellido","telefono","comuna","direccion"]
+
+class Tarjeta(models.Model):    
+    tarjeta_de_credito = models.IntegerField("numero tarjeta")
+    fecha_de_vencimiento = models.CharField("fecha vencimiento", max_length=50)
+    codigo_de_seguridad = models.IntegerField("cv")
+    
     
