@@ -28,6 +28,7 @@ class Usuariomanager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(correo=correo, password=password, **extra_fields)   
+    
 class Usuario(AbstractBaseUser,PermissionsMixin):
     run = models.CharField( "rut" ,max_length=10 ,primary_key=True ) 
     correo = models.EmailField("correo", max_length=150 , unique=True)
@@ -36,7 +37,6 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     telefono= models.CharField("telefono", max_length=9)
     comuna= models.CharField("comuna", max_length=50)
     direccion= models.CharField("direccion", max_length=50)
-    tarjeta= models.ForeignKey("mi_web.Tarjeta", verbose_name="tarjeta", on_delete=models.CASCADE)
     is_staff = models.BooleanField("empleado",default=False)
     is_superuser = models.BooleanField("superuser",default=False)
     
@@ -45,6 +45,7 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     REQUIRED_FIELDS=["run","nombre","apellido","telefono","comuna","direccion"]
 
 class Tarjeta(models.Model):  
+    models.ForeignKey("mi_web.Usuario", verbose_name=("Usuario"), on_delete=models.CASCADE)
     tarjeta_de_credito = models.IntegerField("numero tarjeta", max_length=16 , unique=True)
     fecha_de_vencimiento = models.CharField("fecha vencimiento", max_length=50)
     codigo_de_seguridad = models.IntegerField("cv")

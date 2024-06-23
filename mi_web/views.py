@@ -137,15 +137,16 @@ def registro(request):
     if request.method=="POST":
         form=createUser(data=request.POST)
         form2=targetaForm(data=request.POST)
-        if form2.is_valid():
-            tarjeta = form2.save()
+        
+        if form.is_valid():
+            usuario=form.save()
             
-            if form.is_valid():
-                usuario=form.save(commit=False)
-                usuario.tarjeta= tarjeta
-                usuario.save()
+            if form2.is_valid():
+                tarjeta = form2.save(commit=False)
+                tarjeta.Usuario=usuario
+                tarjeta.save()
                 return redirect("login")
-            #Redirigir  
+                #Redirigir  
     datos= {
         "form":form,
         "form2":form2
