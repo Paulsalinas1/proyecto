@@ -42,11 +42,11 @@
                         <div class="dropdown">
                             <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                Mi cuenta
+                                Biendenido {{user.nombre}}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url "mi_cuenta" %}">Mi Cuenta</a></li>
-                                <li><a class="dropdown-item" href="{% url "index" %}">Cerrar cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "mi_cuenta" user.correo%}">Mi Cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "index"%}">Cerrar cuenta</a></li>
                             </ul>
                         </div>
                     </form>

@@ -29,7 +29,7 @@ urlpatterns = [
     path('compras_login/',views.compras_login,name='compras_login'),
     path('index_login/',views.index_login,name='index_login'),
     path('index_trabajador/',views.index_trabajador,name='index_trabajador'),
-    path('mi_cuenta/',views.mi_cuenta,name='mi_cuenta'),
+    
     path('recordando/',views.recordando,name='recordando'),
     path('recordando_tienda/',views.recordando_tienda,name='recordando_tienda'),
     path('Revision_estado/',views.Revision_estado,name='Revision_estado'),
@@ -45,7 +45,7 @@ urlpatterns = [
     path('cerrar/',views.cerrar,name='cerrar'),
     
     path('registro/',views.registro,name='registro'),
- 
+    path('mi_cuenta/<id>',views.mi_cuenta,name='mi_cuenta'),
 ]
 
 if settings.DEBUG:

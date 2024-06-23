@@ -62,7 +62,7 @@
                                 Mi Cuenta
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url "mi_cuenta" %}">Mi Cuenta</a></li>
+                                <li><a class="dropdown-item" href="{% url "mi_cuenta" user.correo%}">Mi Cuenta</a></li>
                             <li><a class="dropdown-item" href="{% url "tienda" %}">Cerrar cuenta</a></li>
                             </ul>
                         </div>

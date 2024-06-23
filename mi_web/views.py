@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import producto
+from .models import producto , Usuario
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
 from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,targetaForm
@@ -32,8 +32,15 @@ def index_login(request):
 def index_trabajador(request):
     return render(request,'vet/index_trabajador.html')
 
-def mi_cuenta(request):
-    return render(request,'vet/mi_cuenta.html')
+def mi_cuenta(request, id):
+    usera=get_object_or_404(Usuario,correo=id)
+    form=createUser(instance=usera) 
+       
+    datos={
+        "form":form 
+        
+    }
+    return render(request,'vet/mi_cuenta.html' , datos)
 
 def recordando(request):
     return render(request,'vet/recordando.html')
@@ -92,7 +99,7 @@ def tienda_trabajador(request):
     return render(request,'vet/tienda_trabajador.html',datos)
 
 def tienda_login(request):
-    return render(request,'vet/tienda_trabajador.html')
+    return render(request,'vet/tienda_login.html')
 
 
 def detalleP_trabajador(request, id):
@@ -163,7 +170,6 @@ def registro(request):
     }
     
     return render(request , 'vet/registro.html' , datos)
-
 
 
 

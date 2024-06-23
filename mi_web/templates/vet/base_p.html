@@ -9,6 +9,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="icon" href= "{% static 'vet/img/logo.png' %}" >
+        <link rel="stylesheet" href="{% static 'vet/css/carrito.css'%}">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href= "{% static "vet/css/cssmain.css" %} "> 
         <script src="{% static "vet/js/apicat_jqj.js" %}"></script>
@@ -41,24 +42,35 @@
                                 <a class="nav-link" aria-current="page" href=" {% url "tienda" %} ">Tienda</a>
                             </li>
                         </ul>
+                        <!--Ícono del carro-->
+                        <div class="me-5">
+                            <a onclick="aletarE()" class="boton" style="color: #ffffff;">
+                                <i class="fas fa-shopping-cart fa-2x" aria-current="page" style="cursor: pointer;"></i>
+                                <span style="display: block; float: under;"></span>
+                            </a>
+                        </div>
                         <!--Botón de despligue para iniciar o crear cuenta-->
                         <form class="d-flex" role="search">
                             <div class="dropdown">
                                 <a class="btn btn-primary dropdown-toggle" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     {% if request.user.is_authenticated %}
-                                    Mi Cuenta
+                                    Biendenido {{user.nombre}}
                                     {% else %}
                                     Iniciar sesión
                                     {% endif %}
                                 </a>
                                 <ul class="dropdown-menu">
                                     {% if request.user.is_authenticated %}
-                                    <li><a class="dropdown-item" href=" {% url "mi_cuenta" %}">Mi Cuenta</a></li>
-                                    <li><a class="dropdown-item" href="{% url "cerrar" %}">Cerrar cuenta</a></li>
+                                    <form>
+                                        <li><a class="dropdown-item" href=" {% url "mi_cuenta" user.correo %}">Mi Cuenta</a></li>
+                                        <li><a class="dropdown-item" href="{% url "cerrar" %}">Cerrar cuenta</a></li>
+                                    </form>
                                     {% else %}
-                                    <li><a class="dropdown-item" href="{% url "login" %}">Iniciar sesión</a></li>
-                                    <li><a class="dropdown-item" href="{% url "registro" %}">Crear cuenta</a></li>
+                                    <form>
+                                        <li><a class="dropdown-item" href="{% url "login" %}">Iniciar sesión</a></li>
+                                        <li><a class="dropdown-item" href="{% url "registro" %}">Crear cuenta</a></li>
+                                    </form>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -108,5 +120,24 @@
         {% block script %}
     
         {% endblock script %}
+
+        <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
+        <script src="{% static 'vet/js/tienda.js'%}"></script>
+        <script>
+            function mostrarMensaje() {
+                var mensajeError = document.createElement("span");
+                mensajeError.textContent = "Producto agregado al carrito ✅";
+                mensajeError.style.color = "green";
+                
+                // Insertar el mensaje después del botón "Agregar al carrito"
+                var boton = document.getElementById("botonAgregar");
+                boton.parentNode.insertBefore(mensajeError, boton.nextSibling);
+                
+                // Temporizador para que el mensaje desaparezca después de 4 segundos
+                setTimeout(function() {
+                    mensajeError.remove();
+                }, 4000);
+            }
+        </script>
     </body>
 </html>
