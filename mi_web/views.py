@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,targetaForm
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate 
@@ -144,12 +144,33 @@ def cerrar(request):
 def registro(request):
     form = createUser()
     
+    if request.method=="POST":
+        form=createUser(data=request.POST,files=request.FILES)
+        if form.is_valid():
+            a = createUser(data=request.POST,files=request.FILES)
+            return render(request ,"vet/registro2.html", a)
+            #Redirigir  
     datos= {
-        "form":form
+        "form":form 
     }
     
     return render(request , 'vet/registro.html' , datos)
 
-
+def registro2(request,id):
+    form=id
+    
+    form2= targetaForm()
+    if request.method=="POST":
+        form2=targetaForm(data=request.POST,files=request.FILES)
+        if form2.is_valid():
+            form.save()
+            form2.save()
+            return redirect(to="login")
+            #Redirigir
+    datos= {
+        "form2":form2
+    }
+    
+    return render(request , 'vet/registro2.html' , datos)
 
      

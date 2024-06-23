@@ -400,3 +400,4 @@ $(".Desplegable-Registro").click(function (e) {
     const spanId = "icono" + ultimoCaracter;
     $("#" + spanId).toggleClass("bi-chevron-down bi-chevron-up")
 });
+
