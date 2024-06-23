@@ -143,34 +143,28 @@ def cerrar(request):
 
 def registro(request):
     form = createUser()
+    form2= targetaForm()
     
     if request.method=="POST":
-        form=createUser(data=request.POST,files=request.FILES)
-        if form.is_valid():
-            a = createUser(data=request.POST,files=request.FILES)
-            return render(request ,"vet/registro2.html", a)
+        form=createUser(data=request.POST)
+        form2=targetaForm(data=request.POST)
+        if form2.is_valid():
+            tarjeta = form2.save()
+            
+            if form.is_valid():
+                usuario=form.save(commit=False)
+                usuario.tarjeta= tarjeta
+                usuario.save()
+                return redirect("login")
             #Redirigir  
     datos= {
-        "form":form 
+        "form":form,
+        "form2":form2
     }
     
     return render(request , 'vet/registro.html' , datos)
 
-def registro2(request,id):
-    form=id
-    
-    form2= targetaForm()
-    if request.method=="POST":
-        form2=targetaForm(data=request.POST,files=request.FILES)
-        if form2.is_valid():
-            form.save()
-            form2.save()
-            return redirect(to="login")
-            #Redirigir
-    datos= {
-        "form2":form2
-    }
-    
-    return render(request , 'vet/registro2.html' , datos)
+
+
 
      

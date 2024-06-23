@@ -45,8 +45,7 @@ urlpatterns = [
     path('cerrar/',views.cerrar,name='cerrar'),
     
     path('registro/',views.registro,name='registro'),
-    path('registro2/',views.registro2,name='registro2'),
-    
+ 
 ]
 
 if settings.DEBUG:

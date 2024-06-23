@@ -8,8 +8,13 @@
         <div class="card text-start">
             <div class="card-body">
 
-                {% crispy form %}
-     
+                <!--{% crispy form %}-->
+                <form method="post" class="needs-validation" novalidate=""> 
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    {{ form2 | crispy }}
+                    <button type="submit" class="btn btn-primary" >Enviar</button>
+                </form>
             </div>
         </div> 
     </div>

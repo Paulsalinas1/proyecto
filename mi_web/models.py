@@ -45,7 +45,7 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     REQUIRED_FIELDS=["run","nombre","apellido","telefono","comuna","direccion"]
 
 class Tarjeta(models.Model):  
-    tarjeta_de_credito = models.IntegerField("numero tarjeta")
+    tarjeta_de_credito = models.IntegerField("numero tarjeta", max_length=16 , unique=True)
     fecha_de_vencimiento = models.CharField("fecha vencimiento", max_length=50)
     codigo_de_seguridad = models.IntegerField("cv")
 

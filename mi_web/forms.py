@@ -58,7 +58,6 @@ class createUser(UserCreationForm):
            Field("password1",id="contraseña"), 
            Field("password2",id="repetirContraseña"), 
            
-           Submit("submit" , "proseguir")   
         )
             
         
@@ -75,9 +74,8 @@ class targetaForm(forms.ModelForm):
         self.helper.form_class="needs-validation"
         self.helper.attrs={"novalidate":""}
         self.helper.layout=Layout(
-            Field("tarjeta_de_credito" , id=""),
-            Field("fecha_de_vencimiento" , id=""),
-            Field("codigo_de_seguridad" , id=""),
-            
-            Submit("submit" , "crear cuenta")  
+            Field("tarjeta_de_credito" ),
+            Field("fecha_de_vencimiento" ),
+            Field("codigo_de_seguridad" ),
+               
         )
