@@ -7,7 +7,6 @@
     <div class="col-12 col-md-6 m-2">
         <div class="card text-start">
             <div class="card-body">
-
                 <!--{% crispy form %}-->
                 <form method="post" class="needs-validation" novalidate=""> 
                     {% csrf_token %}
@@ -19,11 +18,9 @@
         </div> 
     </div>
 </div>
-
 {% endblock contenido %}
 
 {% block script %}
     <!--Vinculación del archivo js-->
-    <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
     <script src="{% static 'vet/js/registro2.js'%}"></script>
 {% endblock script %}

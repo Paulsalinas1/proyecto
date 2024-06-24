@@ -21,6 +21,7 @@ $("#apellido").on("input", apellido_v);
 $("#comuna").on("input", comuna);
 $("#direc").on("input", direc);
 $("#fono").on("input", telefono);
+
 $("#targeta").on("input", tageta_v);
 $("#fecha").on("input", vencimiento_v);
 $("#cs").on("input", codigo_v);
@@ -383,7 +384,6 @@ function codigo_v() {
 }
 
 
-
 // Función para agregar la barra automáticamente después de ingresar el mes
 document.getElementById('fecha').addEventListener('input', function (e) {
     var input = e.target;
@@ -423,3 +423,21 @@ function soloNumeros(event) {
         }, false)
     })
 })()
+
+
+
+
+function mostrarMensaje() {
+    var mensajeError = document.createElement("span");
+    mensajeError.textContent = "Producto agregado al carrito ✅";
+    mensajeError.style.color = "green";
+    
+    // Insertar el mensaje después del botón "Agregar al carrito"
+    var boton = document.getElementById("botonAgregar");
+    boton.parentNode.insertBefore(mensajeError, boton.nextSibling);
+    
+    // Temporizador para que el mensaje desaparezca después de 4 segundos
+    setTimeout(function() {
+        mensajeError.remove();
+    }, 4000);
+}

@@ -60,19 +60,17 @@ class createUser(UserCreationForm):
         )
             
         
-class targetaForm(forms.ModelForm):
+class TarjetaForm(forms.ModelForm):
     class Meta:
         model = Tarjeta
-        fields =["tarjeta_de_credito","fecha_de_vencimiento","codigo_de_seguridad"]
+        fields = ["tarjeta_de_credito", "fecha_de_vencimiento", "codigo_de_seguridad"]
     
-    def __init__(self, *args , **kwargs ):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper= FormHelper()
         self.helper.form_method="post"
         self.helper.form_class="needs-validation"
         self.helper.attrs={"novalidate":""}
-        self.helper.layout=Layout(
-            Field("tarjeta_de_credito", id="targeta"),
-            Field("fecha_de_vencimiento", id="fecha"),
-            Field("codigo_de_seguridad", id="cs")     
-        )
+        self.fields['tarjeta_de_credito'].widget.attrs.update({'id': 'targeta'})
+        self.fields['fecha_de_vencimiento'].widget.attrs.update({'id': 'fecha'})
+        self.fields['codigo_de_seguridad'].widget.attrs.update({'id': 'cs'})

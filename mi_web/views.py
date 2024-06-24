@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto , Usuario
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,targetaForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate 
@@ -81,7 +81,11 @@ def tienda_trabajador(request):
     return render(request,'vet/tienda_trabajador.html',datos)
 
 def tienda_login(request):
-    return render(request,'vet/tienda_login.html')
+    prod=producto.objects.all()
+    datos={
+        "productos":prod 
+    }
+    return render(request,'vet/tienda_login.html',datos)
 
 
 def detalleP_trabajador(request, id):
@@ -132,24 +136,25 @@ def cerrar(request):
 
 def registro(request):
     form = createUser()
-    form2= targetaForm()
+    form2= TarjetaForm()
     
     if request.method=="POST":
         form=createUser(data=request.POST)
-        form2=targetaForm(data=request.POST)
+        form2=TarjetaForm(data=request.POST)
         
         if form.is_valid():
             usuario=form.save()
             
             if form2.is_valid():
                 tarjeta = form2.save(commit=False)
-                tarjeta.Usuario=usuario
+                tarjeta.uusuario=usuario
                 tarjeta.save()
                 return redirect("login")
                 #Redirigir  
     datos= {
         "form":form,
         "form2":form2
+        
     }
     
     return render(request , 'vet/registro.html' , datos)
