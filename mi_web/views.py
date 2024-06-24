@@ -2,12 +2,13 @@ from django.shortcuts import render
 from .models import producto , Usuario
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser,cambioContraUser
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser
 from os import remove, path
 from django.conf import settings
-from django.contrib.auth import logout , login , authenticate 
+from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash
 from django.db import IntegrityError 
 from django.contrib import messages
+from django.urls import reverse
 
 
 # Create your views here.
@@ -26,18 +27,29 @@ def index_trabajador(request):
 def mi_cuenta(request, id):
     usera=get_object_or_404(Usuario,correo=id)
     form=updateUser(instance=usera) 
-    form2=cambioContraUser(instance=usera) 
-    
+    form2=upPassUser(user=request.user)
     
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
-            if form.is_valid():  
-                form.save()
-                
+            form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
+            if 'update_profile' and 'change_password'in request.POST:
+                if  form.is_valid() and form2.is_valid():
+                    form.save()
+                    form2.save()
+                    update_session_auth_hash(request, form2.user)  # Mantener al usuario autenticado después del cambio de contraseña
+                    return redirect(reverse("mi_cuenta",args=[id]))
+            if 'update_profile' in request.POST:         
+                if  form.is_valid():  
+                    form.save()
+                    return redirect(reverse("mi_cuenta",args=[id]))
+            if 'change_password' in request.POST:          
+                if  form2.is_valid():
+                    form2.save()    
+                    update_session_auth_hash(request, form2.user)  # Mantener al usuario autenticado después del cambio de contraseña  
+                    return redirect(reverse("mi_cuenta",args=[id]))     
     datos={
-        "form":form ,
-        "form2":form2 
-        
+        "form":form, 
+        "form2":form2   
     }
     return render(request,'vet/mi_cuenta.html' , datos)
 

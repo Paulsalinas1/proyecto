@@ -206,55 +206,24 @@
         <div class="col-10">
           <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="Perfil" role="tabpanel" aria-labelledby="list-home-list">
-                <!-- 
-                <form class="row needs-validation" action="" method="get" novalidate>
-                    <div class="col-md-12 mb-1 col-sm-12">
-                        <label for="vali_nombre" class="form-label">Nombre*</label>
-                        <input type="text" class="form-control" id="vali_nombre" value="{{user.nombre}}" required>
-                        <span id="mensajeErrorvali_nombre"></span>
-                    </div>
-                    <div class="col-md-12 mb-1 col-sm-12">
-                        <label for="vali_ape" class="form-label">Apellido*</label>
-                        <input type="text" class="form-control" id="vali_ape" value="{{user.apellido}}" required>
-                        <span id="mensajeErrorvali_ape"></span> 
-                    </div>
-                    <div class="col-md-12 mb-1 col-sm-12">
-                        <label for="vali_comu" class="form-label">Comuna</label>
-                        <input type="text" class="form-control" id="vali_comu" >
-                        
-                    </div>
-                    <div class="col-md-12 mb-1 col-sm-12">
-                        <label for="validationCustom03" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="validationCustom03">
-                        
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100 " id="btn_vali2"> Modificar</button>
-                    </div>
-                </form> -->
                 <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %} 
-                        
-                    {{form | crispy}}
+                    {% csrf_token %}
+                    {{ form|crispy }}
                     <div>
-                        <input type="submit" value="Guardar Cambios" class="btn btn-warning text-light">
-                        
+                        <input type="submit" name="update_profile" value="Guardar Cambios" class="btn btn-warning text-light">
                     </div>
-                </form>    
+                </form> 
             </div>
             <div class="tab-pane fade" id="Compras" role="tabpanel" aria-labelledby="list-profile-list">no tengo</div>
             <div class="tab-pane fade" id="Historial" role="tabpanel" aria-labelledby="list-messages-list">cosas</div>
             <div class="tab-pane fade" id="configuración" role="tabpanel" aria-labelledby="list-messages-list">
-                
                 <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %} 
-                        
-                    {{form2 | crispy}}
+                    {% csrf_token %}
+                    {{ form2 | crispy }}
                     <div>
-                        <input type="submit" value="Guardar Cambios" class="btn btn-warning text-light">
+                        <input type="submit" name="change_password" value="Cambiar Contraseña" class="btn btn-warning text-light">
                     </div>
-                </form>  
-
+                </form> 
             </div>
           </div>
         </div>

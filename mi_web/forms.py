@@ -1,7 +1,7 @@
 from typing import Any
 from django import forms
 from .models import producto , Tarjeta
-from django.contrib.auth.forms import UserCreationForm , AuthenticationForm 
+from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout , Submit , Div ,Field 
@@ -74,7 +74,7 @@ class TarjetaForm(forms.ModelForm):
         self.fields['codigo_de_seguridad'].widget.attrs.update({'id': 'cs'})
         
         
-class updateUser(forms.ModelForm):
+class updateUser(UserChangeForm):
     
     class Meta:
         model = useru 
@@ -97,25 +97,23 @@ class updateUser(forms.ModelForm):
                 css_class='form-group'
             ),
            Field("comuna",id="comuna"), 
-           Field("direccion",id="direc"), 
-            
+           Field("direccion",id="direc") 
         )
-        
-        
-class cambioContraUser(forms.ModelForm):
-    
-    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(attrs={"id":"password1"}))
-    
-    class Meta:
-        model = useru 
-        fields =[]
-
-    def __init__(self, *args , **kwargs ):
+        # Elimina los campos de contraseña ya que no se necesitan para actualizar el perfil
+        if 'password' in self.fields:
+            del self.fields['password']
+class upPassUser(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper= FormHelper()
-        self.helper.form_method="post"
-        self.helper.form_class="needs-validation"
-        self.helper.attrs={"novalidate":""}
-        self.helper.layout=Layout(
-           Field("password1",id="contraseña"),  
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_class = 'needs-validation'
+        self.helper.attrs = {'novalidate': ''}
+        self.helper.layout = Layout(
+            Field('old_password', id='old_password'),
+            Field('new_password1', id='contraseña'),
+            Field('new_password2', id='repetirContraseña')
         )
+        
+    
+    
