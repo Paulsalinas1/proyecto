@@ -19,9 +19,7 @@ class upProductoForm(forms.ModelForm):
      class Meta:
          model = producto
          fields = ['nombre','stock','descripción','precio','foto']
-         
-         
-         
+              
 class loginForm(AuthenticationForm):
     pass
 
@@ -74,3 +72,50 @@ class TarjetaForm(forms.ModelForm):
         self.fields['tarjeta_de_credito'].widget.attrs.update({'id': 'targeta'})
         self.fields['fecha_de_vencimiento'].widget.attrs.update({'id': 'fecha'})
         self.fields['codigo_de_seguridad'].widget.attrs.update({'id': 'cs'})
+        
+        
+class updateUser(forms.ModelForm):
+    
+    class Meta:
+        model = useru 
+        fields =["nombre","apellido","telefono","comuna","direccion"]
+
+    def __init__(self, *args , **kwargs ):
+        super().__init__(*args, **kwargs)
+        self.helper= FormHelper()
+        self.helper.form_method="post"
+        self.helper.form_class="needs-validation"
+        self.helper.attrs={"novalidate":""}
+        self.helper.layout=Layout(
+           Field("nombre",id="nombre"), 
+           Field("apellido",id="apellido"), 
+           Div(
+                Div(
+                    PrependedText('telefono', '+56', active=True , id="fono"),
+                    css_class='input-group'
+                ,id="fono2"),
+                css_class='form-group'
+            ),
+           Field("comuna",id="comuna"), 
+           Field("direccion",id="direc"), 
+            
+        )
+        
+        
+class cambioContraUser(forms.ModelForm):
+    
+    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(attrs={"id":"password1"}))
+    
+    class Meta:
+        model = useru 
+        fields =[]
+
+    def __init__(self, *args , **kwargs ):
+        super().__init__(*args, **kwargs)
+        self.helper= FormHelper()
+        self.helper.form_method="post"
+        self.helper.form_class="needs-validation"
+        self.helper.attrs={"novalidate":""}
+        self.helper.layout=Layout(
+           Field("password1",id="contraseña"),  
+        )

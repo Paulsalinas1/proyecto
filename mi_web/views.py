@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto , Usuario
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser,cambioContraUser
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate 
@@ -25,10 +25,18 @@ def index_trabajador(request):
 
 def mi_cuenta(request, id):
     usera=get_object_or_404(Usuario,correo=id)
-    form=createUser(instance=usera) 
-       
+    form=updateUser(instance=usera) 
+    form2=cambioContraUser(instance=usera) 
+    
+    
+    if request.method=="POST":
+            form=updateUser(data=request.POST,files=request.FILES,instance=usera)
+            if form.is_valid():  
+                form.save()
+                
     datos={
-        "form":form 
+        "form":form ,
+        "form2":form2 
         
     }
     return render(request,'vet/mi_cuenta.html' , datos)
@@ -86,7 +94,6 @@ def tienda_login(request):
         "productos":prod 
     }
     return render(request,'vet/tienda_login.html',datos)
-
 
 def detalleP_trabajador(request, id):
     produc=get_object_or_404(producto,nombre= id)
@@ -159,6 +166,3 @@ def registro(request):
     
     return render(request , 'vet/registro.html' , datos)
 
-
-
-     
