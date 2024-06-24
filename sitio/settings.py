@@ -54,6 +54,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'sitio.urls'
 
+LOGIN_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL='/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -131,3 +134,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL='/media/'
 import os
 MEDIA_ROOT=os.path.join(BASE_DIR,'mi_web/media')
+
+AUTH_USER_MODEL='mi_web.Usuario'
