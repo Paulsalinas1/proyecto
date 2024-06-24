@@ -51,7 +51,7 @@ def login_xd(request):
         if form.is_valid():
             user = form.user_cache  
             login(request ,user)
-            if form.is_staff() or form.is_superuser():
+            if user.is_staff:
                 return redirect("trabajador")
             return redirect("index")
         else :

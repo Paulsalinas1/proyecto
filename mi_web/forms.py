@@ -56,8 +56,7 @@ class createUser(UserCreationForm):
            Field("comuna",id="comuna"), 
            Field("direccion",id="direc"), 
            Field("password1",id="contraseña"), 
-           Field("password2",id="repetirContraseña"), 
-           
+           Field("password2",id="repetirContraseña")    
         )
             
         
@@ -68,14 +67,12 @@ class targetaForm(forms.ModelForm):
     
     def __init__(self, *args , **kwargs ):
         super().__init__(*args, **kwargs)
-        
         self.helper= FormHelper()
         self.helper.form_method="post"
         self.helper.form_class="needs-validation"
         self.helper.attrs={"novalidate":""}
         self.helper.layout=Layout(
-            Field("tarjeta_de_credito" ),
-            Field("fecha_de_vencimiento" ),
-            Field("codigo_de_seguridad" ),
-               
+            Field("tarjeta_de_credito", id="targeta"),
+            Field("fecha_de_vencimiento", id="fecha"),
+            Field("codigo_de_seguridad", id="cs")     
         )
