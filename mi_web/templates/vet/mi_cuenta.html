@@ -201,13 +201,13 @@
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">targetas</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#Compras" role="tab" aria-controls="list-profile">Compras</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Historial" role="tab" aria-controls="list-messages">Historial</a>
-            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">configuración</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">cambiar contraseña</a>
           </div>
         </div>
         <div class="col-10">
           <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="Perfil" role="tabpanel" aria-labelledby="list-home-list">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form class="pt-3" action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <div>
