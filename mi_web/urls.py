@@ -44,6 +44,7 @@ urlpatterns = [
     
     path('registro/',views.registro,name='registro'),
     path('mi_cuenta/<id>',views.mi_cuenta,name='mi_cuenta'),
+    path('mi_cuenta_td/<id>/<usuario>',views.mi_cuenta_td,name='mi_cuenta_td'),
 ]
 
 if settings.DEBUG:

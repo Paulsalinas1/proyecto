@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import producto , Usuario
+from .models import producto , Usuario , Tarjeta
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
 from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser
@@ -28,10 +28,12 @@ def mi_cuenta(request, id):
     usera=get_object_or_404(Usuario,correo=id)
     form=updateUser(instance=usera) 
     form2=upPassUser(user=request.user)
-    
+    form3=Tarjeta.objects.filter(uusuario=usera)
+    form4= TarjetaForm()
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
             form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
+            form4=TarjetaForm(data=request.POST)
             if 'update_profile' and 'change_password'in request.POST:
                 if  form.is_valid() and form2.is_valid():
                     form.save()
@@ -46,12 +48,41 @@ def mi_cuenta(request, id):
                 if  form2.is_valid():
                     form2.save()    
                     update_session_auth_hash(request, form2.user)  # Mantener al usuario autenticado después del cambio de contraseña  
-                    return redirect(reverse("mi_cuenta",args=[id]))     
+                    return redirect(reverse("mi_cuenta",args=[id]))   
+            if 'agragar_tarjeta' in request.POST: 
+                if form4.is_valid():
+                    tarjeta = form4.save(commit=False)
+                    tarjeta.uusuario=usera
+                    tarjeta.save() 
+                    return redirect(reverse("mi_cuenta",args=[id])) 
+            
+                
     datos={
         "form":form, 
-        "form2":form2   
+        "form2":form2,
+        "targetas":form3,
+        "form4":form4
     }
     return render(request,'vet/mi_cuenta.html' , datos)
+
+def mi_cuenta_td(request,id,usuario):
+    tar=get_object_or_404(Tarjeta,id = id)
+    form=TarjetaForm(instance=tar)
+    
+    if request.method=="POST":
+        form=TarjetaForm(data=request.POST)
+        if 'eliminar_tarjeta' in request.POST:   
+            tar.delete()
+            return redirect(reverse("mi_cuenta",args=[usuario])) 
+        if 'modificar_tarjeta' in request.POST:  
+           if form.is_valid():
+                form.save()
+                return redirect(reverse("mi_cuenta",args=[usuario]))  
+            
+    datos={
+        "form":form
+    }        
+    return render(request,'vet/mi_cuenta_td.html' , datos)
 
 def recordando(request):
     return render(request,'vet/recordando.html')
