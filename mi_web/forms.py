@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import producto , Tarjeta
+from .models import producto , Tarjeta , Producto_carro
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
@@ -114,6 +114,7 @@ class upPassUser(PasswordChangeForm):
             Field('new_password1', id='contraseña'),
             Field('new_password2', id='repetirContraseña')
         )
-        
-    
-    
+  
+class AgregarAlCarritoForm(forms.Form):
+    cantidad = forms.IntegerField(min_value=1, initial=1, label='Cantidad')
+

@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import AbstractBaseUser , BaseUserManager , PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser , BaseUserManager , PermissionsMixin 
 
 # Create your models here.
 
@@ -10,7 +10,6 @@ class producto(models.Model):
     descripción=models.CharField(max_length=50, null=False) 
     precio=models.IntegerField(default=0, validators=[MinValueValidator(0),MaxValueValidator(999999)])
     foto=models.ImageField(upload_to='producto',null=False)
-    
     
     def __str__(self):
         return f"{self.nombre}"
@@ -52,4 +51,23 @@ class Tarjeta(models.Model):
     
 
 
+
+class Carrito(models.Model):
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
+
+    @property
+    def total(self):
+        return sum(item.subtotal for item in self.items.all())    
+       
+class Producto_carro(models.Model):
+    producto_c=models.ForeignKey("mi_web.producto", verbose_name=("producto_c"), on_delete=models.CASCADE)
+    carrito = models.ForeignKey(Carrito, related_name='items', on_delete=models.CASCADE)
+    cantidad = models.IntegerField(("cantidad"),default=1)
+    
+    @property
+    def subtotal(self):
+        return self.producto_c.precio * self.cantidad
+
+    def __str__(self):
+        return f'{self.cantidad} x {self.producto_c.nombre}'
     

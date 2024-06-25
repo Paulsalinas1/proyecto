@@ -45,6 +45,14 @@ urlpatterns = [
     path('registro/',views.registro,name='registro'),
     path('mi_cuenta/<id>',views.mi_cuenta,name='mi_cuenta'),
     path('mi_cuenta_td/<id>/<usuario>',views.mi_cuenta_td,name='mi_cuenta_td'),
+    
+    
+    path('agregar_al_carrito/<id>',views.agregar_al_carrito,name='agregar_al_carrito'),
+    path('carrito/contenido/', views.contenido_carrito, name='contenido_carrito'),
+    path('carrito/contenido/', views.contenido_carrito, name='contenido_carrito'),
+    
+    path('eliminar/<int:item_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('carrito/actualizar_cantidad/<int:item_id>/<int:nueva_cantidad>/', views.actualizar_cantidad, name='actualizar_cantidad'),
 ]
 
 if settings.DEBUG:
