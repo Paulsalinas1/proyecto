@@ -51,23 +51,19 @@ class Tarjeta(models.Model):
     
 
 
-
-class Carrito(models.Model):
-    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-
-    @property
-    def total(self):
-        return sum(item.subtotal for item in self.items.all())    
-       
-class Producto_carro(models.Model):
-    producto_c=models.ForeignKey("mi_web.producto", verbose_name=("producto_c"), on_delete=models.CASCADE)
-    carrito = models.ForeignKey(Carrito, related_name='items', on_delete=models.CASCADE)
-    cantidad = models.IntegerField(("cantidad"),default=1)
-    
-    @property
-    def subtotal(self):
-        return self.producto_c.precio * self.cantidad
+class CarritoDeCompras(models.Model):
+    user = models.OneToOneField(Usuario, on_delete=models.CASCADE )
+    productos = models.ManyToManyField(producto, through='ItemCarrito')
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'{self.cantidad} x {self.producto_c.nombre}'
+        return f'Carrito de {self.user.username}'
     
+
+class ItemCarrito(models.Model):
+    carrito = models.ForeignKey(CarritoDeCompras, on_delete=models.CASCADE)
+    producto = models.ForeignKey(producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.cantidad} of {self.producto.nombre}'

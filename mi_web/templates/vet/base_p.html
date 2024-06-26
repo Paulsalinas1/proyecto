@@ -43,7 +43,7 @@
                         </ul>
                         <!--Ícono del carro-->
                         <div class="me-5">
-                            <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" class="boton" style="color: #ffffff;">
+                            <a href=" {% url "ver_carrito" %}" class="boton" style="color: #ffffff;">
                                 <i class="fas fa-shopping-cart fa-2x" aria-current="page" style="cursor: pointer;"></i>
                                 <span style="display: block; float: under;"></span>
                             </a>
@@ -121,21 +121,7 @@
         <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
         <script src="{% static 'vet/js/tienda.js'%}"></script>
         <script src="{% static "vet/js/apicat_jqj.js" %}"></script>
-        {% if request.user.is_authenticated %}
-        <script>
-            
-            document.querySelector('[data-bs-target="#offcanvasCarrito"]').addEventListener('click', function() {
-                fetch('/carrito/contenido/')
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('carrito-content').innerHTML = html;
-                    });
-            });
-            
-        </script>
-        {% else %}
-            <div> deve de estar logeado</div> 
-        {% endif %}
+        
         {% block script %}
     
         {% endblock script %}

@@ -1,0 +1,38 @@
+{% extends "vet/base_p.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stilos %} {% endblock stilos %}
+{% block title %} Ver carrito {% endblock title %}   
+{% block contenido %}
+<h1>Carrito de Compras</h1>
+
+    {% if items %}
+        <ul>
+            {% for item in items %}
+                <li>{{ item.producto.nombre }} - {{ item.cantidad }} - ${{ item.producto.precio }} 
+                    <a href="{% url 'eliminar_producto' item.id %}" class="btn btn-danger btn-lg">Eliminar</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Total: ${{ total }}</p>
+    {% else %}
+        <p>Tu carrito está vacío.</p>
+    {% endif %}
+    <a href='{% url "tienda_login" %}' class="btn btn-primary btn-lg" >segir comprando</a>
+
+
+{% if request.user.is_authenticated %}
+<div> comprar</div>
+
+{% else %}
+<div> deves de Iniciar sesión para poder comprar</div>
+
+{% endif %}
+
+    
+{% endblock contenido %}
+
+{% block script %}
+       
+{% endblock script %}
+            

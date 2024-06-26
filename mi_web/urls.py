@@ -20,13 +20,13 @@ from . import views
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('',views.index,name='index'),
     path('carrito_login/',views.carrito_login,name='carrito_login'),
     path('compras/',views.compras,name='compras'),
 
-    
     path('index_trabajador/',views.index_trabajador,name='index_trabajador'),
     
     path('recordando/',views.recordando,name='recordando'),
@@ -43,16 +43,19 @@ urlpatterns = [
     path('cerrar/',views.cerrar,name='cerrar'),
     
     path('registro/',views.registro,name='registro'),
-    path('mi_cuenta/<id>',views.mi_cuenta,name='mi_cuenta'),
+    path('mi_cuenta/<id>',login_required(views.mi_cuenta),name='mi_cuenta'),
     path('mi_cuenta_td/<id>/<usuario>',views.mi_cuenta_td,name='mi_cuenta_td'),
     
+    path('ver_carrito/', login_required(views.ver_carrito), name='ver_carrito'),
     
-    path('agregar_al_carrito/<id>',views.agregar_al_carrito,name='agregar_al_carrito'),
-    path('carrito/contenido/', views.contenido_carrito, name='contenido_carrito'),
-    path('carrito/contenido/', views.contenido_carrito, name='contenido_carrito'),
+    path('agregar_producto/<int:producto_id>/', views.agregar_producto,name='agregar_producto'),
     
-    path('eliminar/<int:item_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
-    path('carrito/actualizar_cantidad/<int:item_id>/<int:nueva_cantidad>/', views.actualizar_cantidad, name='actualizar_cantidad'),
+    path('eliminar/<int:item_id>/', views.eliminar_producto, name='eliminar_producto'),
+
+    path('detalle_producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
+    
+    path('', include('django.contrib.auth.urls')),  # Incluir URLs de autenticación
+
 ]
 
 if settings.DEBUG:

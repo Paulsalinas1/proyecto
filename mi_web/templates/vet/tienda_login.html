@@ -18,9 +18,9 @@
                         <p>Descripción del producto: {{p.descripción}}</p>
                         <p class="text-success">Stock disponible: {{p.stock}}</p>
                         <p>Precio: <span class="precio">${{p.precio}}</span></p>
-                        <a href='{% url "agregar_al_carrito" p.nombre %}' id="verp" class="btn btn-success" style="width: 150px;">ver producto</a>
+                        <a href='{% url "detalle_producto" p.id %}' id="verp" class="btn btn-success" style="width: 150px;">ver producto</a>
                     </div>
-                </div> 
+                </div>
             </div> 
             {% endfor %}
         </div> 

@@ -1,16 +1,17 @@
 from django.shortcuts import render
-from .models import producto , Usuario , Tarjeta ,Carrito,Producto_carro
+from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,AgregarAlCarritoForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm
 from os import remove, path
 from django.conf import settings
-from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash
+from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash 
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError 
 from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse
-""" from .utils import base_p """
+
 
 
 # Create your views here.
@@ -210,47 +211,32 @@ def registro(request):
     return render(request , 'vet/registro.html' , datos)
 
 
-def agregar_al_carrito(request, id):
-    produc=get_object_or_404(producto,nombre = id)
-    carrito_l, created = Carrito.objects.get_or_create(usuario=request.user)
+def detalle_producto(request, producto_id):
+    producto2 = get_object_or_404(producto, id=producto_id)
+    return render(request, 'vet/detalle_producto.html', {'producto': producto2})
 
-    if request.method == 'POST':
-        form = AgregarAlCarritoForm(request.POST)
-        if form.is_valid():
-            cantidad = form.cleaned_data['cantidad']
-            carrito_item, created = Producto_carro.objects.get_or_create(carrito=carrito_l, producto_c=produc)
-            
-            if created:
-                carrito_item.cantidad = cantidad
-            else:
-                carrito_item.cantidad += cantidad
-            carrito_item.save()
-            return redirect(to='tienda_login')
-    else:
-        form = AgregarAlCarritoForm()
-
-    return render(request, 'vet/agregar_al_carrito.html', {'producto': produc, 'form': form})
+def agregar_producto(request, producto_id):
+    producto2 = get_object_or_404(producto, id=producto_id)
+    carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
+    
+    cantidad = int(request.POST.get('cantidad', 1))
+    
+    item, created = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto2, defaults={'cantidad': cantidad})
+    if not created:
+        item.cantidad += cantidad
+        item.save()
+    
+    return redirect('ver_carrito')
 
 
 def ver_carrito(request):
-    carrito = get_object_or_404(Carrito, usuario=request.user)
-    return render(request, 'ver_carrito.html', {'carrito': carrito})
+    carrito = get_object_or_404(CarritoDeCompras, user=request.user, is_active=True)
+    
+    items = ItemCarrito.objects.filter(carrito=carrito) if carrito else []
+    total = sum(item.producto.precio * item.cantidad for item in items)
+    return render(request, 'vet/ver_carrito.html', {'items': items, 'total': total})
 
-def contenido_carrito(request):
-    carrito = get_object_or_404(Carrito, usuario=request.user)
-    return render(request, 'vet/carrito_contenido.html', {'carrito': carrito})
-
-def eliminar_del_carrito(request, item_id):
-    item = get_object_or_404(Producto_carro, id=item_id, carrito__usuario=request.user)
+def eliminar_producto(request, item_id):
+    item = get_object_or_404(ItemCarrito, id=item_id)
     item.delete()
-    return redirect('tienda_login')
-
-def actualizar_cantidad(request, item_id, nueva_cantidad):
-    item = get_object_or_404(CarritoItem, id=item_id, carrito__usuario=request.user)
-    item.cantidad = nueva_cantidad
-    item.save()
-    if request.is_ajax():
-        return JsonResponse({'success': True})
-    return redirect('contenido_carrito')
-
-
+    return redirect('ver_carrito')
