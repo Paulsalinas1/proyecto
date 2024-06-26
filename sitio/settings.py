@@ -53,8 +53,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'sitio.urls'
-
+LOGIN_URL = 'login.html/'
+# Redirige a la página principal después de iniciar sesión
 LOGIN_REDIRECT_URL='/'
+# Redirige a la página principal después de cerrar sesión
 LOGOUT_REDIRECT_URL='/'
 
 TEMPLATES = [

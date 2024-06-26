@@ -1,9 +1,10 @@
 {% extends "vet/base_p.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}Mi_cuenta{% endblock title %}
 {% block contenido %}
 <!--Inicio de formulario mi cuenta-->
-<div class="row">
+{% comment %} <div class="row">
     <div class="text-center">
         <h1>Mi cuenta</h1>
     </div>
@@ -192,13 +193,77 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>   {% endcomment %}  
+    <div class="row">
+        <div class="col-2">
+          <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" style="height: 100px;" id="list-home-list" data-bs-toggle="list" href="#Perfil" role="tab" aria-controls="list-home" >Perfil </a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">targetas</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#Compras" role="tab" aria-controls="list-profile">Compras</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Historial" role="tab" aria-controls="list-messages">Historial</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">cambiar contraseña</a>
+          </div>
+        </div>
+        <div class="col-10">
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="Perfil" role="tabpanel" aria-labelledby="list-home-list">
+                <form class="pt-3" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div>
+                        <input type="submit" name="update_profile" value="Guardar Cambios" class="btn btn-warning text-light">
+                    </div>
+                </form> 
+            </div>
+            <div class="tab-pane fade" id="targetas" role="tabpanel" aria-labelledby="list-profile-list">
+                    {% for t in targetas %}
+                        <div class="container mt-1">
+                            <div>
+                                <div>
+                                    <h1> tarjeta</h1>
+                                    <h3>{{t.tarjeta_de_credito}}</h3>
+                                    
+                                    <div class="mt-3">
+                                        <a  class="btn btn-success btn-block mb-2"  href="{% url "mi_cuenta_td" t.id user.correo%}" >Opciones</a> 
+                                    </div>
+                                    
+                                </div>
+                            </div> 
+                        </div> 
+                    
+                    {% endfor %}
+                    <div class="container" >
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h1>nueva tarjeta</h1>
+                            {{ form4 | crispy }}
+                            <div>
+                                <input type="submit" name="agragar_tarjeta" value="agregar targeta" class="btn btn-success text-light">
+                            </div>
+                        </form> 
+                    </div>
+            </div>
+            <div class="tab-pane fade" id="Compras" role="tabpanel" aria-labelledby="list-profile-list">no tengo</div>
+            <div class="tab-pane fade" id="Historial" role="tabpanel" aria-labelledby="list-messages-list">cosas</div>
+            <div class="tab-pane fade" id="configuración" role="tabpanel" aria-labelledby="list-messages-list">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form2 | crispy }}
+                    <div>
+                        <input type="submit" name="change_password" value="Cambiar Contraseña" class="btn btn-warning text-light">
+                    </div>
+                </form> 
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock contenido %}        
         
 {% block script %}
     <script src="{% static 'vet/js/user_cuenta.js'%}"></script>
-    <script src="{% static 'vet/js/user_cuenta_jq.js'%}"></script>    
+    <script src="{% static 'vet/js/user_cuenta_jq.js'%}"></script> 
+    <script src="{% static 'vet/js/registro2.js'%}"></script>   
 {% endblock script %}
 
-        
+     
     

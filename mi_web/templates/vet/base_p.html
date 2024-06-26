@@ -13,7 +13,6 @@
         <link rel="stylesheet" href="{% static 'vet/css/carrito.css'%}">
         <link rel="stylesheet" href= "{% static 'vet/css/cssmain.css' %} ">
         <link rel="stylesheet" href= "{% static 'vet/css/gato.css' %}"> 
-        
         <title> {% block title %}{% endblock title %} </title>
         {% block stilos %} {% endblock stilos %}
     </head>
@@ -44,7 +43,7 @@
                         </ul>
                         <!--Ícono del carro-->
                         <div class="me-5">
-                            <a onclick="aletarE()" class="boton" style="color: #ffffff;">
+                            <a href=" {% url "ver_carrito" %}" class="boton" style="color: #ffffff;">
                                 <i class="fas fa-shopping-cart fa-2x" aria-current="page" style="cursor: pointer;"></i>
                                 <span style="display: block; float: under;"></span>
                             </a>
@@ -84,7 +83,16 @@
     
         {% endblock contenido %}
         </main>
-        
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Carrito de Compras</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" id="carrito-content">
+                <!-- Aquí se cargará el contenido del carrito -->
+
+            </div>
+        </div>
         <footer class="container-fluid bg-primary text-center py-4">
             <div class="row">
                 <div class="col-md-4 col-sm-12">
@@ -113,6 +121,7 @@
         <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
         <script src="{% static 'vet/js/tienda.js'%}"></script>
         <script src="{% static "vet/js/apicat_jqj.js" %}"></script>
+        
         {% block script %}
     
         {% endblock script %}

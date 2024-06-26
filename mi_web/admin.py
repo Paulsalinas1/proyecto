@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import producto , Usuario , Tarjeta
+from .models import producto , Usuario , Tarjeta , CarritoDeCompras
 # Register your models here.
 
 class admProducto(admin.ModelAdmin):
@@ -11,6 +11,9 @@ class admUsuarios(admin.ModelAdmin):
     list_display = ['run' ,'nombre','correo']
     #list_editable
 
+class admCarritos(admin.ModelAdmin):
+    list_display = ['id' ,'user']
+    #list_editable
 class admTarjeta(admin.ModelAdmin):
     list_display = ['tarjeta_de_credito' , 'uusuario']
     #list_editable    
@@ -20,3 +23,4 @@ admin.site.register(producto, admProducto)
 admin.site.register(Usuario, admUsuarios)
 
 admin.site.register(Tarjeta, admTarjeta)
+admin.site.register(CarritoDeCompras, admCarritos)

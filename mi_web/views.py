@@ -1,13 +1,17 @@
 from django.shortcuts import render
-from .models import producto , Usuario
+from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm
 from os import remove, path
 from django.conf import settings
-from django.contrib.auth import logout , login , authenticate 
+from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash 
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError 
 from django.contrib import messages
+from django.urls import reverse
+from django.http import JsonResponse
+
 
 
 # Create your views here.
@@ -25,13 +29,61 @@ def index_trabajador(request):
 
 def mi_cuenta(request, id):
     usera=get_object_or_404(Usuario,correo=id)
-    form=createUser(instance=usera) 
-       
+    form=updateUser(instance=usera) 
+    form2=upPassUser(user=request.user)
+    form3=Tarjeta.objects.filter(uusuario=usera)
+    form4= TarjetaForm()
+    if request.method=="POST":
+            form=updateUser(data=request.POST,files=request.FILES,instance=usera)
+            form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
+            form4=TarjetaForm(data=request.POST)
+            if 'update_profile' and 'change_password'in request.POST:
+                if  form.is_valid() and form2.is_valid():
+                    form.save()
+                    form2.save()
+                    update_session_auth_hash(request, form2.user)  # Mantener al usuario autenticado después del cambio de contraseña
+                    return redirect(reverse("mi_cuenta",args=[id]))
+            if 'update_profile' in request.POST:         
+                if  form.is_valid():  
+                    form.save()
+                    return redirect(reverse("mi_cuenta",args=[id]))
+            if 'change_password' in request.POST:          
+                if  form2.is_valid():
+                    form2.save()    
+                    update_session_auth_hash(request, form2.user)  # Mantener al usuario autenticado después del cambio de contraseña  
+                    return redirect(reverse("mi_cuenta",args=[id]))   
+            if 'agragar_tarjeta' in request.POST: 
+                if form4.is_valid():
+                    tarjeta = form4.save(commit=False)
+                    tarjeta.uusuario=usera
+                    tarjeta.save() 
+                    return redirect(reverse("mi_cuenta",args=[id]))       
     datos={
-        "form":form 
-        
+        "form":form, 
+        "form2":form2,
+        "targetas":form3,
+        "form4":form4
     }
     return render(request,'vet/mi_cuenta.html' , datos)
+
+def mi_cuenta_td(request,id,usuario):
+    tar=get_object_or_404(Tarjeta,id = id)
+    form=TarjetaForm(instance=tar)
+    
+    if request.method=="POST":
+        form=TarjetaForm(data=request.POST)
+        if 'eliminar_tarjeta' in request.POST:   
+            tar.delete()
+            return redirect(reverse("mi_cuenta",args=[usuario])) 
+        if 'modificar_tarjeta' in request.POST:  
+           if form.is_valid():
+                form.save()
+                return redirect(reverse("mi_cuenta",args=[usuario]))  
+            
+    datos={
+        "form":form
+    }        
+    return render(request,'vet/mi_cuenta_td.html' , datos)
 
 def recordando(request):
     return render(request,'vet/recordando.html')
@@ -86,7 +138,6 @@ def tienda_login(request):
         "productos":prod 
     }
     return render(request,'vet/tienda_login.html',datos)
-
 
 def detalleP_trabajador(request, id):
     produc=get_object_or_404(producto,nombre= id)
@@ -160,5 +211,32 @@ def registro(request):
     return render(request , 'vet/registro.html' , datos)
 
 
+def detalle_producto(request, producto_id):
+    producto2 = get_object_or_404(producto, id=producto_id)
+    return render(request, 'vet/detalle_producto.html', {'producto': producto2})
 
-     
+def agregar_producto(request, producto_id):
+    producto2 = get_object_or_404(producto, id=producto_id)
+    carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
+    
+    cantidad = int(request.POST.get('cantidad', 1))
+    
+    item, created = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto2, defaults={'cantidad': cantidad})
+    if not created:
+        item.cantidad += cantidad
+        item.save()
+    
+    return redirect('ver_carrito')
+
+
+def ver_carrito(request):
+    carrito = get_object_or_404(CarritoDeCompras, user=request.user, is_active=True)
+    
+    items = ItemCarrito.objects.filter(carrito=carrito) if carrito else []
+    total = sum(item.producto.precio * item.cantidad for item in items)
+    return render(request, 'vet/ver_carrito.html', {'items': items, 'total': total})
+
+def eliminar_producto(request, item_id):
+    item = get_object_or_404(ItemCarrito, id=item_id)
+    item.delete()
+    return redirect('ver_carrito')

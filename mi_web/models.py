@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import AbstractBaseUser , BaseUserManager , PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser , BaseUserManager , PermissionsMixin 
 
 # Create your models here.
 
@@ -10,7 +10,6 @@ class producto(models.Model):
     descripción=models.CharField(max_length=50, null=False) 
     precio=models.IntegerField(default=0, validators=[MinValueValidator(0),MaxValueValidator(999999)])
     foto=models.ImageField(upload_to='producto',null=False)
-    
     
     def __str__(self):
         return f"{self.nombre}"
@@ -49,5 +48,22 @@ class Tarjeta(models.Model):
     tarjeta_de_credito = models.IntegerField("numero tarjeta", unique=True)
     fecha_de_vencimiento = models.CharField("fecha vencimiento", max_length=50)
     codigo_de_seguridad = models.IntegerField("cv")
-
     
+
+
+class CarritoDeCompras(models.Model):
+    user = models.OneToOneField(Usuario, on_delete=models.CASCADE )
+    productos = models.ManyToManyField(producto, through='ItemCarrito')
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'Carrito de {self.user.username}'
+    
+
+class ItemCarrito(models.Model):
+    carrito = models.ForeignKey(CarritoDeCompras, on_delete=models.CASCADE)
+    producto = models.ForeignKey(producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.cantidad} of {self.producto.nombre}'
