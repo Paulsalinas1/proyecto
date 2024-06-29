@@ -1,0 +1,53 @@
+{% extends "vet/base_p.html" %}
+{% load static %}
+{% block stilos %} {% endblock stilos %}
+{% block title %} Tienda {% endblock title %}   
+
+{% block contenido %}
+<!--Productos existentes en la tienda-->
+    <div class="container-fluid row m-1">
+        <h1>Tienda Online</h1>
+        <div class="col-md-2 col-sm-12"></div>
+        <div class="col-md-8 col-sm-12">
+            {% for p in productos %}
+            <div class="container mt-2">
+                <div class="producto">
+                    <img src="{{p.foto.url}}" alt="foto" width="250" height="150">
+                    <div class="producto-info">
+                        <h3>{{p.nombre}}</h3>
+                        <p>Descripción del producto: {{p.descripción}}</p>
+                        <p class="text-success">Stock disponible: {{p.stock}}</p>
+                        <p>Precio: <span class="precio">${{p.precio}}</span></p>
+                        <a href='{% url "detalle_producto" p.id %}' id="verp" class="btn btn-success" style="width: 150px;">Ver producto</a>
+                    </div>
+                </div>
+            </div> 
+            {% endfor %}
+        </div> 
+        <div class="col-md-2 col-sm-12"></div>
+    </div>
+{% endblock contenido %}
+
+{% block script %}
+    <!-- Vinculación del archivo js -->
+    <script src="{% static 'vet/js/tienda.js'%}"></script>
+    <script>
+        function mostrarMensaje() {
+            var mensajeError = document.createElement("span");
+            mensajeError.textContent = "Producto agregado al carrito ✅";
+            mensajeError.style.color = "green";
+            
+            // Insertar el mensaje después del botón "Agregar al carrito"
+            var boton = document.getElementById("botonAgregar");
+            boton.parentNode.insertBefore(mensajeError, boton.nextSibling);
+            
+            // Temporizador para que el mensaje desaparezca después de 4 segundos
+            setTimeout(function() {
+                mensajeError.remove();
+            }, 4000);
+        }
+    </script>
+{% endblock script %}
+        
+
+        

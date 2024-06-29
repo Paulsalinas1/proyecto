@@ -1,0 +1,67 @@
+{% extends "vet/base_p.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stilos %} 
+<!-- Asegúrate de incluir Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+{% endblock stilos %}
+{% block title %} Ver carrito {% endblock title %}
+{% block contenido %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center">Carrito de Compras</h1>
+                    {% if items %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                    <tr>
+                                        <td>{{ item.producto.nombre }}</td>
+                                        <td>{{ item.cantidad }}</td>
+                                        <td>${{ item.producto.precio }}</td>
+                                        <td>
+                                            <a href="{% url 'eliminar_producto' item.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                            
+                                                {% csrf_token %}
+                                                <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1" class="form-control d-inline w-auto">
+                                                <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <p class="text-end"><strong>Total: ${{ total }}</strong></p>
+                    {% else %}
+                        <p class="text-center">Tu carrito está vacío. Puedes volver y comenzar a agregar productos.</p>
+                    {% endif %}
+                    <div class="text-center mt-4">
+                        <a href='{% url "tienda_login" %}' class="btn btn-primary">Volver y seguir comprando</a>
+                        {% if request.user.is_authenticated %}
+                            <!--crear pestaña 'proceso_compra donde se tenga que pagar y luego generar boleta'-->
+                            
+                        {% else %}
+                            <p class="mt-2">Debes iniciar sesión para poder comprar</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
+{% block script %}
+<!-- Asegúrate de incluir Bootstrap JS y jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+{% endblock script %}
