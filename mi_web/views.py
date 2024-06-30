@@ -30,6 +30,8 @@ def mi_cuenta(request, id):
     form2=upPassUser(user=request.user)
     form3=Tarjeta.objects.filter(uusuario=usera)
     form4= TarjetaForm()
+    Boletas = Boleta.objects.filter(user=usera)
+    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO')
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
             form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
@@ -59,7 +61,9 @@ def mi_cuenta(request, id):
         "form":form, 
         "form2":form2,
         "targetas":form3,
-        "form4":form4
+        "form4":form4,
+        "boletas":Boletas,
+        "Boletas_completadas":Boletas_completadas
     }
     return render(request,'vet/mi_cuenta.html' , datos)
 
