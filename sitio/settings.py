@@ -53,7 +53,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'sitio.urls'
-LOGIN_URL = 'login.html/'
+LOGIN_URL = '/login/'
 # Redirige a la página principal después de iniciar sesión
 LOGIN_REDIRECT_URL='/'
 # Redirige a la página principal después de cerrar sesión
