@@ -38,10 +38,10 @@
                         <p class="text-center">Tu carrito está vacío. Puedes volver y comenzar a agregar productos.</p>
                     {% endif %}
                     <div class="text-center mt-4">
-                        <a href='{% url "tienda_login" %}' class="btn btn-primary">Volver y seguir comprando</a>
+                        <a href='{% url "tienda_login" %}' class="btn btn-primary">Seguir comprando</a>
                         {% if request.user.is_authenticated %}
                             <!--crear pestaña 'proceso_compra donde se tenga que pagar y luego generar boleta'-->
-                            
+                            <a href='{% url "carrito_login" %}' class="btn btn-success">prosegir compra</a>   
                         {% else %}
                             <p class="mt-2">Debes iniciar sesión para poder comprar</p>
                         {% endif %}

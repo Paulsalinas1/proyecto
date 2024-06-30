@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractBaseUser , BaseUserManager , PermissionsMixin 
-
+from .enumeraciones import *
 # Create your models here.
 
 class producto(models.Model):
@@ -67,3 +67,17 @@ class ItemCarrito(models.Model):
 
     def __str__(self):
         return f'{self.cantidad} of {self.producto.nombre}'
+    
+
+class Boleta(models.Model):
+    user = models.OneToOneField(Usuario, verbose_name=("Usuario") ,on_delete=models.DO_NOTHING)
+    carritoDeCompra = models.OneToOneField(CarritoDeCompras,verbose_name=("CarritoDeCompra") , on_delete=models.DO_NOTHING)
+    metodoDePago = models.ForeignKey(Tarjeta, verbose_name=("metodoDePago") ,on_delete=models.DO_NOTHING)
+    estado = models.CharField("Estado",max_length=20, choices=ESTADO_ENVIO,default="ALMACEN")
+    telefono = models.CharField("Teléfono", max_length=9)
+    comuna = models.CharField("Comuna", max_length=50)
+    direccion = models.CharField("Dirección", max_length=50)
+    fecha_emision = models.DateTimeField("fecha_emision",auto_now_add=True)
+    
+    def __str__(self):
+        return f'Boleta {self.id} - {self.user.nombre}'

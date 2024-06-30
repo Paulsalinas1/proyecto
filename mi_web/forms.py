@@ -120,3 +120,5 @@ class ItemCarritoForm(forms.ModelForm):
     class Meta:
         model = ItemCarrito
         fields = ['cantidad']
+
+
