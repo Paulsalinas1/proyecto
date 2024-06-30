@@ -230,6 +230,7 @@ def agregar_producto(request, producto_id):
 
 
 def ver_carrito(request):
+    carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
     carrito = get_object_or_404(CarritoDeCompras, user=request.user, is_active=True)
     
     items = ItemCarrito.objects.filter(carrito=carrito) if carrito else []

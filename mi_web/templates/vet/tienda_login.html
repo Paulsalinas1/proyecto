@@ -9,6 +9,7 @@
         <h1>Tienda Online</h1>
         <div class="col-md-2 col-sm-12"></div>
         <div class="col-md-8 col-sm-12">
+            {% if productos %}
             {% for p in productos %}
             <div class="container mt-2">
                 <div class="producto">
@@ -23,8 +24,15 @@
                 </div>
             </div> 
             {% endfor %}
+
         </div> 
+
         <div class="col-md-2 col-sm-12"></div>
+        {% else %}
+        <div class="text-center">
+            no hay productos
+        </div>
+        {% endif %}
     </div>
 {% endblock contenido %}
 
