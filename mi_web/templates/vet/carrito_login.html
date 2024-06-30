@@ -5,11 +5,10 @@
         
     
 {% block contenido %}
-<form method="post" class="needs-validation" novalidate=""> 
+
     {% csrf_token %}
     {% crispy form %}
-    <button type="submit" class="btn btn-primary" >Enviar</button>
-</form>
+
 {% endblock contenido %}
 {% block script %}
     <script src="{% static 'vet/js/carrito_login_jq.js'%}"></script>

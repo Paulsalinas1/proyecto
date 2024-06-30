@@ -1,0 +1,29 @@
+{% extends "vet/base_p.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} boleta {% endblock title %}
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6 m-2">
+        <div class="card text-start">
+            <div class="card-body">
+                <h1>Detalles de Boleta</h1>
+                <p><strong>ID:</strong> {{ boleta.id }}</p>
+                <p><strong>Usuario:</strong> {{ boleta.user }}</p>
+                <p><strong>Carrito de Compras:</strong> {{ boleta.carritoDeCompra }}</p>
+                <p><strong>Método de Pago:</strong> {{ boleta.metodoDePago }}</p>
+                <p><strong>Estado:</strong> {{ boleta.estado }}</p>
+                <p><strong>Teléfono de Entrega:</strong> {{ boleta.telefono2 }}</p>
+                <p><strong>Comuna de Entrega:</strong> {{ boleta.comuna2 }}</p>
+                <p><strong>Dirección de Entrega:</strong> {{ boleta.direccion2 }}</p>
+                <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock contenido %}
+
+{% block script %}
+    <!--Vinculación del archivo js-->
+    <script src="{% static 'vet/js/registro2.js'%}"></script>
+{% endblock script %}

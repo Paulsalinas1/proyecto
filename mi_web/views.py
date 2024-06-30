@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito
+from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito ,Boleta
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
 from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm ,BoletaForm
@@ -243,16 +243,27 @@ def eliminar_producto(request, item_id):
 def carrito_login(request):
     form = BoletaForm(user=request.user)
     carrito_de_compras = CarritoDeCompras.objects.get(user=request.user)
+    
     if request.method == 'POST':
-        form = BoletaForm(request.POST, user=request.user)
+        form = BoletaForm(request.POST,files=request.FILES,user=request.user)
         if form.is_valid():
             boleta = form.save(commit=False)
             boleta.user = request.user
             boleta.carritoDeCompra = carrito_de_compras  # Asignar el carrito de compras correspondiente
             boleta.save()
-            carrito_de_compras.delete()
+            id=boleta.id
+            # Vaciar el carrito de compras del usuario
+            carrito_de_compras.productos.clear()
+            return redirect(reverse("ver_boleta",args=[id]))
     datos={
         "form":form
-        
     }
     return render(request,'vet/carrito_login.html',datos)
+
+
+def ver_boleta(request,id):
+    boleta = get_object_or_404(Boleta, id=id)
+    datos={
+        "boleta":boleta
+    }
+    return render(request,'vet/ver_boleta.html',datos)

@@ -152,7 +152,10 @@ class BoletaForm(forms.ModelForm):
             Field("telefono2", id="fono"),
             HTML('<h3>Datos del Receptor</h3>'),  # Título personalizado
             Field("rut_receptor", id="Rut"),
-            Field("nombre_receptor", id="nombre")
+            Field("nombre_receptor", id="nombre"),
+            Submit('submit', 'Pagar', css_class='btn btn-primary')  # Botón personalizado
+            
+            
         )
         
         # Agregar atributos a los otros campos

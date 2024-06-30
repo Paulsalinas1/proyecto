@@ -59,7 +59,7 @@ class CarritoDeCompras(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'Carrito de {self.user.username}'
+        return f'Carrito de {self.user.nombre}'
     
 
 class ItemCarrito(models.Model):
@@ -72,8 +72,8 @@ class ItemCarrito(models.Model):
     
 
 class Boleta(models.Model):
-    user = models.OneToOneField(Usuario, verbose_name=("Usuario") ,on_delete=models.DO_NOTHING)
-    carritoDeCompra = models.OneToOneField(CarritoDeCompras,verbose_name=("CarritoDeCompra") , on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('Usuario', verbose_name=("Usuario") ,on_delete=models.DO_NOTHING )
+    carritoDeCompra =  models.ForeignKey(CarritoDeCompras,verbose_name=("CarritoDeCompra") , on_delete=models.DO_NOTHING)
     metodoDePago = models.ForeignKey(Tarjeta , verbose_name=("Tarjeta") ,on_delete=models.DO_NOTHING)
     estado = models.CharField("estado",max_length=20, choices=ESTADO_ENVIO,default="ALMACEN")
     telefono2 = models.CharField("telefono2", max_length=9)
