@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm ,BoletaForm
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash 
@@ -17,9 +17,6 @@ from django.http import JsonResponse
 # Create your views here.
 def index(request):
     return render(request,'vet/index.html')
-
-def carrito_login(request):
-    return render(request,'vet/carrito_login.html')
 
 def compras(request):
     return render(request,'vet/compras.html')
@@ -240,3 +237,22 @@ def eliminar_producto(request, item_id):
     item = get_object_or_404(ItemCarrito, id=item_id)
     item.delete()
     return redirect('ver_carrito')
+
+
+
+def carrito_login(request):
+    form = BoletaForm(user=request.user)
+    carrito_de_compras = CarritoDeCompras.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = BoletaForm(request.POST, user=request.user)
+        if form.is_valid():
+            boleta = form.save(commit=False)
+            boleta.user = request.user
+            boleta.carritoDeCompra = carrito_de_compras  # Asignar el carrito de compras correspondiente
+            boleta.save()
+            carrito_de_compras.delete()
+    datos={
+        "form":form
+        
+    }
+    return render(request,'vet/carrito_login.html',datos)

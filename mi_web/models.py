@@ -49,6 +49,8 @@ class Tarjeta(models.Model):
     fecha_de_vencimiento = models.CharField("fecha vencimiento", max_length=50)
     codigo_de_seguridad = models.IntegerField("cv")
     
+    def __str__(self):
+        return f'{self.tarjeta_de_credito}'
 
 
 class CarritoDeCompras(models.Model):
@@ -72,12 +74,13 @@ class ItemCarrito(models.Model):
 class Boleta(models.Model):
     user = models.OneToOneField(Usuario, verbose_name=("Usuario") ,on_delete=models.DO_NOTHING)
     carritoDeCompra = models.OneToOneField(CarritoDeCompras,verbose_name=("CarritoDeCompra") , on_delete=models.DO_NOTHING)
-    metodoDePago = models.ForeignKey(Tarjeta, verbose_name=("metodoDePago") ,on_delete=models.DO_NOTHING)
-    estado = models.CharField("Estado",max_length=20, choices=ESTADO_ENVIO,default="ALMACEN")
-    telefono = models.CharField("Teléfono", max_length=9)
-    comuna = models.CharField("Comuna", max_length=50)
-    direccion = models.CharField("Dirección", max_length=50)
+    metodoDePago = models.ForeignKey(Tarjeta , verbose_name=("Tarjeta") ,on_delete=models.DO_NOTHING)
+    estado = models.CharField("estado",max_length=20, choices=ESTADO_ENVIO,default="ALMACEN")
+    telefono2 = models.CharField("telefono2", max_length=9)
+    comuna2 = models.CharField("comuna2", max_length=50)
+    direccion2 = models.CharField("direccion2", max_length=50)
     fecha_emision = models.DateTimeField("fecha_emision",auto_now_add=True)
-    
+    rut_receptor = models.CharField("RUT del Receptor", max_length=12)
+    nombre_receptor = models.CharField("Nombre del Receptor", max_length=100)
     def __str__(self):
         return f'Boleta {self.id} - {self.user.nombre}'

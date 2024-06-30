@@ -1,10 +1,10 @@
 from typing import Any
 from django import forms
-from .models import producto , Tarjeta , ItemCarrito
+from .models import producto , Tarjeta , ItemCarrito , Boleta
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout , Submit , Div ,Field 
+from crispy_forms.layout import Layout , Submit , Div ,Field ,HTML
 from crispy_forms.bootstrap import PrependedText
 
   
@@ -122,3 +122,42 @@ class ItemCarritoForm(forms.ModelForm):
         fields = ['cantidad']
 
 
+
+class BoletaForm(forms.ModelForm):
+    class Meta:
+        model = Boleta
+        fields = ['metodoDePago', 'telefono2', 'comuna2', 'direccion2', 'rut_receptor', 'nombre_receptor']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user is not None:
+            self.fields['metodoDePago'].queryset = Tarjeta.objects.filter(uusuario=user)
+        
+        # Cambiar la etiqueta del campo
+        self.fields['metodoDePago'].label = "Método de Pago"
+        
+        self.helper = FormHelper()
+        self.helper.form_method = "post"
+        self.helper.form_class = "needs-validation"
+        self.helper.attrs = {"novalidate": ""}
+        
+        # Configurar el layout del formulario
+        self.helper.layout = Layout(
+            HTML('<h3>Datos de pago</h3>'),  # Título personalizado
+            Field("metodoDePago", id="metodoDePago"),
+            HTML('<h3>datos de direccion y metodo de contacto</h3>'),  # Título personalizado
+            Field("comuna2", id="comuna"),
+            Field("direccion2", id="direc"),
+            Field("telefono2", id="fono"),
+            HTML('<h3>Datos del Receptor</h3>'),  # Título personalizado
+            Field("rut_receptor", id="Rut"),
+            Field("nombre_receptor", id="nombre")
+        )
+        
+        # Agregar atributos a los otros campos
+        self.fields['telefono2'].widget.attrs.update({'id': 'fono'})
+        self.fields['comuna2'].widget.attrs.update({'id': 'comuna'})
+        self.fields['direccion2'].widget.attrs.update({'id': 'direc'})
+        self.fields['rut_receptor'].widget.attrs.update({'id': 'Rut'})
+        self.fields['nombre_receptor'].widget.attrs.update({'id': 'nombre'})
