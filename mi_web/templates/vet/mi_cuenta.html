@@ -59,15 +59,12 @@
                     <div class="container">
                     <div class="card-body">
                         <h1>Detalles de Boleta</h1>
-                        <p><strong>ID:</strong> {{ boleta.id }}</p>
-                        <p><strong>Usuario:</strong> {{ boleta.user }}</p>
-                        <p><strong>Carrito de Compras:</strong> {{ boleta.carritoDeCompra }}</p>
-                        <p><strong>Método de Pago:</strong> {{ boleta.metodoDePago }}</p>
                         <p><strong>Estado:</strong> {{ boleta.estado }}</p>
                         <p><strong>Teléfono de Entrega:</strong> {{ boleta.telefono2 }}</p>
                         <p><strong>Comuna de Entrega:</strong> {{ boleta.comuna2 }}</p>
                         <p><strong>Dirección de Entrega:</strong> {{ boleta.direccion2 }}</p>
                         <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
+                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta.id%}" >ver detalles</a> 
                     </div>
                     </div>
                     {% endfor %}
@@ -92,6 +89,7 @@
                         <p><strong>Comuna de Entrega:</strong> {{ boleta_c.comuna2 }}</p>
                         <p><strong>Dirección de Entrega:</strong> {{ boleta_c.direccion2 }}</p>
                         <p><strong>Fecha de Emisión:</strong> {{ boleta_c.fecha_emision }}</p>
+
                     </div>
                     </div>
                     {% endfor %}

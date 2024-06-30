@@ -71,6 +71,7 @@ class ItemCarrito(models.Model):
         return f'{self.cantidad} of {self.producto.nombre}'
     
 
+
 class Boleta(models.Model):
     user = models.ForeignKey('Usuario', verbose_name=("Usuario") ,on_delete=models.DO_NOTHING )
     carritoDeCompra =  models.ForeignKey(CarritoDeCompras,verbose_name=("CarritoDeCompra") , on_delete=models.DO_NOTHING)
@@ -82,5 +83,20 @@ class Boleta(models.Model):
     fecha_emision = models.DateTimeField("fecha_emision",auto_now_add=True)
     rut_receptor = models.CharField("RUT del Receptor", max_length=12)
     nombre_receptor = models.CharField("Nombre del Receptor", max_length=100)
+    
     def __str__(self):
         return f'Boleta {self.id} - {self.user.nombre}'
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Asignar los productos del carrito a la boleta
+        items_carrito = ItemCarrito.objects.filter(carrito=self.carritoDeCompra)
+        for item in items_carrito:
+            ProductoBoleta.objects.create(boleta=self, producto=item.producto, cantidad=item.cantidad) 
+            
+class ProductoBoleta(models.Model):
+    boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE)
+    producto = models.ForeignKey(producto, on_delete=models.DO_NOTHING)
+    cantidad = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.cantidad} de {self.producto.nombre} en Boleta {self.boleta.id}'

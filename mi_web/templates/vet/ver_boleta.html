@@ -7,16 +7,27 @@
     <div class="col-12 col-md-6 m-2">
         <div class="card text-start">
             <div class="card-body">
-                <h1>Detalles de Boleta</h1>
-                <p><strong>ID:</strong> {{ boleta.id }}</p>
+                <h1>Detalle de Boleta</h1>
                 <p><strong>Usuario:</strong> {{ boleta.user }}</p>
-                <p><strong>Carrito de Compras:</strong> {{ boleta.carritoDeCompra.productos }}</p>
                 <p><strong>Método de Pago:</strong> {{ boleta.metodoDePago }}</p>
                 <p><strong>Estado:</strong> {{ boleta.estado }}</p>
-                <p><strong>Teléfono de Entrega:</strong> {{ boleta.telefono2 }}</p>
-                <p><strong>Comuna de Entrega:</strong> {{ boleta.comuna2 }}</p>
-                <p><strong>Dirección de Entrega:</strong> {{ boleta.direccion2 }}</p>
+                <p><strong>Teléfono de contacto:</strong> {{ boleta.telefono2 }}</p>
+                <p><strong>Comuna:</strong> {{ boleta.comuna2 }}</p>
+                <p><strong>Dirección:</strong> {{ boleta.direccion2 }}</p>
+                <p><strong>Nombre del Receptor:</strong> {{ boleta.nombre_receptor }}</p>
+                <p><strong>RUT del Receptor:</strong> {{ boleta.rut_receptor }}</p>
+        
+                <h2>Productos:</h2>
+                <ul>
+                    {% for producto_boleta in productos_boleta %}
+                        <li>{{ producto_boleta.producto.nombre }} - Cantidad: {{ producto_boleta.cantidad }}</li>
+                    {% endfor %}
+                </ul>
+
                 <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
+                <!-- Puedes añadir más detalles según sea necesario -->
+                <a href='{% url "mi_cuenta" user.correo%}' role='button' class="btn btn-light border">mi cuenta</a>
+
             </div>
         </div> 
     </div>
