@@ -38,6 +38,7 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     direccion= models.CharField("direccion", max_length=50)
     is_staff = models.BooleanField("empleado",default=False)
     is_superuser = models.BooleanField("superuser",default=False)
+    es_baneado = models.BooleanField("baneado", default=False)
     
     USERNAME_FIELD="correo"
     objects=Usuariomanager()

@@ -114,7 +114,6 @@ class upPassUser(PasswordChangeForm):
             Field('new_password1', id='contraseña'),
             Field('new_password2', id='repetirContraseña')
         )
-  
 
 class ItemCarritoForm(forms.ModelForm):
     class Meta:
@@ -164,3 +163,10 @@ class BoletaForm(forms.ModelForm):
         self.fields['direccion2'].widget.attrs.update({'id': 'direc'})
         self.fields['rut_receptor'].widget.attrs.update({'id': 'Rut'})
         self.fields['nombre_receptor'].widget.attrs.update({'id': 'nombre'})
+        
+        
+class UsuarioFilterForm(forms.Form):
+    nombre = forms.CharField(required=False, label='Nombre')
+    apellido = forms.CharField(required=False, label='Apellido')
+    es_baneado = forms.BooleanField(required=False, label='Es baneado', initial=False)
+    

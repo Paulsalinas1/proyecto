@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito ,Boleta,ProductoBoleta
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm ,BoletaForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm ,BoletaForm ,UsuarioFilterForm
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash 
@@ -96,7 +96,22 @@ def trabajador(request):
     return render(request,'vet/trabajador.html')
 
 def usuarios_admin(request):
-    return render(request,'vet/usuarios_admin.html')
+    form = UsuarioFilterForm(request.GET or None)
+    usuarios = Usuario.objects.all()
+
+    if form.is_valid():
+        nombre = form.cleaned_data.get('nombre')
+        apellido = form.cleaned_data.get('apellido')
+        es_baneado = form.cleaned_data.get('es_baneado')
+
+        if nombre:
+            usuarios = usuarios.filter(nombre__icontains=nombre)
+        if apellido:
+            usuarios = usuarios.filter(apellido__icontains=apellido)
+        if es_baneado is not None:
+            usuarios = usuarios.filter(es_baneado=es_baneado)
+    datos = {'form': form, 'usuarios': usuarios}
+    return render(request,'vet/usuarios_admin.html',datos )
 
 def login_xd(request):
     if request.method=="POST":
@@ -211,7 +226,6 @@ def registro(request):
     
     return render(request , 'vet/registro.html' , datos)
 
-
 def detalle_producto(request, producto_id):
     producto2 = get_object_or_404(producto, id=producto_id)
     return render(request, 'vet/detalle_producto.html', {'producto': producto2})
@@ -244,8 +258,6 @@ def eliminar_producto(request, item_id):
     item.delete()
     return redirect('ver_carrito')
 
-
-
 def carrito_login(request):
     form = BoletaForm(user=request.user)
     carrito_de_compras = CarritoDeCompras.objects.get(user=request.user)
@@ -268,7 +280,6 @@ def carrito_login(request):
         "form":form
     }
     return render(request,'vet/carrito_login.html',datos)
-
 
 def ver_boleta(request,id):
     boleta = get_object_or_404(Boleta, id=id)
