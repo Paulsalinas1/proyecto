@@ -129,3 +129,4 @@ class Desbloqueo(models.Model):
         verbose_name = "Desbloqueo"
         verbose_name_plural = "Desbloqueo"
         ordering = ['-fecha_desbloqueo']
+

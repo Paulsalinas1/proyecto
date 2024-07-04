@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout , Submit , Div ,Field ,HTML
 from crispy_forms.bootstrap import PrependedText
-
+from .enumeraciones import *
   
 useru = get_user_model()
 class ProductoForm(forms.ModelForm):
@@ -181,3 +181,55 @@ class DesbloqueoForm(forms.ModelForm):
         model = Desbloqueo
         fields = ['razon']
         
+class BoletaFilterForm(forms.Form):
+    estado_choices = ESTADO_ENVIO
+    estado = forms.ChoiceField(label='Estado', choices=estado_choices, required=False)
+    
+    def __init__(self, *args, **kwargs):
+        super(BoletaFilterForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'get'
+        self.helper.add_input(Submit('submit', 'Filtrar'))
+        
+    def filter_queryset(self, queryset):
+        estado = self.cleaned_data.get('estado')
+
+        if estado:
+            queryset = queryset.filter(estado=estado)
+        
+        return queryset
+    
+
+class ProductoFilterForm(forms.Form):
+    nombre = forms.CharField(label='Nombre', max_length=50, required=False)
+    stock_min = forms.IntegerField(label='Stock mínimo', required=False, min_value=0, max_value=1000)
+    stock_max = forms.IntegerField(label='Stock máximo', required=False, min_value=0, max_value=1000)
+    precio_min = forms.IntegerField(label='Precio mínimo', required=False, min_value=0, max_value=999999)
+    precio_max = forms.IntegerField(label='Precio máximo', required=False, min_value=0, max_value=999999)
+    descripción = forms.CharField(label='Descripción', max_length=50, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ProductoFilterForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'get'
+        self.helper.add_input(Submit('submit', 'Filtrar'))
+
+    def filter_queryset(self, queryset):
+        nombre = self.cleaned_data.get('nombre')
+        stock_min = self.cleaned_data.get('stock_min')
+        stock_max = self.cleaned_data.get('stock_max')
+        precio_min = self.cleaned_data.get('precio_min')
+        precio_max = self.cleaned_data.get('precio_max')
+        
+        if nombre:
+            queryset = queryset.filter(nombre__icontains=nombre)
+        if stock_min is not None:
+            queryset = queryset.filter(stock__gte=stock_min)
+        if stock_max is not None:
+            queryset = queryset.filter(stock__lte=stock_max)
+        if precio_min is not None:
+            queryset = queryset.filter(precio__gte=precio_min)
+        if precio_max is not None:
+            queryset = queryset.filter(precio__lte=precio_max)
+        
+        return queryset

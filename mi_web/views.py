@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito ,Boleta,ProductoBoleta
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm ,BoletaForm ,UsuarioFilterForm ,BloqueoForm ,DesbloqueoForm
+from .forms import *
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash 
@@ -95,7 +95,17 @@ def Revision_estado(request):
 
 @login_required
 def trabajador(request):
-    return render(request,'vet/trabajador.html')
+    queryset = Boleta.objects.all()
+    filter_form = BoletaFilterForm(request.GET or None)
+
+    if filter_form.is_valid():
+        queryset = filter_form.filter_queryset(queryset)
+
+    context = {
+        'boletas': queryset,
+        'filter_form': filter_form,
+    }
+    return render(request,'vet/trabajador.html',context)
 
 @login_required
 def usuarios_admin(request):
@@ -201,9 +211,15 @@ def tienda_trabajador(request):
     return render(request,'vet/tienda_trabajador.html',datos)
 
 def tienda_login(request):
-    prod=producto.objects.all()
-    datos={
-        "productos":prod 
+    queryset = producto.objects.all()
+    filter_form = ProductoFilterForm(request.GET or None)
+
+    if filter_form.is_valid():
+        queryset = filter_form.filter_queryset(queryset)
+        
+    datos = {
+        'productos': queryset,
+        'filter_form': filter_form,
     }
     return render(request,'vet/tienda_login.html',datos)
 
