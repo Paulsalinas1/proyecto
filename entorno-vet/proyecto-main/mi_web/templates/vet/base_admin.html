@@ -40,7 +40,7 @@
                             <a class="nav-link" aria-current="page" href="{% url "index_trabajador" %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{% url "tienda_trabajador" %}">Productos</a>
+                            <a class="nav-link" aria-current="page" href="{% url "tienda_trabajador" %}">productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{% url "usuarios_admin" %}">Usuarios</a>
@@ -55,7 +55,7 @@
                                 <a class="btn btn-primary dropdown-toggle" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     {% if request.user.is_authenticated %}
-                                    Administrador
+                                    Administrabor
                                     {% else %}
                                     Iniciar sesión
                                     {% endif %}
@@ -63,7 +63,7 @@
                                 <ul class="dropdown-menu">
                                     {% if request.user.is_authenticated %}
                                     <form>
-                                        <li><a class="dropdown-item" href=" {% url "trabajador" %}">Local</a></li>
+                                        <li><a class="dropdown-item" href=" {% url "trabajador" %}">local</a></li>
                                         <li><a class="dropdown-item" href="{% url "cerrar" %}">Cerrar cuenta</a></li>
                                     </form>
                                     {% else %}
@@ -79,6 +79,8 @@
                 </div>
             </nav>
         </header>
+
+
         <main>
         {% block contenido %}
     
@@ -101,7 +103,7 @@
                     </p>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <div id="cat_img" class="imgrid d-flex justify-content-center" style="height:-50%; width: -50%;" ></div>
+                    <div id="cat_img" class="imgrid d-flex justify-content-center img-fluid" style="height:100%; width: 100%;" ></div>
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <p class="text-light pt-3 fs-4"> Dirección: </p>

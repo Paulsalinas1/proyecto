@@ -25,8 +25,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('',views.index,name='index'),
     path('carrito_login/',views.carrito_login,name='carrito_login'),
-    path('compras/',views.compras,name='compras'),
-
+    
     path('index_trabajador/',views.index_trabajador,name='index_trabajador'),
     
     path('recordando/',views.recordando,name='recordando'),
@@ -44,7 +43,9 @@ urlpatterns = [
     
     path('registro/',views.registro,name='registro'),
     path('mi_cuenta/<id>',login_required(views.mi_cuenta),name='mi_cuenta'),
+    
     path('mi_cuenta_td/<id>/<usuario>',views.mi_cuenta_td,name='mi_cuenta_td'),
+    
     
     path('ver_carrito/', login_required(views.ver_carrito), name='ver_carrito'),
     
@@ -54,8 +55,11 @@ urlpatterns = [
 
     path('detalle_producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
     
+    path('ver_boleta/<id>',login_required(views.ver_boleta),name='ver_boleta'),
     path('', include('django.contrib.auth.urls')),  # Incluir URLs de autenticación
 
+    path('bloqueo_admin/<id>',views.bloqueo_admin,name='bloqueo_admin'),
+    path('desbloqueo_admin/<id>',views.desbloqueo_admin,name='desbloqueo_admin'),
 ]
 
 if settings.DEBUG:

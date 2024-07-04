@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito
+from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito ,Boleta,ProductoBoleta
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm
+from .forms import *
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash 
@@ -18,21 +18,19 @@ from django.http import JsonResponse
 def index(request):
     return render(request,'vet/index.html')
 
-def carrito_login(request):
-    return render(request,'vet/carrito_login.html')
-
-def compras(request):
-    return render(request,'vet/compras.html')
-
+@login_required
 def index_trabajador(request):
     return render(request,'vet/index_trabajador.html')
 
+@login_required
 def mi_cuenta(request, id):
     usera=get_object_or_404(Usuario,correo=id)
     form=updateUser(instance=usera) 
     form2=upPassUser(user=request.user)
     form3=Tarjeta.objects.filter(uusuario=usera)
     form4= TarjetaForm()
+    Boletas = Boleta.objects.filter(user=usera)
+    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO')
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
             form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
@@ -62,10 +60,13 @@ def mi_cuenta(request, id):
         "form":form, 
         "form2":form2,
         "targetas":form3,
-        "form4":form4
+        "form4":form4,
+        "boletas":Boletas,
+        "Boletas_completadas":Boletas_completadas
     }
     return render(request,'vet/mi_cuenta.html' , datos)
 
+@login_required
 def mi_cuenta_td(request,id,usuario):
     tar=get_object_or_404(Tarjeta,id = id)
     form=TarjetaForm(instance=tar)
@@ -88,15 +89,90 @@ def mi_cuenta_td(request,id,usuario):
 def recordando(request):
     return render(request,'vet/recordando.html')
 
+@login_required
 def Revision_estado(request):
     return render(request,'vet/Revision_estado.html')
 
+@login_required
 def trabajador(request):
-    return render(request,'vet/trabajador.html')
+    queryset = Boleta.objects.all()
+    filter_form = BoletaFilterForm(request.GET or None)
+
+    if filter_form.is_valid():
+        queryset = filter_form.filter_queryset(queryset)
+
+    context = {
+        'boletas': queryset,
+        'filter_form': filter_form,
+    }
+    return render(request,'vet/trabajador.html',context)
 
 @login_required
 def usuarios_admin(request):
-    return render(request,'vet/usuarios_admin.html')
+    form_filter = UsuarioFilterForm(request.GET or None)
+    usuarios = Usuario.objects.all()
+    
+    if form_filter.is_valid():
+        nombre = form_filter.cleaned_data.get('nombre')
+        apellido = form_filter.cleaned_data.get('apellido')
+        es_baneado = form_filter.cleaned_data.get('es_baneado')
+
+        if nombre:
+            usuarios = usuarios.filter(nombre__icontains=nombre)
+        if apellido:
+            usuarios = usuarios.filter(apellido__icontains=apellido)
+        if es_baneado is not None:
+            usuarios = usuarios.filter(es_baneado=es_baneado)
+    
+    datos = {
+        'form_filter': form_filter,
+        'usuarios': usuarios,   
+    }
+    return render(request, 'vet/usuarios_admin.html', datos)
+
+@login_required
+def bloqueo_admin(request, id):
+    form = BloqueoForm() 
+    usera=get_object_or_404(Usuario,correo=id)
+    
+    if request.method == 'POST':
+        bloqueo_form = BloqueoForm(request.POST)
+        if bloqueo_form.is_valid():
+            bloqueo = bloqueo_form.save(commit=False)
+            bloqueo.usuario = usera  # Asignar el usuario al bloqueo
+            bloqueo.save()
+            
+            # Marcar al usuario como baneado
+            usera.es_baneado = True
+            usera.save()
+            return redirect('usuarios_admin')  # Redirigir a la página de administración de usuarios
+    
+    datos = {
+        'form': form
+    }
+    return render(request, 'vet/bloqueo_admin.html', datos)
+
+@login_required
+def desbloqueo_admin(request, id):
+    form = DesbloqueoForm() 
+    usera=get_object_or_404(Usuario,correo=id)
+    
+    if request.method == 'POST':
+        desbloqueo_form = DesbloqueoForm(request.POST)
+        if desbloqueo_form.is_valid():
+            bloqueo = desbloqueo_form.save(commit=False)
+            bloqueo.usuario = usera  # Asignar el usuario al bloqueo
+            bloqueo.save()
+            
+            # Marcar al usuario como baneado
+            usera.es_baneado = False
+            usera.save()
+            return redirect('usuarios_admin')  # Redirigir a la página de administración de usuarios
+    
+    datos = {
+        'form': form
+    }
+    return render(request, 'vet/desbloqueo_admin.html', datos)
 
 def login_xd(request):
     if request.method=="POST":
@@ -117,6 +193,7 @@ def login_xd(request):
     }
     return render(request,'vet/login.html',datos)
 
+@login_required
 def tienda_trabajador(request):
     prod=producto.objects.all()
     form=ProductoForm()
@@ -134,12 +211,19 @@ def tienda_trabajador(request):
     return render(request,'vet/tienda_trabajador.html',datos)
 
 def tienda_login(request):
-    prod=producto.objects.all()
-    datos={
-        "productos":prod 
+    queryset = producto.objects.all()
+    filter_form = ProductoFilterForm(request.GET or None)
+
+    if filter_form.is_valid():
+        queryset = filter_form.filter_queryset(queryset)
+        
+    datos = {
+        'productos': queryset,
+        'filter_form': filter_form,
     }
     return render(request,'vet/tienda_login.html',datos)
 
+@login_required
 def detalleP_trabajador(request, id):
     produc=get_object_or_404(producto,nombre= id)
     form=upProductoForm(instance=produc)
@@ -166,6 +250,7 @@ def detalleP_trabajador(request, id):
     
     return render(request,'vet/detalleP_trabajador.html',datos)
 
+@login_required
 def eliminarP_trabajador(request, id):
     produc=get_object_or_404(producto,nombre= id)
     form=upProductoForm(instance=produc)
@@ -211,11 +296,11 @@ def registro(request):
     
     return render(request , 'vet/registro.html' , datos)
 
-
 def detalle_producto(request, producto_id):
     producto2 = get_object_or_404(producto, id=producto_id)
     return render(request, 'vet/detalle_producto.html', {'producto': producto2})
 
+@login_required
 def agregar_producto(request, producto_id):
     producto2 = get_object_or_404(producto, id=producto_id)
     carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
@@ -229,18 +314,54 @@ def agregar_producto(request, producto_id):
     
     return redirect('ver_carrito')
 
-
+@login_required
 def ver_carrito(request):
-    
     carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
-
     carrito = get_object_or_404(CarritoDeCompras, user=request.user, is_active=True)
     
     items = ItemCarrito.objects.filter(carrito=carrito) if carrito else []
+    for item in items:
+        item.subtotal = item.producto.precio * item.cantidad
     total = sum(item.producto.precio * item.cantidad for item in items)
     return render(request, 'vet/ver_carrito.html', {'items': items, 'total': total})
 
+@login_required
 def eliminar_producto(request, item_id):
     item = get_object_or_404(ItemCarrito, id=item_id)
     item.delete()
     return redirect('ver_carrito')
+
+@login_required
+def carrito_login(request):
+    form = BoletaForm(user=request.user)
+    carrito_de_compras = CarritoDeCompras.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = BoletaForm(request.POST,files=request.FILES,user=request.user)
+        if form.is_valid():
+            boleta = form.save(commit=False)
+            boleta.user = request.user
+            boleta.carritoDeCompra = carrito_de_compras  # Asignar el carrito de compras correspondiente
+            boleta.save()
+            id=boleta.id
+             # Asignar los productos del carrito a la boleta
+            items_carrito = ItemCarrito.objects.filter(carrito=carrito_de_compras)
+            for item in items_carrito:
+                ProductoBoleta.objects.create(boleta=boleta, producto=item.producto, cantidad=item.cantidad)
+            # Vaciar el carrito de compras del usuario
+            carrito_de_compras.productos.clear()
+            return redirect(reverse("ver_boleta",args=[id]))
+    datos={
+        "form":form
+    }
+    return render(request,'vet/carrito_login.html',datos)
+
+@login_required
+def ver_boleta(request,id):
+    boleta = get_object_or_404(Boleta, id=id)
+    productos_boleta = ProductoBoleta.objects.filter(boleta=boleta)
+
+    datos = {
+        "boleta": boleta,
+        "productos_boleta": productos_boleta
+    }
+    return render(request,'vet/ver_boleta.html',datos)
