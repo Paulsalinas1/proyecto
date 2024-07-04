@@ -91,7 +91,14 @@ def recordando(request):
 
 @login_required
 def Revision_estado(request):
-    return render(request,'vet/Revision_estado.html')
+    
+    
+    datos={
+        
+        
+    }
+    
+    return render(request,'vet/Revision_estado.html',datos)
 
 @login_required
 def trabajador(request):

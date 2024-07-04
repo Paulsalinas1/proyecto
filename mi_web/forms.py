@@ -182,8 +182,9 @@ class DesbloqueoForm(forms.ModelForm):
         fields = ['razon']
         
 class BoletaFilterForm(forms.Form):
-    estado_choices = ESTADO_ENVIO
-    estado = forms.ChoiceField(label='Estado', choices=estado_choices, required=False)
+    ESTADO_SIN_FILTRO = [('', 'Sin Filtro')] + list(ESTADO_ENVIO)
+    
+    estado = forms.ChoiceField(label='Estado', choices=ESTADO_SIN_FILTRO ,required=False, initial='')
     
     def __init__(self, *args, **kwargs):
         super(BoletaFilterForm, self).__init__(*args, **kwargs)
@@ -206,7 +207,6 @@ class ProductoFilterForm(forms.Form):
     stock_max = forms.IntegerField(label='Stock máximo', required=False, min_value=0, max_value=1000)
     precio_min = forms.IntegerField(label='Precio mínimo', required=False, min_value=0, max_value=999999)
     precio_max = forms.IntegerField(label='Precio máximo', required=False, min_value=0, max_value=999999)
-    descripción = forms.CharField(label='Descripción', max_length=50, required=False)
 
     def __init__(self, *args, **kwargs):
         super(ProductoFilterForm, self).__init__(*args, **kwargs)
