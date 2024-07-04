@@ -25,6 +25,7 @@
                     <th>Usuario</th>
                     <th>Estado</th>
                     <th>Fecha de Emisión</th>
+                    <th>Acciones</th>
                     <!-- Agrega más columnas según tus necesidades -->
                 </tr>
             </thead>
@@ -35,6 +36,10 @@
                         <td>{{ boleta.user.nombre }}</td>
                         <td>{{ boleta.get_estado_display }}</td>
                         <td>{{ boleta.fecha_emision }}</td>
+                        <td>
+                            <a href='{% url "Revision_estado" %}' role='button' class="btn btn-success border">revicion</a>
+
+                        </td>
                         <!-- Agrega más columnas según tus necesidades -->
                     </tr>
                 {% endfor %}
