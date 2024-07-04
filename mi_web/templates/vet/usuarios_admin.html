@@ -6,11 +6,13 @@
 {% block contenido %}
 
 
-<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#canvas_filtro" role="button" aria-controls="canvas_filtro">
+
+<h2 class="text-center">Lista de Usuarios</h2>
+<a class="btn btn-primary d-flex justify-content-center" data-bs-toggle="offcanvas" href="#canvas_filtro" role="button" aria-controls="canvas_filtro">
   filtro
 </a>
-<h2 class="text-center">Lista de Usuarios</h2>
-<ul>
+
+<ul class="container-fluid">
   <table class="table table-striped">
     <thead>
         <tr>
@@ -32,19 +34,16 @@
                     {% if usuario.is_superuser %} Superuser {% endif %}
                     {% if usuario.es_baneado %} Baneado {% else %} Normal {% endif %}
                 </td>
-                
-                    <!-- Añade tus botones de acción aquí -->
-                    {% if usuario.es_baneado%}
-                    <td class="col-md-2"> <a class="btn btn-success" data-bs-toggle="offcanvas"
-                      href="#canvas_Desbloquear" role="button" aria-controls="canvas_Desbloquear">
-                      Desbloquear
-                    </a></td>
-                    {% else %}
-                    <td class="col-md-2"> <a class="btn btn-success" data-bs-toggle="offcanvas" href="#canvas_Bloquear"
-                      role="button" aria-controls="canvas_Bloquear">
-                      Bloquear
-                    </a></td>
-                    {% endif %}
+                <!-- Añade tus botones de acción aquí -->
+                <td>
+                  {% if usuario.es_baneado %}
+                  <!-- Botón de desbloqueo -->
+                    <a href='{% url "desbloqueo_admin" usuario.correo%}' role='button' class="btn btn-success border">desbloqueo</a>
+                  {% else %}
+                  <!-- Botón de bloqueo -->
+                    <a href='{% url "bloqueo_admin" usuario.correo%}' role='button' class="btn btn-danger border">Bloquear</a>
+                  {% endif %}
+                </td>
             </tr>
         {% empty %}
             <tr>
@@ -63,50 +62,12 @@
   <div class="offcanvas-body">
     <div>
       <form method="get">
-        {{ form | crispy }}
+        {{ form_filter | crispy }}
         <button class="btn btn-primary" type="submit">Filtrar</button>
       </form>
     </div>
   </div>
 </div>
-<!--Función para bloquear usuario-->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="canvas_Bloquear" aria-labelledby="canvas_Bloquear">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="canvas_BloquearLabel">Bloqueo</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <form class="row needs-validation" action="../html/usuarios_admin.html" method="get" novalidate>  
-      <div class="mb-3">
-        <label for="exampleFormControlTextarea" class="form-label">Decripción del motivo del bloqueo</label>
-        <textarea class="form-control" id="exampleFormControlTextarea" rows="3" required></textarea>
-        <div class="valid-feedback">descripcion valida</div>
-        <div class="invalid-feedback">descripcion invalida</div>
-      </div>
-      <td class="col-md-2"><button type="submit" class="boton bg-success"> Bloquear</button></td>
-    </form>
-  </div>
-</div>
-
-<!--Función para desbloquear usuario-->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="canvas_Desbloquear" aria-labelledby="canvas_Desbloquear">
-<div class="offcanvas-header">
-  <h5 class="offcanvas-title" id="canvas_DesbloquearLabel">Desbloqueo</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-</div>
-<div class="offcanvas-body">
-  <form class="row needs-validation" action="../html/usuarios_admin.html" method="get" novalidate>  
-    <div class="mb-3">
-      <label for="exampleFormControlTextarea2" class="form-label">Decripción del motivo del Desbloqueo</label>
-      <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" required></textarea>
-      <div class="valid-feedback">descripcion valida</div>
-      <div class="invalid-feedback">descripcion invalida</div>
-    </div>
-    <td class="col-md-2"><button type="submit" class="boton bg-success"> Desbloquear</button></td>
-  </form>
-</div>
-</div>
-
 {% endblock contenido %}
 {% block script %}
 <script src="{% static 'vet/js/usuario_adm_js.js'%}"></script>

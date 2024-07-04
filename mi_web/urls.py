@@ -47,6 +47,7 @@ urlpatterns = [
     
     path('mi_cuenta_td/<id>/<usuario>',views.mi_cuenta_td,name='mi_cuenta_td'),
     
+    
     path('ver_carrito/', login_required(views.ver_carrito), name='ver_carrito'),
     
     path('agregar_producto/<int:producto_id>/', views.agregar_producto,name='agregar_producto'),
@@ -58,6 +59,8 @@ urlpatterns = [
     path('ver_boleta/<id>',login_required(views.ver_boleta),name='ver_boleta'),
     path('', include('django.contrib.auth.urls')),  # Incluir URLs de autenticación
 
+    path('bloqueo_admin/<id>',views.bloqueo_admin,name='bloqueo_admin'),
+    path('desbloqueo_admin/<id>',views.desbloqueo_admin,name='desbloqueo_admin'),
 ]
 
 if settings.DEBUG:

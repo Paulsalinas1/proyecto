@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import producto , Usuario , Tarjeta , CarritoDeCompras,ItemCarrito ,Boleta,ProductoBoleta
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm ,BoletaForm ,UsuarioFilterForm
+from .forms import ProductoForm ,upProductoForm , loginForm , createUser ,TarjetaForm ,updateUser , upPassUser ,ItemCarritoForm ,BoletaForm ,UsuarioFilterForm ,BloqueoForm ,DesbloqueoForm
 from os import remove, path
 from django.conf import settings
 from django.contrib.auth import logout , login , authenticate ,update_session_auth_hash 
@@ -95,14 +95,15 @@ def Revision_estado(request):
 def trabajador(request):
     return render(request,'vet/trabajador.html')
 
+@login_required
 def usuarios_admin(request):
-    form = UsuarioFilterForm(request.GET or None)
+    form_filter = UsuarioFilterForm(request.GET or None)
     usuarios = Usuario.objects.all()
-
-    if form.is_valid():
-        nombre = form.cleaned_data.get('nombre')
-        apellido = form.cleaned_data.get('apellido')
-        es_baneado = form.cleaned_data.get('es_baneado')
+    
+    if form_filter.is_valid():
+        nombre = form_filter.cleaned_data.get('nombre')
+        apellido = form_filter.cleaned_data.get('apellido')
+        es_baneado = form_filter.cleaned_data.get('es_baneado')
 
         if nombre:
             usuarios = usuarios.filter(nombre__icontains=nombre)
@@ -110,8 +111,56 @@ def usuarios_admin(request):
             usuarios = usuarios.filter(apellido__icontains=apellido)
         if es_baneado is not None:
             usuarios = usuarios.filter(es_baneado=es_baneado)
-    datos = {'form': form, 'usuarios': usuarios}
-    return render(request,'vet/usuarios_admin.html',datos )
+    
+    datos = {
+        'form_filter': form_filter,
+        'usuarios': usuarios,   
+    }
+    return render(request, 'vet/usuarios_admin.html', datos)
+
+@login_required
+def bloqueo_admin(request, id):
+    form = BloqueoForm() 
+    usera=get_object_or_404(Usuario,correo=id)
+    
+    if request.method == 'POST':
+        bloqueo_form = BloqueoForm(request.POST)
+        if bloqueo_form.is_valid():
+            bloqueo = bloqueo_form.save(commit=False)
+            bloqueo.usuario = usera  # Asignar el usuario al bloqueo
+            bloqueo.save()
+            
+            # Marcar al usuario como baneado
+            usera.es_baneado = True
+            usera.save()
+            return redirect('usuarios_admin')  # Redirigir a la página de administración de usuarios
+    
+    datos = {
+        'form': form
+    }
+    return render(request, 'vet/bloqueo_admin.html', datos)
+
+@login_required
+def desbloqueo_admin(request, id):
+    form = DesbloqueoForm() 
+    usera=get_object_or_404(Usuario,correo=id)
+    
+    if request.method == 'POST':
+        desbloqueo_form = DesbloqueoForm(request.POST)
+        if desbloqueo_form.is_valid():
+            bloqueo = desbloqueo_form.save(commit=False)
+            bloqueo.usuario = usera  # Asignar el usuario al bloqueo
+            bloqueo.save()
+            
+            # Marcar al usuario como baneado
+            usera.es_baneado = False
+            usera.save()
+            return redirect('usuarios_admin')  # Redirigir a la página de administración de usuarios
+    
+    datos = {
+        'form': form
+    }
+    return render(request, 'vet/desbloqueo_admin.html', datos)
 
 def login_xd(request):
     if request.method=="POST":
@@ -132,6 +181,7 @@ def login_xd(request):
     }
     return render(request,'vet/login.html',datos)
 
+@login_required
 def tienda_trabajador(request):
     prod=producto.objects.all()
     form=ProductoForm()

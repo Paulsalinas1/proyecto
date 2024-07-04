@@ -101,3 +101,31 @@ class ProductoBoleta(models.Model):
 
     def __str__(self):
         return f'{self.cantidad} de {self.producto.nombre} en Boleta {self.boleta.id}'
+    
+    
+class Bloqueo(models.Model):
+    usuario = models.ForeignKey("mi_web.Usuario", on_delete=models.CASCADE, related_name='bloqueos')
+    razon = models.TextField("Razón del Bloqueo", max_length=500)
+    fecha_bloqueo = models.DateTimeField("Fecha de Bloqueo", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.usuario} - {self.razon}"
+
+    class Meta:
+        verbose_name = "Bloqueo"
+        verbose_name_plural = "Bloqueos"
+        ordering = ['-fecha_bloqueo']
+        
+        
+class Desbloqueo(models.Model):
+    usuario = models.ForeignKey("mi_web.Usuario", on_delete=models.CASCADE, related_name='Desbloqueo')
+    razon = models.TextField("Razón del Desbloqueo", max_length=500)
+    fecha_desbloqueo = models.DateTimeField("Fecha de Desbloqueo", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.usuario} - {self.razon}"
+
+    class Meta:
+        verbose_name = "Desbloqueo"
+        verbose_name_plural = "Desbloqueo"
+        ordering = ['-fecha_desbloqueo']

@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import producto , Tarjeta , ItemCarrito , Boleta
+from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
@@ -170,3 +170,14 @@ class UsuarioFilterForm(forms.Form):
     apellido = forms.CharField(required=False, label='Apellido')
     es_baneado = forms.BooleanField(required=False, label='Es baneado', initial=False)
     
+    
+class BloqueoForm(forms.ModelForm):
+    class Meta:
+        model = Bloqueo
+        fields = ['razon']
+        
+class DesbloqueoForm(forms.ModelForm):
+    class Meta:
+        model = Desbloqueo
+        fields = ['razon']
+        
