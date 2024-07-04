@@ -25,8 +25,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('',views.index,name='index'),
     path('carrito_login/',views.carrito_login,name='carrito_login'),
-    path('compras/',views.compras,name='compras'),
-
+    
     path('index_trabajador/',views.index_trabajador,name='index_trabajador'),
     
     path('recordando/',views.recordando,name='recordando'),

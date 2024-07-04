@@ -18,12 +18,11 @@ from django.http import JsonResponse
 def index(request):
     return render(request,'vet/index.html')
 
-def compras(request):
-    return render(request,'vet/compras.html')
-
+@login_required
 def index_trabajador(request):
     return render(request,'vet/index_trabajador.html')
 
+@login_required
 def mi_cuenta(request, id):
     usera=get_object_or_404(Usuario,correo=id)
     form=updateUser(instance=usera) 
@@ -67,6 +66,7 @@ def mi_cuenta(request, id):
     }
     return render(request,'vet/mi_cuenta.html' , datos)
 
+@login_required
 def mi_cuenta_td(request,id,usuario):
     tar=get_object_or_404(Tarjeta,id = id)
     form=TarjetaForm(instance=tar)
@@ -89,9 +89,11 @@ def mi_cuenta_td(request,id,usuario):
 def recordando(request):
     return render(request,'vet/recordando.html')
 
+@login_required
 def Revision_estado(request):
     return render(request,'vet/Revision_estado.html')
 
+@login_required
 def trabajador(request):
     return render(request,'vet/trabajador.html')
 
@@ -205,6 +207,7 @@ def tienda_login(request):
     }
     return render(request,'vet/tienda_login.html',datos)
 
+@login_required
 def detalleP_trabajador(request, id):
     produc=get_object_or_404(producto,nombre= id)
     form=upProductoForm(instance=produc)
@@ -231,6 +234,7 @@ def detalleP_trabajador(request, id):
     
     return render(request,'vet/detalleP_trabajador.html',datos)
 
+@login_required
 def eliminarP_trabajador(request, id):
     produc=get_object_or_404(producto,nombre= id)
     form=upProductoForm(instance=produc)
@@ -280,6 +284,7 @@ def detalle_producto(request, producto_id):
     producto2 = get_object_or_404(producto, id=producto_id)
     return render(request, 'vet/detalle_producto.html', {'producto': producto2})
 
+@login_required
 def agregar_producto(request, producto_id):
     producto2 = get_object_or_404(producto, id=producto_id)
     carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
@@ -293,6 +298,7 @@ def agregar_producto(request, producto_id):
     
     return redirect('ver_carrito')
 
+@login_required
 def ver_carrito(request):
     carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
     carrito = get_object_or_404(CarritoDeCompras, user=request.user, is_active=True)
@@ -303,11 +309,13 @@ def ver_carrito(request):
     total = sum(item.producto.precio * item.cantidad for item in items)
     return render(request, 'vet/ver_carrito.html', {'items': items, 'total': total})
 
+@login_required
 def eliminar_producto(request, item_id):
     item = get_object_or_404(ItemCarrito, id=item_id)
     item.delete()
     return redirect('ver_carrito')
 
+@login_required
 def carrito_login(request):
     form = BoletaForm(user=request.user)
     carrito_de_compras = CarritoDeCompras.objects.get(user=request.user)
@@ -331,6 +339,7 @@ def carrito_login(request):
     }
     return render(request,'vet/carrito_login.html',datos)
 
+@login_required
 def ver_boleta(request,id):
     boleta = get_object_or_404(Boleta, id=id)
     productos_boleta = ProductoBoleta.objects.filter(boleta=boleta)
