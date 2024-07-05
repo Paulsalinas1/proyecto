@@ -434,8 +434,6 @@ function soloNumeros(event) {
 })()
 
 
-
-
 function mostrarMensaje() {
     var mensajeError = document.createElement("span");
     mensajeError.textContent = "Producto agregado al carrito ✅";
