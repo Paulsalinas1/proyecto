@@ -340,12 +340,28 @@ def agregar_producto(request, producto_id):
 def ver_carrito(request):
     carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
     carrito = get_object_or_404(CarritoDeCompras, user=request.user, is_active=True)
-    
+    form = ItemCarritoForm()
     items = ItemCarrito.objects.filter(carrito=carrito) if carrito else []
     for item in items:
         item.subtotal = item.producto.precio * item.cantidad
     total = sum(item.producto.precio * item.cantidad for item in items)
-    return render(request, 'vet/ver_carrito.html', {'items': items, 'total': total})
+    
+    if request.method == 'POST':
+        form = ItemCarritoForm(request.POST)
+        if form.is_valid():
+            item_id = request.POST.get('item_id')
+            nueva_cantidad = form.cleaned_data['cantidad']
+            item = get_object_or_404(ItemCarrito, id=item_id)
+            item.cantidad = nueva_cantidad
+            item.save()
+            return redirect('ver_carrito')
+    datos={
+        'items': items, 
+        'total': total, 
+        'form':form
+    }
+    return render(request, 'vet/ver_carrito.html', datos)
+
 
 @login_required
 def eliminar_producto(request, item_id):

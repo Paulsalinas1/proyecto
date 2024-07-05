@@ -22,9 +22,9 @@
                         <form action="{% url 'agregar_producto' producto.id %}" method="post">
                             {% csrf_token %}
                             <div class="input-group mb-3">
-                                <button type="button" class="btn btn-outline-secondary" onclick="decrement()">-</button>
-                                <input type="number" class="form-control text-center" id="cantidad" name="cantidad" min="1" max="{{ producto.stock }}" value="1" readonly>
-                                <button type="button" class="btn btn-outline-secondary" onclick="increment()">+</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="decrement('cantidad_producto_{{ item.id }}')">-</button>
+                                <input type="number" class="form-control text-center" id="cantidad_producto_{{ item.id }}" name="cantidad" min="1" max="{{ producto.stock }}" value="1" readonly>
+                                <button type="button" class="btn btn-outline-secondary" onclick="increment('cantidad_producto_{{ item.id }}')">+</button>
                             </div>
                             <button type="submit" class="btn btn-success">Agregar al Carrito</button>
                         </form>
@@ -45,15 +45,15 @@
 
 {% block script %}
 <script>
-    function increment() {
-        var cantidadInput = document.getElementById('cantidad');
+    function increment(cosa) {
+        var cantidadInput = document.getElementById(cosa);
         if (cantidadInput.value < {{ producto.stock }}) {
             cantidadInput.value = parseInt(cantidadInput.value) + 1;
         }
     }
 
-    function decrement() {
-        var cantidadInput = document.getElementById('cantidad');
+    function decrement(cosa) {
+        var cantidadInput = document.getElementById(cosa);
         if (cantidadInput.value > 1) {
             cantidadInput.value = parseInt(cantidadInput.value) - 1;
         }
