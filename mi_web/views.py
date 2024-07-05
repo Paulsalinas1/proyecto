@@ -29,8 +29,8 @@ def mi_cuenta(request, id):
     form2=upPassUser(user=request.user)
     form3=Tarjeta.objects.filter(uusuario=usera)
     form4= TarjetaForm()
-    Boletas = Boleta.objects.filter(user=usera)
-    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO'and 'CANCELADO')
+    Boletas = Boleta.objects.filter(user=usera ,estado='ALMACEN'or 'ENVIO' )
+    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO' or 'CANCELADO')
     reclamos= Reclamo.objects.filter(usuario=usera) 
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)

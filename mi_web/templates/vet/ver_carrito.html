@@ -29,9 +29,9 @@
                                             <form method="POST" action="{% url 'ver_carrito' %}">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="item_id" value="{{ item.id }}">
-                                                <div class="input-group mb-3">
+                                                <div class="input-group input-group-sm mb-3">
                                                     <button type="button" class="btn btn-outline-secondary" onclick="decrement('cantidad_producto_{{ item.id }}')">-</button>
-                                                    <input type="number" name="cantidad" id="cantidad_producto_{{ item.id }}" value="{{ item.cantidad }}" min="1" readonly>
+                                                    <input type="number" name="cantidad" id="cantidad_producto_{{ item.id }}" value="{{ item.cantidad }}" min="1" class="form-control form-control-sm" readonly>
                                                     <button type="button" class="btn btn-outline-secondary" onclick="increment('cantidad_producto_{{ item.id }}')">+</button>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-sm">Actualizar Cantidad</button>
