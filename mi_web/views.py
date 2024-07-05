@@ -196,6 +196,10 @@ def login_xd(request):
         form = loginForm(data=request.POST)
         if form.is_valid():
             user = form.user_cache  
+            if user.es_baneado:
+                messages.warning(request, "su usuario esta baneado") 
+                messages.warning(request, "si desea asistencia utilize los contactos") 
+                return redirect("login")
             login(request ,user)
             if user.is_staff:
                 return redirect("trabajador")

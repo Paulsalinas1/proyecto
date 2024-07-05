@@ -91,11 +91,11 @@ class Boleta(models.Model):
             
 class ProductoBoleta(models.Model):
     boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE)
-    producto = models.CharField("producto",max_length=50, )
+    producto = models.CharField("producto",max_length=50)
     cantidad = models.PositiveIntegerField()
 
     def __str__(self):
-        return f'{self.cantidad} de {self.producto.nombre} en Boleta {self.boleta.id}'
+        return f'{self.cantidad} de {self.producto} en Boleta {self.boleta.id}'
     
 class Bloqueo(models.Model):
     usuario = models.ForeignKey("mi_web.Usuario", on_delete=models.CASCADE, related_name='bloqueos')
