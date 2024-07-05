@@ -331,41 +331,40 @@ function vencimiento_v() {
     // Obtiene el mes y el año actuales del sistema
     var fechaActual = new Date();
     var mesActual = fechaActual.getMonth() + 1; // Se suma 1 porque los meses van de 0 a 11
-    var añoActual = fechaActual.getFullYear().toString().slice(-2);
-    
-    // Obtiene el mes y el año de la fecha ingresada por el usuario
-    var partesFecha = fechaIngresada.split('/');
-    var mesIngresado = parseInt(partesFecha[0], 10);
-    var añoIngresado = parseInt(partesFecha[1], 10);
+    var añoActual = fechaActual.getFullYear();
 
-    // Expresión regular para verificar si el mes está en el rango de 01 a 12
-    var regex = /^(0[1-9]|1[0-2])$/;
+    // Expresión regular para validar el formato mes/año
+    var regex = /^(0[1-9]|1[0-2])\/(\d{2})$/;
 
+    // Validar si la fecha ingresada es válida
     if (fechaIngresada === "") {
         mensajeError.innerText = "Por favor, ingrese una fecha";
         mensajeError.style.color = "red";
         fechaups.setCustomValidity("no valido");
         return false;
-    } else if (fechaIngresada.length !== 5) {
-        mensajeError.innerText = "Por favor, ingrese una fecha válida (mes/año)";
+    } else if (!regex.test(fechaIngresada)) {
+        mensajeError.innerText = "Formato de fecha inválido. Debe ser mes/año (por ejemplo, 02/24)";
         mensajeError.style.color = "red";
         fechaups.setCustomValidity("no valido");
         return false;
-    } else if (!regex.test(partesFecha[0])) {
-        mensajeError.innerText = "Por favor, ingrese un mes válido (01-12)";
-        mensajeError.style.color = "red";
-        fechaups.setCustomValidity("no valido");
-        return false;
-    } else if (añoIngresado < añoActual || (añoIngresado === añoActual && mesIngresado < mesActual)) {
-        mensajeError.innerText = "Su tarjeta ya expiró, pruebe con otra.";
-        mensajeError.style.color = "red";
-        fechaups.setCustomValidity("no valido");
-        return false; // Evita que se envíe el formulario
-    }  else {
-        mensajeError.innerText = "Fecha válida ✅";
-        mensajeError.style.color = "green";
-        fechaups.setCustomValidity("");
-        return true;
+    } else {
+        // Obtener mes y año ingresados
+        var partesFecha = fechaIngresada.split('/');
+        var mesIngresado = parseInt(partesFecha[0], 10);
+        var añoIngresado = 2000 + parseInt(partesFecha[1], 10); // Asumiendo que los años ingresados están en formato "YY" y los convertimos a "YYYY"
+
+        // Comparar con la fecha actual
+        if (añoIngresado < añoActual || (añoIngresado === añoActual && mesIngresado < mesActual)) {
+            mensajeError.innerText = "Su tarjeta ya expiró, pruebe con otra.";
+            mensajeError.style.color = "red";
+            fechaups.setCustomValidity("no valido");
+            return false; // Evita que se envíe el formulario
+        } else {
+            mensajeError.innerText = "Fecha válida ✅";
+            mensajeError.style.color = "green";
+            fechaups.setCustomValidity("");
+            return true;
+        }
     }
 }
 
