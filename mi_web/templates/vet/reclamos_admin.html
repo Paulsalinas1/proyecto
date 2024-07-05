@@ -33,8 +33,8 @@
               <td>
                   <!-- Aquí puedes agregar enlaces o botones para acciones relacionadas con el reclamo -->
                   <!-- Por ejemplo, editar el reclamo, ver detalles adicionales, etc. -->
-                  <a href='{% url "Revision_estado" reclamo.boleta.id %}' role='button' class="btn btn-success border">Ver voleta</a>
-                  <a href='{% url "revision_reclamo" reclamo.id %}' role='button' class="btn btn-success border">revicion</a>
+                  <a href='{% url "Revision_estado" reclamo.boleta.id %}' role='button' class="btn btn-success border">Ver boleta</a>
+                  <a href='{% url "revision_reclamo" reclamo.id %}' role='button' class="btn btn-success border">revision</a>
               </td>
           </tr>
           {% empty %}
