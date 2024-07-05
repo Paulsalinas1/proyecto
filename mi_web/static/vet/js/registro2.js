@@ -143,22 +143,32 @@ function formatRut() {
     rutInput.value = formattedRut;
 }
 function contra_1() {
-    var coninp = document.getElementById("contraseña");
     var contraseña = document.getElementById("contraseña").value;
     var mensajeError = document.getElementById("mensajeErrorContraseña");
+    var coninp = document.getElementById("contraseña");
+
+    // Expresiones regulares para validar la contraseña
+    var tieneNumero = /[0-9]/.test(contraseña);
+    var tieneMayuscula = /[A-Z]/.test(contraseña);
+    var tieneCaracterEspecial = /[.!@#$%^&*()_+{}\[\]:;<>,.?~\\\/\-]/.test(contraseña);
 
     if (contraseña === "") {
         mensajeError.innerText = "Por favor, ingrese una contraseña";
         mensajeError.style.color = "red";
         coninp.setCustomValidity("no");
-        return false;// Evita que se envíe el formulario si la contraseña está vacía
-    } else if (contraseña.length < 6) {
-        mensajeError.innerText = "La contraseña debe tener al menos 6 caracteres";
+        return false;
+    } else if (contraseña.length < 8) {
+        mensajeError.innerText = "La contraseña debe tener al menos 8 caracteres";
         mensajeError.style.color = "red";
         coninp.setCustomValidity("no");
-        return false;// Evita que se envíe el formulario si la contraseña tiene menos de 6 caracteres
+        return false;
+    } else if (!tieneNumero || !tieneMayuscula || !tieneCaracterEspecial) {
+        mensajeError.innerText = "La contraseña debe incluir al menos un número, una mayúscula y un carácter especial (como .!@#$%^&*)";
+        mensajeError.style.color = "red";
+        coninp.setCustomValidity("no");
+        return false;
     } else {
-        mensajeError.innerText = "Contraseña ingresada ✅";
+        mensajeError.innerText = "Contraseña ingresada correctamente ✅";
         mensajeError.style.color = "green";
         coninp.setCustomValidity("");
         return true;
