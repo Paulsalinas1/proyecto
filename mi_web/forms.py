@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo,Reclamo
+from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo,Reclamo , Usuario
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
@@ -252,3 +252,15 @@ class ReclamoForm(forms.ModelForm):
         widgets = {
             'descripcion': forms.Textarea(attrs={'rows': 4}),
         }
+
+
+class ReclamoFilterForm(forms.Form):
+    ESTADO_Reclamo_SIN_FILTRO = [('', 'Sin Filtro')] + list(ESTADOS_RECLAMO)
+    usuarios = forms.ModelChoiceField(queryset=Usuario.objects.all(), label='Usuario', required=False)
+    boletas = forms.ModelChoiceField(queryset=Boleta.objects.all(), label='Boleta', required=False)
+    estado = forms.ChoiceField(choices=ESTADO_Reclamo_SIN_FILTRO, label='Estado', required=False,initial='')
+    
+class ActualizarEstadoReclamoForm(forms.ModelForm):
+    class Meta:
+        model = Reclamo
+        fields = ['estado']

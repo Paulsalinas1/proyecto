@@ -31,6 +31,7 @@ def mi_cuenta(request, id):
     form4= TarjetaForm()
     Boletas = Boleta.objects.filter(user=usera)
     Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO'and 'CANCELADO')
+    reclamos= Reclamo.objects.filter(usuario=usera) 
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
             form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
@@ -62,7 +63,8 @@ def mi_cuenta(request, id):
         "targetas":form3,
         "form4":form4,
         "boletas":Boletas,
-        "Boletas_completadas":Boletas_completadas
+        "Boletas_completadas":Boletas_completadas,
+        "reclamos":reclamos
     }
     return render(request,'vet/mi_cuenta.html' , datos)
 
@@ -400,3 +402,45 @@ def Crear_reclamo(request, id):
         
     }
     return render(request,'vet/Crear_reclamo.html',datos)
+
+def reclamos_admin(request):
+    reclamos = Reclamo.objects.all()
+    form = ReclamoFilterForm(request.GET or None)
+
+    if request.GET:
+        if form.is_valid():
+            usuario = form.cleaned_data.get('usuarios')
+            boleta = form.cleaned_data.get('boletas')
+            estado = form.cleaned_data.get('estado')
+
+            if usuario:
+                reclamos = reclamos.filter(usuario=usuario)
+            if boleta:
+                reclamos = reclamos.filter(boleta=boleta)
+            if estado:
+                reclamos = reclamos.filter(estado=estado)
+
+    datos = {
+        'reclamos': reclamos,
+        'form': form,
+    }
+    
+    return render(request,'vet/reclamos_admin.html',datos)
+
+def revision_reclamo(request,id):
+    reclamo = get_object_or_404(Reclamo, id=id)
+    form = ActualizarEstadoReclamoForm(instance=reclamo)
+    
+    if request.method == 'POST':
+        form = ActualizarEstadoReclamoForm(request.POST, instance=reclamo)
+        if form.is_valid():
+            form.save()
+            return redirect('revision_reclamo', id=reclamo.id)
+    
+    datos = {
+        "reclamo": reclamo,
+        "form":form
+    }
+    
+    return render(request,'vet/revision_reclamo.html' ,datos)
+    
