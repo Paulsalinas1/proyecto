@@ -40,7 +40,7 @@
                             <a class="nav-link" aria-current="page" href="{% url "index_trabajador" %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{% url "tienda_trabajador" %}">productos</a>
+                            <a class="nav-link" aria-current="page" href="{% url "tienda_trabajador" %}">Productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{% url "usuarios_admin" %}">Usuarios</a>
@@ -55,7 +55,7 @@
                                 <a class="btn btn-primary dropdown-toggle" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     {% if request.user.is_authenticated %}
-                                    Administrabor
+                                    Administrador
                                     {% else %}
                                     Iniciar sesión
                                     {% endif %}
@@ -63,7 +63,7 @@
                                 <ul class="dropdown-menu">
                                     {% if request.user.is_authenticated %}
                                     <form>
-                                        <li><a class="dropdown-item" href=" {% url "trabajador" %}">local</a></li>
+                                        <li><a class="dropdown-item" href=" {% url "trabajador" %}">Local</a></li>
                                         <li><a class="dropdown-item" href="{% url "cerrar" %}">Cerrar cuenta</a></li>
                                     </form>
                                     {% else %}

@@ -7,10 +7,10 @@
         <div class="col-2">
           <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" style="height: 100px;" id="list-home-list" data-bs-toggle="list" href="#Perfil" role="tab" aria-controls="list-home" >Perfil </a>
-            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">targetas</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">Tarjetas</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#Compras" role="tab" aria-controls="list-profile">Compras</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Historial" role="tab" aria-controls="list-messages">Historial</a>
-            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">cambiar contraseña</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">Cambiar contraseña</a>
           </div>
         </div>
         <div class="col-10">
@@ -29,9 +29,8 @@
                         <div class="container mt-1">
                             <div>
                                 <div>
-                                    <h1> tarjeta</h1>
-                                    <h3>{{t.tarjeta_de_credito}}</h3>
-                                    
+                                    <h1> Tarjeta</h1>
+                                    <h3>{{t.tarjeta_de_credito}}</h3>  
                                     <div class="mt-3">
                                         <a  class="btn btn-success btn-block mb-2"  href="{% url "mi_cuenta_td" t.id user.correo%}" >Opciones</a> 
                                     </div>
@@ -39,12 +38,11 @@
                                 </div>
                             </div> 
                         </div> 
-                    
                     {% endfor %}
                     <div class="container" >
                         <form action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <h1>nueva tarjeta</h1>
+                            <h1>Nueva tarjeta</h1>
                             {{ form4 | crispy }}
                             <div>
                                 <input type="submit" name="agragar_tarjeta" value="agregar targeta" class="btn btn-success text-light">
@@ -64,16 +62,14 @@
                         <p><strong>Comuna de Entrega:</strong> {{ boleta.comuna2 }}</p>
                         <p><strong>Dirección de Entrega:</strong> {{ boleta.direccion2 }}</p>
                         <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
-                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta.id%}" >ver detalles</a> 
+                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta.id%}" >Ver detalles</a> 
                     </div>
                     </div>
                     {% endfor %}
                     {% else %}
-                    no hay compras
+                    No hay compras
                     {% endif %}
-                
             </div>
-
             <div class="tab-pane fade" id="Historial" role="tabpanel" aria-labelledby="list-messages-list">
                 {% if Boletas_completadas %}
                     {% for boleta_c in Boletas_completadas %}
@@ -89,12 +85,11 @@
                         <p><strong>Comuna de Entrega:</strong> {{ boleta_c.comuna2 }}</p>
                         <p><strong>Dirección de Entrega:</strong> {{ boleta_c.direccion2 }}</p>
                         <p><strong>Fecha de Emisión:</strong> {{ boleta_c.fecha_emision }}</p>
-
                     </div>
                     </div>
                     {% endfor %}
                     {% else %}
-                    no posee compras completadas
+                    No posee compras completadas
                     {% endif %}
             </div>
             <div class="tab-pane fade" id="configuración" role="tabpanel" aria-labelledby="list-messages-list">
@@ -110,12 +105,8 @@
         </div>
       </div>
 {% endblock contenido %}        
-        
 {% block script %}
     <script src="{% static 'vet/js/user_cuenta.js'%}"></script>
     <script src="{% static 'vet/js/user_cuenta_jq.js'%}"></script> 
     <script src="{% static 'vet/js/registro2.js'%}"></script>   
 {% endblock script %}
-
-     
-    

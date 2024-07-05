@@ -152,7 +152,7 @@ class BoletaForm(forms.ModelForm):
             HTML('<h3>Datos del Receptor</h3>'),  # Título personalizado
             Field("rut_receptor", id="Rut"),
             Field("nombre_receptor", id="nombre"),
-            Submit('submit', 'Pagar', css_class='btn btn-primary')  # Botón personalizado
+            Submit('submit', 'Pagar', css_class='btn btn-primary mb-3')
             
             
         )
@@ -206,12 +206,15 @@ class ProductoFilterForm(forms.Form):
     stock_max = forms.IntegerField(label='Stock máximo', required=False, min_value=0, max_value=1000)
     precio_min = forms.IntegerField(label='Precio mínimo', required=False, min_value=0, max_value=999999)
     precio_max = forms.IntegerField(label='Precio máximo', required=False, min_value=0, max_value=999999)
-    descripción = forms.CharField(label='Descripción', max_length=50, required=False)
+    
 
     def __init__(self, *args, **kwargs):
         super(ProductoFilterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'get'
+        self.helper.form_class = 'form-horizontal'  # Clase CSS para alinear horizontalmente
+        self.helper.label_class = 'col-lg-8'  # Ajusta el tamaño de las etiquetas
+        self.helper.field_class = 'col-lg-12'  # Ajusta el tamaño de los campos
         self.helper.add_input(Submit('submit', 'Filtrar'))
 
     def filter_queryset(self, queryset):
