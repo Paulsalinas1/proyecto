@@ -23,11 +23,10 @@
                         <li>{{ producto_boleta.producto.nombre }} - Cantidad: {{ producto_boleta.cantidad }}</li>
                     {% endfor %}
                 </ul>
-
                 <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
                 <!-- Puedes añadir más detalles según sea necesario -->
                 <a href='{% url "mi_cuenta" user.correo%}' role='button' class="btn btn-light border">mi cuenta</a>
-
+                <a href='{% url "Crear_reclamo" boleta.id %}' role='button' class="btn btn-danger border">Hacer reclamo</a>
             </div>
         </div> 
     </div>

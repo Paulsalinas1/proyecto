@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo
+from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo,Reclamo , Usuario
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
@@ -182,8 +182,9 @@ class DesbloqueoForm(forms.ModelForm):
         fields = ['razon']
         
 class BoletaFilterForm(forms.Form):
-    estado_choices = ESTADO_ENVIO
-    estado = forms.ChoiceField(label='Estado', choices=estado_choices, required=False)
+    ESTADO_SIN_FILTRO = [('', 'Sin Filtro')] + list(ESTADO_ENVIO)
+    
+    estado = forms.ChoiceField(label='Estado', choices=ESTADO_SIN_FILTRO ,required=False, initial='')
     
     def __init__(self, *args, **kwargs):
         super(BoletaFilterForm, self).__init__(*args, **kwargs)
@@ -206,7 +207,6 @@ class ProductoFilterForm(forms.Form):
     stock_max = forms.IntegerField(label='Stock máximo', required=False, min_value=0, max_value=1000)
     precio_min = forms.IntegerField(label='Precio mínimo', required=False, min_value=0, max_value=999999)
     precio_max = forms.IntegerField(label='Precio máximo', required=False, min_value=0, max_value=999999)
-    descripción = forms.CharField(label='Descripción', max_length=50, required=False)
 
     def __init__(self, *args, **kwargs):
         super(ProductoFilterForm, self).__init__(*args, **kwargs)
@@ -233,3 +233,34 @@ class ProductoFilterForm(forms.Form):
             queryset = queryset.filter(precio__lte=precio_max)
         
         return queryset
+
+
+class ActualizarEstadoBoletaForm(forms.ModelForm):
+    class Meta:
+        model = Boleta
+        fields = ['estado']
+
+
+class ReclamoForm(forms.ModelForm):
+    class Meta:
+        model = Reclamo
+        fields = ['tipo', 'descripcion']
+        labels = {
+            'tipo': 'Tipo de reclamo',
+            'descripcion': 'Descripción del reclamo',
+        }
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'rows': 4}),
+        }
+
+
+class ReclamoFilterForm(forms.Form):
+    ESTADO_Reclamo_SIN_FILTRO = [('', 'Sin Filtro')] + list(ESTADOS_RECLAMO)
+    usuarios = forms.ModelChoiceField(queryset=Usuario.objects.all(), label='Usuario', required=False)
+    boletas = forms.ModelChoiceField(queryset=Boleta.objects.all(), label='Boleta', required=False)
+    estado = forms.ChoiceField(choices=ESTADO_Reclamo_SIN_FILTRO, label='Estado', required=False,initial='')
+    
+class ActualizarEstadoReclamoForm(forms.ModelForm):
+    class Meta:
+        model = Reclamo
+        fields = ['estado']

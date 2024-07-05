@@ -10,6 +10,7 @@
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">targetas</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#Compras" role="tab" aria-controls="list-profile">Compras</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Historial" role="tab" aria-controls="list-messages">Historial</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Reclamos" role="tab" aria-controls="list-messages">Reclamos</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">cambiar contraseña</a>
           </div>
         </div>
@@ -97,6 +98,25 @@
                     no posee compras completadas
                     {% endif %}
             </div>
+            <div class="tab-pane fade" id="Reclamos" role="tabpanel" aria-labelledby="list-messages-list">
+                {% if reclamos %}
+                    {% for reclamo in reclamos %}
+                    <div class="container">
+                        <div class="card-body">
+                            <h1>Detalles del reclamo</h1>
+                            <p><strong>boleta:</strong> {{ reclamo.boleta }}</p>
+                            <p><strong>Usuario:</strong> {{ reclamo.tipo }}</p>
+                            <p><strong>Carrito de Compras:</strong> {{ reclamo.estado }}</p>
+                            <p><strong>Método de Pago:</strong> {{ reclamo.descripcion }}</p>
+                            <p><strong>Estado:</strong> {{ reclamo.fecha_creacion }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    no posee reclamos
+                    {% endif %}
+            </div>
+            
             <div class="tab-pane fade" id="configuración" role="tabpanel" aria-labelledby="list-messages-list">
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -106,6 +126,7 @@
                     </div>
                 </form> 
             </div>
+
           </div>
         </div>
       </div>

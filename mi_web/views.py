@@ -30,7 +30,8 @@ def mi_cuenta(request, id):
     form3=Tarjeta.objects.filter(uusuario=usera)
     form4= TarjetaForm()
     Boletas = Boleta.objects.filter(user=usera)
-    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO')
+    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO'and 'CANCELADO')
+    reclamos= Reclamo.objects.filter(usuario=usera) 
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
             form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
@@ -62,7 +63,8 @@ def mi_cuenta(request, id):
         "targetas":form3,
         "form4":form4,
         "boletas":Boletas,
-        "Boletas_completadas":Boletas_completadas
+        "Boletas_completadas":Boletas_completadas,
+        "reclamos":reclamos
     }
     return render(request,'vet/mi_cuenta.html' , datos)
 
@@ -90,8 +92,23 @@ def recordando(request):
     return render(request,'vet/recordando.html')
 
 @login_required
-def Revision_estado(request):
-    return render(request,'vet/Revision_estado.html')
+def Revision_estado(request,id):
+    boleta = get_object_or_404(Boleta, id=id)
+    productos_boleta = ProductoBoleta.objects.filter(boleta=boleta)
+    form = ActualizarEstadoBoletaForm(request.POST or None, instance=boleta)
+    
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        
+        return redirect(reverse("Revision_estado",args=[boleta.id]))
+    datos = {
+        "boleta": boleta,
+        "productos_boleta": productos_boleta,
+        "form":form
+    }
+    
+    
+    return render(request,'vet/Revision_estado.html',datos)
 
 @login_required
 def trabajador(request):
@@ -365,3 +382,65 @@ def ver_boleta(request,id):
         "productos_boleta": productos_boleta
     }
     return render(request,'vet/ver_boleta.html',datos)
+
+
+def Crear_reclamo(request, id):
+    form=ReclamoForm()
+    boleta = get_object_or_404(Boleta, id=id)
+    
+    if request.method == 'POST':
+        form = ReclamoForm(request.POST,)
+        usuario=request.user
+        if form.is_valid():
+            reclamo = form.save(commit=False)
+            reclamo.boleta = boleta  
+            reclamo.usuario=usuario
+            reclamo.save()
+            return redirect(reverse("mi_cuenta",args=[usuario.correo]))
+    datos={
+        "form":form
+        
+    }
+    return render(request,'vet/Crear_reclamo.html',datos)
+
+def reclamos_admin(request):
+    reclamos = Reclamo.objects.all()
+    form = ReclamoFilterForm(request.GET or None)
+
+    if request.GET:
+        if form.is_valid():
+            usuario = form.cleaned_data.get('usuarios')
+            boleta = form.cleaned_data.get('boletas')
+            estado = form.cleaned_data.get('estado')
+
+            if usuario:
+                reclamos = reclamos.filter(usuario=usuario)
+            if boleta:
+                reclamos = reclamos.filter(boleta=boleta)
+            if estado:
+                reclamos = reclamos.filter(estado=estado)
+
+    datos = {
+        'reclamos': reclamos,
+        'form': form,
+    }
+    
+    return render(request,'vet/reclamos_admin.html',datos)
+
+def revision_reclamo(request,id):
+    reclamo = get_object_or_404(Reclamo, id=id)
+    form = ActualizarEstadoReclamoForm(instance=reclamo)
+    
+    if request.method == 'POST':
+        form = ActualizarEstadoReclamoForm(request.POST, instance=reclamo)
+        if form.is_valid():
+            form.save()
+            return redirect('revision_reclamo', id=reclamo.id)
+    
+    datos = {
+        "reclamo": reclamo,
+        "form":form
+    }
+    
+    return render(request,'vet/revision_reclamo.html' ,datos)
+    
