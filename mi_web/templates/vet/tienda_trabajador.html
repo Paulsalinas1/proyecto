@@ -2,17 +2,16 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block title %}adm producto{% endblock title %}
-
 {% block contenido %}
 <!--Productos existentes en la tienda-->
 <div class="container">
     <div>
         <div class="container-fluid row m-1">
             <h1>Tienda Online</h1>
-            <a class="btn btn-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-            Añadir producto
-            </a>
             <div class="col-md-12 col-sm-12">
+                <a class="btn btn-success btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    Añadir producto
+                </a>
                 {% for p in productos %}
                 <div class="producto">
                     <img src="{{p.foto.url}}" alt="foto" width="200" height="150">
@@ -34,7 +33,6 @@
             
         </div>
     </div>
-            
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">Añadir producto</h5>
@@ -45,9 +43,7 @@
                     <p class="text-center"> Ingrese datos del producto </p>
                     <form action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %} 
-                        
                          {{form2 | crispy}}
-
                         <div class="mb-3">
                             <button type="submit" value="Crear producto" class="btn btn-success w-100 " >Agregar</button>
                         </div>
