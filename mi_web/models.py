@@ -70,8 +70,6 @@ class ItemCarrito(models.Model):
     def __str__(self):
         return f'{self.cantidad} of {self.producto.nombre}'
     
-
-
 class Boleta(models.Model):
     user = models.ForeignKey('Usuario', verbose_name=("Usuario") ,on_delete=models.DO_NOTHING )
     carritoDeCompra =  models.ForeignKey(CarritoDeCompras,verbose_name=("CarritoDeCompra") , on_delete=models.DO_NOTHING)
@@ -89,7 +87,6 @@ class Boleta(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         # Asignar los productos del carrito a la boleta
-        
             
 class ProductoBoleta(models.Model):
     boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE)
@@ -98,7 +95,6 @@ class ProductoBoleta(models.Model):
 
     def __str__(self):
         return f'{self.cantidad} de {self.producto.nombre} en Boleta {self.boleta.id}'
-    
     
 class Bloqueo(models.Model):
     usuario = models.ForeignKey("mi_web.Usuario", on_delete=models.CASCADE, related_name='bloqueos')
@@ -112,8 +108,7 @@ class Bloqueo(models.Model):
         verbose_name = "Bloqueo"
         verbose_name_plural = "Bloqueos"
         ordering = ['-fecha_bloqueo']
-        
-        
+          
 class Desbloqueo(models.Model):
     usuario = models.ForeignKey("mi_web.Usuario", on_delete=models.CASCADE, related_name='Desbloqueo')
     razon = models.TextField("Razón del Desbloqueo", max_length=500)

@@ -13,11 +13,13 @@
     <h1>Lista de Compras</h1>
 
 
-    <ul class="container ">
+    <div class="container">
         <form method="get" action="">
             {% crispy filter_form %}
         </form>
         {% if boletas %}
+
+        <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -44,10 +46,11 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
     {% else %}
         <p>No se encontraron boletas.</p>
     {% endif %}
-    </ul>
+    </div>
            
                             
     </div>                       
