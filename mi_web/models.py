@@ -90,9 +90,7 @@ class Boleta(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         # Asignar los productos del carrito a la boleta
-        items_carrito = ItemCarrito.objects.filter(carrito=self.carritoDeCompra)
-        for item in items_carrito:
-            ProductoBoleta.objects.create(boleta=self, producto=item.producto, cantidad=item.cantidad) 
+        
             
 class ProductoBoleta(models.Model):
     boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE)
@@ -130,3 +128,14 @@ class Desbloqueo(models.Model):
         verbose_name_plural = "Desbloqueo"
         ordering = ['-fecha_desbloqueo']
 
+class Reclamo(models.Model):
+    
+    usuario = models.ForeignKey("mi_web.Usuario", verbose_name=("Usuario"), on_delete=models.CASCADE)
+    boleta = models.ForeignKey(Boleta, verbose_name=("Boleta"),on_delete=models.CASCADE)
+    tipo = models.CharField("Tipo de reclamo", max_length=20, choices=MOTIVO_REEMBOLSO)
+    estado = models.CharField("Estado del reclamo", max_length=20, choices=ESTADOS_RECLAMO, default='PENDIENTE')
+    descripcion = models.TextField("Descripción del reclamo")
+    fecha_creacion = models.DateTimeField("Fecha de creación", auto_now_add=True)
+
+    def __str__(self):
+        return f'Reclamo {self.id} - {self.usuario.nombre}'

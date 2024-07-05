@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo
+from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo,Reclamo
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
@@ -233,3 +233,22 @@ class ProductoFilterForm(forms.Form):
             queryset = queryset.filter(precio__lte=precio_max)
         
         return queryset
+
+
+class ActualizarEstadoBoletaForm(forms.ModelForm):
+    class Meta:
+        model = Boleta
+        fields = ['estado']
+
+
+class ReclamoForm(forms.ModelForm):
+    class Meta:
+        model = Reclamo
+        fields = ['tipo', 'descripcion']
+        labels = {
+            'tipo': 'Tipo de reclamo',
+            'descripcion': 'Descripción del reclamo',
+        }
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'rows': 4}),
+        }

@@ -30,7 +30,8 @@ urlpatterns = [
     
     path('recordando/',views.recordando,name='recordando'),
     
-    path('Revision_estado/',views.Revision_estado,name='Revision_estado'),
+    path('Revision_estado/<id>',views.Revision_estado,name='Revision_estado'),
+    
     path('tienda_trabajador/',views.tienda_trabajador,name='tienda_trabajador'),
     path('trabajador/',views.trabajador,name='trabajador'),
     path('usuarios_admin/',views.usuarios_admin,name='usuarios_admin'),
@@ -60,6 +61,8 @@ urlpatterns = [
 
     path('bloqueo_admin/<id>',views.bloqueo_admin,name='bloqueo_admin'),
     path('desbloqueo_admin/<id>',views.desbloqueo_admin,name='desbloqueo_admin'),
+    
+    path('Crear_reclamo/<id>', views.Crear_reclamo, name='Crear_reclamo'),
 ]
 
 if settings.DEBUG:

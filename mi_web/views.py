@@ -30,7 +30,7 @@ def mi_cuenta(request, id):
     form3=Tarjeta.objects.filter(uusuario=usera)
     form4= TarjetaForm()
     Boletas = Boleta.objects.filter(user=usera)
-    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO')
+    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO'and 'CANCELADO')
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
             form2=upPassUser(data=request.POST,files=request.FILES,user=request.user)
@@ -90,13 +90,21 @@ def recordando(request):
     return render(request,'vet/recordando.html')
 
 @login_required
-def Revision_estado(request):
+def Revision_estado(request,id):
+    boleta = get_object_or_404(Boleta, id=id)
+    productos_boleta = ProductoBoleta.objects.filter(boleta=boleta)
+    form = ActualizarEstadoBoletaForm(request.POST or None, instance=boleta)
     
-    
-    datos={
+    if request.method == 'POST' and form.is_valid():
+        form.save()
         
-        
+        return redirect(reverse("Revision_estado",args=[boleta.id]))
+    datos = {
+        "boleta": boleta,
+        "productos_boleta": productos_boleta,
+        "form":form
     }
+    
     
     return render(request,'vet/Revision_estado.html',datos)
 
@@ -372,3 +380,23 @@ def ver_boleta(request,id):
         "productos_boleta": productos_boleta
     }
     return render(request,'vet/ver_boleta.html',datos)
+
+
+def Crear_reclamo(request, id):
+    form=ReclamoForm()
+    boleta = get_object_or_404(Boleta, id=id)
+    
+    if request.method == 'POST':
+        form = ReclamoForm(request.POST,)
+        usuario=request.user
+        if form.is_valid():
+            reclamo = form.save(commit=False)
+            reclamo.boleta = boleta  
+            reclamo.usuario=usuario
+            reclamo.save()
+            return redirect(reverse("mi_cuenta",args=[usuario.correo]))
+    datos={
+        "form":form
+        
+    }
+    return render(request,'vet/Crear_reclamo.html',datos)
