@@ -29,9 +29,13 @@
                                             <form method="POST" action="{% url 'ver_carrito' %}">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="item_id" value="{{ item.id }}">
-                                                <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1">
+                                                <div class="input-group mb-3">
+                                                    <button type="button" class="btn btn-outline-secondary" onclick="decrement('cantidad_producto_{{ item.id }}')">-</button>
+                                                    <input type="number" name="cantidad" id="cantidad_producto_{{ item.id }}" value="{{ item.cantidad }}" min="1" readonly>
+                                                    <button type="button" class="btn btn-outline-secondary" onclick="increment('cantidad_producto_{{ item.id }}')">+</button>
+                                                </div>
                                                 <button type="submit" class="btn btn-primary btn-sm">Actualizar Cantidad</button>
-                                              </form>
+                                            </form>
                                         </td>
                                         <td>${{ item.producto.precio }}</td>
                                         <td>${{ item.subtotal}}</td>
@@ -64,6 +68,20 @@
 {% endblock contenido %}
 
 {% block script %}
+<script>
+    function increment(cosa) {
+        var cantidadInput = document.getElementById(cosa);
+        if (cantidadInput.value < 500) {
+            cantidadInput.value = parseInt(cantidadInput.value) + 1;
+        }
+    }
 
+    function decrement(cosa) {
+        var cantidadInput = document.getElementById(cosa);
+        if (cantidadInput.value > 1) {
+            cantidadInput.value = parseInt(cantidadInput.value) - 1;
+        }
+    }
+</script>
 {% endblock script %}
             
