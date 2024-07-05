@@ -7,11 +7,11 @@
         <div class="col-2">
           <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" style="height: 100px;" id="list-home-list" data-bs-toggle="list" href="#Perfil" role="tab" aria-controls="list-home" >Perfil </a>
-            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">targetas</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">tarjetas</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#Compras" role="tab" aria-controls="list-profile">Compras</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Historial" role="tab" aria-controls="list-messages">Historial</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Reclamos" role="tab" aria-controls="list-messages">Reclamos</a>
-            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">cambiar contraseña</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">Cambiar contraseña</a>
           </div>
         </div>
         <div class="col-10">
@@ -19,7 +19,7 @@
             <div class="tab-pane fade show active" id="Perfil" role="tabpanel" aria-labelledby="list-home-list">
                 <form class="pt-3" action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form|crispy }}
+                    {{ form | crispy }}
                     <div>
                         <input type="submit" name="update_profile" value="Guardar Cambios" class="btn btn-warning text-light">
                     </div>

@@ -43,7 +43,7 @@
                         <a href='{% url "tienda_login" %}' class="btn btn-primary">Seguir comprando</a>
                         {% if request.user.is_authenticated %}
                             <!--crear pestaña 'proceso_compra donde se tenga que pagar y luego generar boleta'-->
-                            <a href='{% url "carrito_login" %}' class="btn btn-success">prosegir compra</a>   
+                            <a href='{% url "carrito_login" %}' class="btn btn-success">proseguir compra</a>   
                         {% else %}
                             <p class="mt-2">Debes iniciar sesión para poder comprar</p>
                         {% endif %}
