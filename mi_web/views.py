@@ -29,8 +29,8 @@ def mi_cuenta(request, id):
     form2=upPassUser(user=request.user)
     form3=Tarjeta.objects.filter(uusuario=usera)
     form4= TarjetaForm()
-    Boletas = Boleta.objects.filter(user=usera)
-    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO'and 'CANCELADO')
+    Boletas = Boleta.objects.filter(user=usera ,estado='ALMACEN'or 'ENVIO' )
+    Boletas_completadas = Boleta.objects.filter(user=usera, estado='COMPLETADO' or 'CANCELADO')
     reclamos= Reclamo.objects.filter(usuario=usera) 
     if request.method=="POST":
             form=updateUser(data=request.POST,files=request.FILES,instance=usera)
@@ -404,7 +404,7 @@ def ver_boleta(request,id):
     }
     return render(request,'vet/ver_boleta.html',datos)
 
-
+@login_required
 def Crear_reclamo(request, id):
     form=ReclamoForm()
     boleta = get_object_or_404(Boleta, id=id)
@@ -424,6 +424,7 @@ def Crear_reclamo(request, id):
     }
     return render(request,'vet/Crear_reclamo.html',datos)
 
+@login_required
 def reclamos_admin(request):
     reclamos = Reclamo.objects.all()
     form = ReclamoFilterForm(request.GET or None)
@@ -448,6 +449,7 @@ def reclamos_admin(request):
     
     return render(request,'vet/reclamos_admin.html',datos)
 
+@login_required
 def revision_reclamo(request,id):
     reclamo = get_object_or_404(Reclamo, id=id)
     form = ActualizarEstadoReclamoForm(instance=reclamo)

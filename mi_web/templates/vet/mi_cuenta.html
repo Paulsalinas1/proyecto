@@ -70,7 +70,12 @@
                     </div>
                     {% endfor %}
                     {% else %}
-                    no hay compras
+                    <div class="container">
+                        <div class="card-body">
+                            no hay compras
+                        </div>
+                    </div>
+                    
                     {% endif %}
                 
             </div>
@@ -90,12 +95,18 @@
                         <p><strong>Comuna de Entrega:</strong> {{ boleta_c.comuna2 }}</p>
                         <p><strong>Dirección de Entrega:</strong> {{ boleta_c.direccion2 }}</p>
                         <p><strong>Fecha de Emisión:</strong> {{ boleta_c.fecha_emision }}</p>
-
+                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta_c.id%}" >ver detalles</a> 
                     </div>
                     </div>
                     {% endfor %}
                     {% else %}
-                    no posee compras completadas
+                    <div class="container">
+                        <div class="card-body">
+                            no posee compras completadas
+                        </div>
+                    </div>
+                    
+                    
                     {% endif %}
             </div>
             <div class="tab-pane fade" id="Reclamos" role="tabpanel" aria-labelledby="list-messages-list">
@@ -113,7 +124,12 @@
                     </div>
                     {% endfor %}
                     {% else %}
-                    no posee reclamos
+                    <div class="container">
+                        <div class="card-body">
+                            no posee reclamos
+                        </div>
+                    </div>
+                    
                     {% endif %}
             </div>
             
