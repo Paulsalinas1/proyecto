@@ -50,7 +50,8 @@ class Tarjeta(models.Model):
     codigo_de_seguridad = models.IntegerField("cv")
     
     def __str__(self):
-        return f'{self.tarjeta_de_credito}'
+        numero_str = str(self.tarjeta_de_credito)
+        return f'**** **** **** {numero_str[-4:]}'
 
 
 class CarritoDeCompras(models.Model):

@@ -5,33 +5,60 @@
 {% block title %} Ver producto {% endblock title %}   
 {% block contenido %}
 <!--Productos existentes en la tienda-->
-<div class="container mt-2">
-<div class="producto">
-    <img src="{{producto.foto.url}}" alt="foto" width="250" height="150">
-    <div class="producto-info">
-        <h3>{{producto.nombre}}</h3>
-        <p>Descripción del producto: {{producto.descripción}}</p>
-        <p class="text-success">Stock disponible: {{producto.stock}}</p>
-        <p>Precio: <span class="precio">${{producto.precio}}</span></p>
-        {% if request.user.is_authenticated %}
-            <form action="{% url 'agregar_producto' producto.id %}" method="post">
-                {% csrf_token %}
-                <label for="cantidad">Cantidad:</label>
-                <input type="number" id="cantidad" name="cantidad" min="1" max="{{ producto.stock }}" value="1">
-                <button type="submit">Agregar al Carrito</button>
-            </form>                            
-        {% else %}
-            <div>logeese</div>                           
-        {% endif %}
-        <a href='{% url "tienda_login" %}' class="btn btn-primary btn-lg" >volver</a>
+<div class="container mt-5">
+    <div class="card mb-4">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ producto.foto.url }}" class="img-fluid rounded-start" alt="foto">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title">{{ producto.nombre }}</h3>
+                    <p class="card-text">Descripción del producto: {{ producto.descripción }}</p>
+                    <p class="card-text text-success">Stock disponible: {{ producto.stock }}</p>
+                    <p class="card-text">Precio: <span class="precio">${{ producto.precio }}</span></p>
+                    
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'agregar_producto' producto.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group mb-3">
+                                <button type="button" class="btn btn-outline-secondary" onclick="decrement()">-</button>
+                                <input type="number" class="form-control text-center" id="cantidad" name="cantidad" min="1" max="{{ producto.stock }}" value="1" readonly>
+                                <button type="button" class="btn btn-outline-secondary" onclick="increment()">+</button>
+                            </div>
+                            <button type="submit" class="btn btn-success">Agregar al Carrito</button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            Por favor, <a href="{% url 'tienda_login' %}" class="alert-link">inicie sesión</a> para agregar productos al carrito.
+                        </div>
+                    {% endif %}
+                    
+                    <a href='{% url "tienda_login" %}' class="btn btn-primary mt-3">Volver</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div> 
-</div> 
+</div>
 
 {% endblock contenido %}
 
 {% block script %}
-   
+<script>
+    function increment() {
+        var cantidadInput = document.getElementById('cantidad');
+        if (cantidadInput.value < {{ producto.stock }}) {
+            cantidadInput.value = parseInt(cantidadInput.value) + 1;
+        }
+    }
+
+    function decrement() {
+        var cantidadInput = document.getElementById('cantidad');
+        if (cantidadInput.value > 1) {
+            cantidadInput.value = parseInt(cantidadInput.value) - 1;
+        }
+    }
+</script>
 {% endblock script %}
         
 

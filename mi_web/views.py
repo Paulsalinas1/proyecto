@@ -249,7 +249,7 @@ def detalleP_trabajador(request, id):
     if request.method=="POST":
             form=upProductoForm(data=request.POST,files=request.FILES,instance=produc)
             if form.is_valid():
-                imagen_nueva = form.cleaned_data.get('foto')
+                imagen_nueva = form.cleaned_data.get('foto') if len(form.cleaned_data.get('foto').name.split("/")) == 1 else None
                 if imagen_nueva and imagen_anterior:
                 # Comprobar si la nueva imagen es diferente de la anterior
                     if imagen_nueva.name != path.basename(imagen_anterior):
