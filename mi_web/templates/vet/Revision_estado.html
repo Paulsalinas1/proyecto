@@ -21,7 +21,7 @@
                 <h2>Productos:</h2>
                 <ul>
                     {% for producto_boleta in productos_boleta %}
-                        <li>{{ producto_boleta.producto.nombre }} - Cantidad: {{ producto_boleta.cantidad }}</li>
+                        <li>{{ producto_boleta.producto }} - Cantidad: {{ producto_boleta.cantidad }}</li>
                     {% endfor %}
                 </ul>
                 <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
@@ -31,7 +31,6 @@
         <div class="container">
             <div class="text-center">
                 <h1>Modificar boleta</h1>
-                <p>(Descripción)</p>
             </div>
             <div class="col-md-12 col-sm-12 ">
             
@@ -45,12 +44,12 @@
 
                 </div>
 
-                <div class="col-md-6 col-sm-12">
-                    <p>Reclamos</p>
+                <div class="col-md-6 col-sm-12 mt-2">
+                    <a href='{% url "reclamos_admin" %}' class="btn btn-success" >reclamos</a>
                     
                 </div>
-                <a href='{% url "trabajador" %}' class="btn btn-success" >lista</a>
-                <a href='{% url "reclamos_admin" %}' class="btn btn-success" >reclamos</a>
+                <a  href='{% url "trabajador" %}' class="btn btn-success mt-2" >lista</a>
+                
             </div>
 
         </div>

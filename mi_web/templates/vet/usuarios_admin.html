@@ -6,11 +6,13 @@
 {% block contenido %}
 
 <h2 class="text-center">Lista de Usuarios</h2>
-<a class="btn btn-primary d-flex justify-content-center" data-bs-toggle="offcanvas" href="#canvas_filtro" role="button" aria-controls="canvas_filtro">
-  filtro
-</a>
 
-<ul class="container-fluid">
+
+<div class="container-fluid">
+  <a class="btn btn-primary " data-bs-toggle="offcanvas" href="#canvas_filtro" role="button" aria-controls="canvas_filtro">
+    filtro
+  </a>
+<div class="table-responsive">
   <table class="table table-striped">
     <thead>
         <tr>
@@ -50,7 +52,8 @@
         {% endfor %}
     </tbody>
 </table>
-</ul>
+</div>
+</div>
 <!--Función para ver el filtro usuario-->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="canvas_filtro" aria-labelledby="canvas_filtro">
   <div class="offcanvas-header">

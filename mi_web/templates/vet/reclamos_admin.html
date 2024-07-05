@@ -5,11 +5,14 @@
 {% block title %} reclamos_admin {% endblock title %}
 {% block contenido %}
 
-<h2 class="text-center">Lista de Usuarios</h2>
-<a class="btn btn-primary d-flex justify-content-center" data-bs-toggle="offcanvas" href="#canvas_filtro" role="button" aria-controls="canvas_filtro">
-  filtro
-</a>
+<h2 class="text-center">Lista de reclamos</h2>
+
+
 <div class="container-fluid">
+  <a class="btn btn-primary " data-bs-toggle="offcanvas" href="#canvas_filtro" role="button" aria-controls="canvas_filtro">
+    filtro
+  </a>
+<div class="table-responsive">
   <table class="table table-striped">
       <thead>
           <tr>
@@ -30,8 +33,8 @@
               <td>
                   <!-- Aquí puedes agregar enlaces o botones para acciones relacionadas con el reclamo -->
                   <!-- Por ejemplo, editar el reclamo, ver detalles adicionales, etc. -->
-                  <a href='{% url "Revision_estado" reclamo.boleta.id %}' role='button' class="btn btn-success border">Ver voleta</a>
-                  <a href='{% url "revision_reclamo" reclamo.id %}' role='button' class="btn btn-success border">revicion</a>
+                  <a href='{% url "Revision_estado" reclamo.boleta.id %}' role='button' class="btn btn-success border">Ver boleta</a>
+                  <a href='{% url "revision_reclamo" reclamo.id %}' role='button' class="btn btn-success border">revision</a>
               </td>
           </tr>
           {% empty %}
@@ -41,6 +44,7 @@
           {% endfor %}
       </tbody>
   </table>
+</div>
 </div>
 <!--Función para ver el filtro usuario-->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="canvas_filtro" aria-labelledby="canvas_filtro">

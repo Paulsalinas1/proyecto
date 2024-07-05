@@ -196,6 +196,10 @@ def login_xd(request):
         form = loginForm(data=request.POST)
         if form.is_valid():
             user = form.user_cache  
+            if user.es_baneado:
+                messages.warning(request, "su usuario esta baneado") 
+                messages.warning(request, "si desea asistencia utilize los contactos") 
+                return redirect("login")
             login(request ,user)
             if user.is_staff:
                 return redirect("trabajador")
@@ -249,7 +253,7 @@ def detalleP_trabajador(request, id):
     if request.method=="POST":
             form=upProductoForm(data=request.POST,files=request.FILES,instance=produc)
             if form.is_valid():
-                imagen_nueva = form.cleaned_data.get('foto')
+                imagen_nueva = form.cleaned_data.get('foto') if len(form.cleaned_data.get('foto').name.split("/")) == 1 else None
                 if imagen_nueva and imagen_anterior:
                 # Comprobar si la nueva imagen es diferente de la anterior
                     if imagen_nueva.name != path.basename(imagen_anterior):
@@ -273,8 +277,9 @@ def eliminarP_trabajador(request, id):
     form=upProductoForm(instance=produc)
     
     if request.method=="POST":
-            remove(path.join(str(settings.MEDIA_ROOT).replace('/media',''))+produc.foto.url)
+            ItemCarrito.objects.filter(producto=produc).delete()
             produc.delete()
+            remove(path.join(str(settings.MEDIA_ROOT).replace('/media',''))+produc.foto.url)
             return redirect(to="tienda_trabajador")
             
     datos={
@@ -335,12 +340,28 @@ def agregar_producto(request, producto_id):
 def ver_carrito(request):
     carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
     carrito = get_object_or_404(CarritoDeCompras, user=request.user, is_active=True)
-    
+    form = ItemCarritoForm()
     items = ItemCarrito.objects.filter(carrito=carrito) if carrito else []
     for item in items:
         item.subtotal = item.producto.precio * item.cantidad
     total = sum(item.producto.precio * item.cantidad for item in items)
-    return render(request, 'vet/ver_carrito.html', {'items': items, 'total': total})
+    
+    if request.method == 'POST':
+        form = ItemCarritoForm(request.POST)
+        if form.is_valid():
+            item_id = request.POST.get('item_id')
+            nueva_cantidad = form.cleaned_data['cantidad']
+            item = get_object_or_404(ItemCarrito, id=item_id)
+            item.cantidad = nueva_cantidad
+            item.save()
+            return redirect('ver_carrito')
+    datos={
+        'items': items, 
+        'total': total, 
+        'form':form
+    }
+    return render(request, 'vet/ver_carrito.html', datos)
+
 
 @login_required
 def eliminar_producto(request, item_id):
@@ -363,7 +384,7 @@ def carrito_login(request):
              # Asignar los productos del carrito a la boleta
             items_carrito = ItemCarrito.objects.filter(carrito=carrito_de_compras)
             for item in items_carrito:
-                ProductoBoleta.objects.create(boleta=boleta, producto=item.producto, cantidad=item.cantidad)
+                ProductoBoleta.objects.create(boleta=boleta, producto=item.producto.nombre, cantidad=item.cantidad)
             # Vaciar el carrito de compras del usuario
             carrito_de_compras.productos.clear()
             return redirect(reverse("ver_boleta",args=[id]))
