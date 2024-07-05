@@ -404,7 +404,7 @@ def ver_boleta(request,id):
     }
     return render(request,'vet/ver_boleta.html',datos)
 
-
+@login_required
 def Crear_reclamo(request, id):
     form=ReclamoForm()
     boleta = get_object_or_404(Boleta, id=id)
@@ -424,6 +424,7 @@ def Crear_reclamo(request, id):
     }
     return render(request,'vet/Crear_reclamo.html',datos)
 
+@login_required
 def reclamos_admin(request):
     reclamos = Reclamo.objects.all()
     form = ReclamoFilterForm(request.GET or None)
@@ -448,6 +449,7 @@ def reclamos_admin(request):
     
     return render(request,'vet/reclamos_admin.html',datos)
 
+@login_required
 def revision_reclamo(request,id):
     reclamo = get_object_or_404(Reclamo, id=id)
     form = ActualizarEstadoReclamoForm(instance=reclamo)
