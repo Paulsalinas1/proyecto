@@ -20,7 +20,7 @@
                 <h2>Productos:</h2>
                 <ul>
                     {% for producto_boleta in productos_boleta %}
-                        <li>{{ producto_boleta.producto.nombre }} - Cantidad: {{ producto_boleta.cantidad }}</li>
+                        <li>{{ producto_boleta.producto }} - Cantidad: {{ producto_boleta.cantidad }}</li>
                     {% endfor %}
                 </ul>
                 <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>

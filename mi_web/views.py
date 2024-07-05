@@ -273,8 +273,9 @@ def eliminarP_trabajador(request, id):
     form=upProductoForm(instance=produc)
     
     if request.method=="POST":
-            remove(path.join(str(settings.MEDIA_ROOT).replace('/media',''))+produc.foto.url)
+            ItemCarrito.objects.filter(producto=produc).delete()
             produc.delete()
+            remove(path.join(str(settings.MEDIA_ROOT).replace('/media',''))+produc.foto.url)
             return redirect(to="tienda_trabajador")
             
     datos={
@@ -363,7 +364,7 @@ def carrito_login(request):
              # Asignar los productos del carrito a la boleta
             items_carrito = ItemCarrito.objects.filter(carrito=carrito_de_compras)
             for item in items_carrito:
-                ProductoBoleta.objects.create(boleta=boleta, producto=item.producto, cantidad=item.cantidad)
+                ProductoBoleta.objects.create(boleta=boleta, producto=item.producto.nombre, cantidad=item.cantidad)
             # Vaciar el carrito de compras del usuario
             carrito_de_compras.productos.clear()
             return redirect(reverse("ver_boleta",args=[id]))

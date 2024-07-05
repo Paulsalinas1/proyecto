@@ -72,7 +72,7 @@ class ItemCarrito(models.Model):
         return f'{self.cantidad} of {self.producto.nombre}'
     
 class Boleta(models.Model):
-    user = models.ForeignKey('Usuario', verbose_name=("Usuario") ,on_delete=models.DO_NOTHING )
+    user = models.ForeignKey('Usuario', verbose_name=("Usuario") ,on_delete=models.DO_NOTHING)
     carritoDeCompra =  models.ForeignKey(CarritoDeCompras,verbose_name=("CarritoDeCompra") , on_delete=models.DO_NOTHING)
     metodoDePago = models.ForeignKey(Tarjeta , verbose_name=("Tarjeta") ,on_delete=models.DO_NOTHING)
     estado = models.CharField("estado",max_length=20, choices=ESTADO_ENVIO,default="ALMACEN")
@@ -91,7 +91,7 @@ class Boleta(models.Model):
             
 class ProductoBoleta(models.Model):
     boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE)
-    producto = models.ForeignKey(producto, on_delete=models.DO_NOTHING)
+    producto = models.CharField("producto",max_length=50, )
     cantidad = models.PositiveIntegerField()
 
     def __str__(self):
