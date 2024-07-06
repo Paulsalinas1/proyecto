@@ -64,7 +64,7 @@
                                 <ul class="dropdown-menu">
                                     {% if request.user.is_authenticated %}
                                     <form>
-                                        <li><a class="dropdown-item" href=" {% url "trabajador" %}">local</a></li>
+                                        <li><a class="dropdown-item" href=" {% url "trabajador" %}">Local</a></li>
                                         <li><a class="dropdown-item" href="{% url "cerrar" %}">Cerrar cuenta</a></li>
                                     </form>
                                     {% else %}
