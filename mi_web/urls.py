@@ -65,6 +65,7 @@ urlpatterns = [
     path('Crear_reclamo/<id>', views.Crear_reclamo, name='Crear_reclamo'),
     path('reclamos_admin/', views.reclamos_admin, name='reclamos_admin'),
     path('revision_reclamo/<id>', views.revision_reclamo, name='revision_reclamo'),
+    path('Home/', views.Home, name='Home'),
 ]
 
 if settings.DEBUG:
