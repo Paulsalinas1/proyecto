@@ -1,13 +1,12 @@
 {% extends "vet\base_admin.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title %}revision estado{% endblock title %}
+{% block title %}Revision estado{% endblock title %}
 {% block contenido %}
 <div class="container-fluid">
     <div class="row m-1">
         <div class="container">
             <div class="col-md-6 col-sm-12 ">
-            
                 <h1>Detalle de Boleta</h1>
                 <p><strong>Usuario:</strong> {{ boleta.user }}</p>
                 <p><strong>Método de Pago:</strong> {{ boleta.metodoDePago }}</p>
@@ -17,7 +16,6 @@
                 <p><strong>Dirección:</strong> {{ boleta.direccion2 }}</p>
                 <p><strong>Nombre del Receptor:</strong> {{ boleta.nombre_receptor }}</p>
                 <p><strong>RUT del Receptor:</strong> {{ boleta.rut_receptor }}</p>
-        
                 <h2>Productos:</h2>
                 <ul>
                     {% for producto_boleta in productos_boleta %}
@@ -25,7 +23,6 @@
                     {% endfor %}
                 </ul>
                 <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
-            
             </div>
         </div>
         <div class="container">
@@ -33,7 +30,6 @@
                 <h1>Modificar boleta</h1>
             </div>
             <div class="col-md-12 col-sm-12 ">
-            
                 <div class="col-md-6 col-sm-12">
                     <p>Modificar estado</p>
                     <form method="post" > 
@@ -41,19 +37,13 @@
                         {{ form | crispy }}
                         <button type="submit" class="btn btn-primary" >Modificar Estado</button>
                     </form>
-
                 </div>
-
                 <div class="col-md-6 col-sm-12 mt-2">
-                    <a href='{% url "reclamos_admin" %}' class="btn btn-success" >reclamos</a>
-                    
+                    <a href='{% url "reclamos_admin" %}' class="btn btn-success" >Reclamos</a>
                 </div>
-                <a  href='{% url "trabajador" %}' class="btn btn-success mt-2" >lista</a>
-                
+                <a  href='{% url "trabajador" %}' class="btn btn-success mt-2" >Lista</a>
             </div>
-
         </div>
     </div>
 </div>    
-{% endblock contenido %}  
-
+{% endblock contenido %}

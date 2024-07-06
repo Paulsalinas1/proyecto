@@ -2,15 +2,12 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block stilos %} {% endblock stilos %}
-{% block title %} reclamos_admin {% endblock title %}
+{% block title %} Reclamos admin {% endblock title %}
 {% block contenido %}
-
 <h2 class="text-center">Lista de reclamos</h2>
-
-
 <div class="container-fluid">
   <a class="btn btn-primary " data-bs-toggle="offcanvas" href="#canvas_filtro" role="button" aria-controls="canvas_filtro">
-    filtro
+    Filtro
   </a>
 <div class="table-responsive">
   <table class="table table-striped">
@@ -34,7 +31,7 @@
                   <!-- Aquí puedes agregar enlaces o botones para acciones relacionadas con el reclamo -->
                   <!-- Por ejemplo, editar el reclamo, ver detalles adicionales, etc. -->
                   <a href='{% url "Revision_estado" reclamo.boleta.id %}' role='button' class="btn btn-success border">Ver boleta</a>
-                  <a href='{% url "revision_reclamo" reclamo.id %}' role='button' class="btn btn-success border">revision</a>
+                  <a href='{% url "revision_reclamo" reclamo.id %}' role='button' class="btn btn-success border">Revisión</a>
               </td>
           </tr>
           {% empty %}
@@ -49,7 +46,7 @@
 <!--Función para ver el filtro usuario-->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="canvas_filtro" aria-labelledby="canvas_filtro">
   <div class="offcanvas-header">
-    <h4 class="offcanvas-title" id="canvas_filtroLabel">puede filtrar por </h4>
+    <h4 class="offcanvas-title" id="canvas_filtroLabel">Puede filtrar por </h4>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
@@ -64,9 +61,4 @@
 {% endblock contenido %}
 {% block script %}
 <script src="{% static 'vet/js/usuario_adm_js.js'%}"></script>
-{% endblock script %}   
-
-
-
-      
-  
+{% endblock script %}

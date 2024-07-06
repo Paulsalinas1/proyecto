@@ -7,7 +7,7 @@
         <div class="col-2">
           <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" style="height: 100px;" id="list-home-list" data-bs-toggle="list" href="#Perfil" role="tab" aria-controls="list-home" >Perfil </a>
-            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">tarjetas</a>
+            <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">Tarjetas</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#Compras" role="tab" aria-controls="list-profile">Compras</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Historial" role="tab" aria-controls="list-messages">Historial</a>
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#Reclamos" role="tab" aria-controls="list-messages">Reclamos</a>
@@ -30,22 +30,19 @@
                         <div class="container mt-1">
                             <div>
                                 <div>
-                                    <h1> tarjeta </h1>
+                                    <h1> Tarjeta </h1>
                                     <h3>{{t}}</h3>
-                                    
                                     <div class="mt-3">
                                         <a  class="btn btn-success btn-block mb-2"  href="{% url "mi_cuenta_td" t.id user.correo%}" >Opciones</a> 
                                     </div>
-                                    
                                 </div>
                             </div> 
                         </div> 
-                    
                     {% endfor %}
                     <div class="container" >
                         <form action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <h1>nueva tarjeta</h1>
+                            <h1>Nueva tarjeta</h1>
                             {{ form4 | crispy }}
                             <div>
                                 <input type="submit" name="agragar_tarjeta" value="agregar targeta" class="btn btn-success text-light">
@@ -55,7 +52,6 @@
             </div>
             <div class="tab-pane fade" id="Compras" role="tabpanel" aria-labelledby="list-profile-list">
                     {% if boletas %}
-                    
                     {% for boleta in boletas %}
                     <div class="container">
                     <div class="card-body">
@@ -65,21 +61,18 @@
                         <p><strong>Comuna de Entrega:</strong> {{ boleta.comuna2 }}</p>
                         <p><strong>Dirección de Entrega:</strong> {{ boleta.direccion2 }}</p>
                         <p><strong>Fecha de Emisión:</strong> {{ boleta.fecha_emision }}</p>
-                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta.id%}" >ver detalles</a> 
+                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta.id%}" >Ver detalles</a> 
                     </div>
                     </div>
                     {% endfor %}
                     {% else %}
                     <div class="container">
                         <div class="card-body">
-                            no hay compras
+                            No hay compras
                         </div>
                     </div>
-                    
                     {% endif %}
-                
             </div>
-
             <div class="tab-pane fade" id="Historial" role="tabpanel" aria-labelledby="list-messages-list">
                 {% if Boletas_completadas %}
                     {% for boleta_c in Boletas_completadas %}
@@ -95,18 +88,16 @@
                         <p><strong>Comuna de Entrega:</strong> {{ boleta_c.comuna2 }}</p>
                         <p><strong>Dirección de Entrega:</strong> {{ boleta_c.direccion2 }}</p>
                         <p><strong>Fecha de Emisión:</strong> {{ boleta_c.fecha_emision }}</p>
-                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta_c.id%}" >ver detalles</a> 
+                        <a  class="btn btn-success btn-block mb-2"  href="{% url "ver_boleta" boleta_c.id%}" >Ver detalles</a> 
                     </div>
                     </div>
                     {% endfor %}
                     {% else %}
                     <div class="container">
                         <div class="card-body">
-                            no posee compras completadas
+                            No posee compras completadas
                         </div>
                     </div>
-                    
-                    
                     {% endif %}
             </div>
             <div class="tab-pane fade" id="Reclamos" role="tabpanel" aria-labelledby="list-messages-list">
@@ -115,7 +106,7 @@
                     <div class="container">
                         <div class="card-body">
                             <h1>Detalles del reclamo</h1>
-                            <p><strong>boleta:</strong> {{ reclamo.boleta }}</p>
+                            <p><strong>Boleta:</strong> {{ reclamo.boleta }}</p>
                             <p><strong>Usuario:</strong> {{ reclamo.tipo }}</p>
                             <p><strong>Carrito de Compras:</strong> {{ reclamo.estado }}</p>
                             <p><strong>Método de Pago:</strong> {{ reclamo.descripcion }}</p>
@@ -126,13 +117,11 @@
                     {% else %}
                     <div class="container">
                         <div class="card-body">
-                            no posee reclamos
+                            No posee reclamos
                         </div>
                     </div>
-                    
                     {% endif %}
             </div>
-            
             <div class="tab-pane fade" id="configuración" role="tabpanel" aria-labelledby="list-messages-list">
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -142,17 +131,12 @@
                     </div>
                 </form> 
             </div>
-
           </div>
         </div>
       </div>
 {% endblock contenido %}        
-        
 {% block script %}
     <script src="{% static 'vet/js/user_cuenta.js'%}"></script>
     <script src="{% static 'vet/js/user_cuenta_jq.js'%}"></script> 
     <script src="{% static 'vet/js/registro2.js'%}"></script>   
 {% endblock script %}
-
-     
-    

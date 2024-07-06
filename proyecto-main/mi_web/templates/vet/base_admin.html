@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="{% static 'vet/css/carrito.css'%}">
         <link rel="stylesheet" href= "{% static 'vet/css/tienda.css' %} ">
         <link rel="stylesheet" href= "{% static 'vet/css/gato.css' %}"> 
-        
         <title> {% block title %}{% endblock title %} </title>
         {% block stilos %} {% endblock stilos %}
     </head>
@@ -22,7 +21,6 @@
         <!--El título-->
         <header class="cotainer-fluid bg-primary d-flex justify-content-center flex-column">
             <p class="text-light pt-3 fs-2 text-center"> Veterinaria Santa Marta</p>
-        
             <!--Menú-->
             <nav class="navbar navbar-expand-sm bg-body-tertiary">
                 <div class="container-fluid">
@@ -82,14 +80,10 @@
                 </div>
             </nav>
         </header>
-
-
         <main>
         {% block contenido %}
-    
         {% endblock contenido %}
         </main>
-        
         <footer class="container-fluid bg-primary text-center py-4">
             <div class="row">
                 <div class="col-md-4 col-sm-12">
@@ -119,7 +113,6 @@
         <script src="{% static 'vet/js/tienda.js'%}"></script>
         <script src="{% static "vet/js/apicat_jqj.js" %}"></script>
         {% block script %}
-    
         {% endblock script %}
     </body>
 </html>

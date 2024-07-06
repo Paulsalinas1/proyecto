@@ -15,7 +15,6 @@
     <title>Login</title>
 </head>
 <!--Fondo y cápsula de datos-->
-
 <body class=" bg-success d-flex justify-content-center align-items-center  vh-100 ">
     <div class="cotainer-fluid bg-white p-5 rounded-5 text-secudary " style="width: 25rem;" id="login">
         
@@ -39,7 +38,6 @@
             <form action="" method="post">
                 {% csrf_token %} 
                 {{form | crispy}}
-
                 <button type="submit" class="btn btn-primary btn-lg">Iniciar Sesión</button>
             </form>
         </div>
@@ -51,16 +49,13 @@
             <div class="mb-3">
                 <a href="{% url "registro" %}">Crear cuenta</a>
             </div>
-
             <div class="mb-3">
                 <a href="{% url "index" %}">Menú</a>
             </div>
-            
     </div>
     <!-- Vinculación del archivo js  -->
     <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
     <script src="{% static 'vet/js/login.js'%}"></script>
     <script src="{% static 'vet/js/login_jq.js'%}"></script>
 </body>
-
 </html>

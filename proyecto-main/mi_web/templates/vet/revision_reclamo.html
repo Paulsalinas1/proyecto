@@ -1,7 +1,7 @@
 {% extends "vet\base_admin.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title %}revision reclamo{% endblock title %}
+{% block title %}Revision reclamo{% endblock title %}
 {% block contenido %}
 <div class="container-fluid">
     <div class="row m-1">
@@ -30,14 +30,11 @@
                                 {{form | crispy }}
                                 <button type="submit" class="btn btn-primary">Actualizar</button>
                             </form>
-        
                         </div>
                 </div>
                 <a href="{% url 'reclamos_admin' %}" class="btn btn-primary">Volver a la lista de reclamos</a>
             </div>
         </div>
-        
     </div>
 </div>    
-{% endblock contenido %}  
-
+{% endblock contenido %}
