@@ -3,7 +3,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractBaseUser , BaseUserManager , PermissionsMixin 
 from .enumeraciones import *
 # Create your models here.
-
 class producto(models.Model):
     nombre=models.CharField(max_length=50, null=False ,unique=True)
     stock=models.IntegerField(default=0, validators=[MinValueValidator(0),MaxValueValidator(1000)])
@@ -13,7 +12,6 @@ class producto(models.Model):
     
     def __str__(self):
         return f"{self.nombre}"
-
 class Usuariomanager(BaseUserManager):
     def create_user(self, correo, password=None, **extra_fields):
         if not correo:
@@ -26,7 +24,6 @@ class Usuariomanager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(correo=correo, password=password, **extra_fields)   
-    
 class Usuario(AbstractBaseUser,PermissionsMixin):
     run = models.CharField( "rut" ,max_length=10 ,primary_key=True ) 
     correo = models.EmailField("correo", max_length=150 , unique=True)
@@ -42,7 +39,6 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     USERNAME_FIELD="correo"
     objects=Usuariomanager()
     REQUIRED_FIELDS=["run","nombre","apellido","telefono","comuna","direccion"]
-
 class Tarjeta(models.Model):  
     uusuario=models.ForeignKey("mi_web.Usuario", verbose_name=("usuario"), on_delete=models.CASCADE , null=True)
     tarjeta_de_credito = models.IntegerField("numero tarjeta", unique=True)
@@ -52,8 +48,6 @@ class Tarjeta(models.Model):
     def __str__(self):
         numero_str = str(self.tarjeta_de_credito)
         return f'**** **** **** {numero_str[-4:]}'
-
-
 class CarritoDeCompras(models.Model):
     user = models.OneToOneField(Usuario, on_delete=models.CASCADE )
     productos = models.ManyToManyField(producto, through='ItemCarrito')
@@ -61,8 +55,6 @@ class CarritoDeCompras(models.Model):
 
     def __str__(self):
         return f'Carrito de {self.user.nombre}'
-    
-
 class ItemCarrito(models.Model):
     carrito = models.ForeignKey(CarritoDeCompras, on_delete=models.CASCADE)
     producto = models.ForeignKey(producto, on_delete=models.CASCADE)
@@ -122,7 +114,6 @@ class Desbloqueo(models.Model):
         verbose_name = "Desbloqueo"
         verbose_name_plural = "Desbloqueo"
         ordering = ['-fecha_desbloqueo']
-
 class Reclamo(models.Model):
     
     usuario = models.ForeignKey("mi_web.Usuario", verbose_name=("Usuario"), on_delete=models.CASCADE)
