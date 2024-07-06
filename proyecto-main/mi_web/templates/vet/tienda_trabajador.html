@@ -59,14 +59,13 @@
 <script>
     // Función para formatear precios con puntos de separación de miles
     function formatearPrecios() {
-        // Selecciona todos los elementos con la clase 'precio'
         var precios = document.querySelectorAll('.precio');
         precios.forEach(function(precio) {
-            // Obtén el valor de data-precio
             var valor = parseFloat(precio.getAttribute('data-precio'));
-            // Formatear el valor con separadores de miles
-            var valorFormateado = valor.toLocaleString('es-ES');
-            // Asignar el valor formateado al contenido del elemento
+            var valorFormateado = valor.toLocaleString('es-ES', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
             precio.textContent = '$' + valorFormateado;
         });
     }
