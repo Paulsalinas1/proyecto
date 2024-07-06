@@ -1,0 +1,5 @@
+/mi_web/__pycache__
+/sitio/__pycache__
+/mi_web/migrations/__pycache__
+entorno-vet/
+db.sqlite3
