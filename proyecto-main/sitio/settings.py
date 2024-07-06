@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mi_web',
     "crispy_forms",
     "crispy_bootstrap5",
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% block stilos %}
 {% endblock stilos %}
-{% block title %} Tienda {% endblock title %}   
+{% block title %} Tienda {% endblock title %}
 {% block contenido %}
 <!-- Contenedor principal -->
 <div class="container-fluid">
@@ -33,15 +33,15 @@
                     {% for p in productos %}
                     <div class="col-lg-4 col-md-4 mt-2">
                         <div class="card h-100 d-flex flex-column">
-                            
                             <div class="card-body">
                                 <h5 class="text-center">{{ p.nombre }}</h5>
                                 <img src="{{ p.foto.url }}" class="card-img-left img-fluid" alt="{{ p.nombre }}" style="max-width: 100%; max-height: 100%; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                             </div>
-                            <div class="card-footer ">
+                            <div class="card-footer">
                                 <p class="card-text">{{ p.descripción }}</p>
                                 <p class="text-success">Stock disponible: {{ p.stock }}</p>
-                                <p>Precio: <span class="precio">${{ p.precio }}</span></p>
+                                <!-- Añadir clase especial para el precio -->
+                                <p>Precio: <span class="precio" data-precio="{{ p.precio }}"></span></p>
                                 <a href='{% url "detalle_producto" p.id %}' class="btn btn-success mt-auto">Ver producto</a>
                             </div>
                         </div>
@@ -61,6 +61,25 @@
     <!-- Vinculación del archivo js -->
     <script src="{% static 'vet/js/tienda.js' %}"></script>
     <script>
+        // Formatear precios
+        function formatearPrecios() {
+            // Selecciona todos los elementos con la clase 'precio'
+            var precios = document.querySelectorAll('.precio');
+            precios.forEach(function(precio) {
+                // Obtén el valor de data-precio
+                var valor = parseFloat(precio.getAttribute('data-precio'));
+                // Formatear el valor con separadores de miles
+                var valorFormateado = valor.toLocaleString('es-ES');
+                // Asignar el valor formateado al contenido del elemento
+                precio.textContent = '$' + valorFormateado;
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            formatearPrecios();
+        });
+        
+        // Función para mostrar el mensaje de éxito
         function mostrarMensaje() {
             var mensajeError = document.createElement("span");
             mensajeError.textContent = "Producto agregado al carrito ✅";
