@@ -10,6 +10,48 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+/* Cambiar el color de fondo del botón primario al hacer clic (focus) */
+.dropdown-item:focus,
+.dropdown-item:active {
+  background-color: #6c757d; /* Gris oscuro */
+  color: #fff; /* Blanco para el texto */
+}
+
+/* Cambiar el color de fondo del dropdown al pasar el ratón (hover) */
+.dropdown-item:hover {
+  background-color: #adb5bd; /* Gris claro */
+  color: #000; /* Negro para el texto */
+}
+
+/* Asegúrate de que los enlaces en los dropdowns no tengan color de fondo predeterminado */
+.dropdown-menu .dropdown-item {
+  background-color: transparent;
+}
+/* Eliminar el estilo azul al hacer clic (focus) en el dropdown */
+.dropdown-item:focus,
+.dropdown-item:active {
+  background-color: #6c757d !important; /* Gris oscuro */
+  color: #fff !important; /* Blanco para el texto */
+  outline: none; /* Elimina el borde de enfoque azul */
+}
+
+/* Cambiar el color de fondo del dropdown al pasar el ratón (hover) */
+.dropdown-item:hover {
+  background-color: #adb5bd; /* Gris claro */
+  color: #000; /* Negro para el texto */
+}
+
+/* Asegúrate de que los enlaces en los dropdowns no tengan color de fondo predeterminado */
+.dropdown-menu .dropdown-item {
+  background-color: transparent;
+  color: #000; /* Color de texto predeterminado */
+}
+
+/* Estilo del dropdown en general para asegurar que no haya color azul */
+.dropdown-menu {
+  background-color: #f8f9fa; /* Color de fondo del menú desplegable */
+  border-color: #dee2e6; /* Color del borde del menú desplegable */
+}
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -679,7 +721,7 @@ progress {
   display: flex;
   flex-wrap: wrap;
   margin-top: calc(-1 * var(--bs-gutter-y));
-  margin-right: calc(-0.5 * var(--bs-gutter-x));
+  margin-right: initial;
   margin-left: calc(-0.5 * var(--bs-gutter-x));
 }
 .row > * {
