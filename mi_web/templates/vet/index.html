@@ -1,5 +1,6 @@
 {% extends "vet/base_p.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %} home {% endblock title %}
 {% block contenido %}
 <header class="bg-dark py-5">
@@ -11,11 +12,23 @@
     </div>
 </header>
 <!-- Section-->
-
-<section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
+<div class="row">
+    <div class="col-md-2 col-sm-12">
+        
+          <div class="card">
+            <div class="card-header">
+                <h5>Filtros</h5>
+            </div>
+            <div class="card-body">
+                <form method="get">
+                    {% crispy filter_form %}
+                </form>
+            </div>
+        </div>
+    </div>
+<section class="py-5 col-md-10">
+    <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            
                 {% if productos %}
                 {% for p in productos %}
                 <div class="col mb-5">
@@ -46,5 +59,35 @@
             
         </div>
     </div>
+    
 </section>
+</div>
 {% endblock contenido %}
+{% block script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var rangeInput = document.getElementById('priceRange');
+        var priceMin = document.getElementById('priceMin');
+        var priceMax = document.getElementById('priceMax');
+        var minInput = document.getElementsByName('precio_min')[0];
+        var maxInput = document.getElementsByName('precio_max')[0];
+
+        // Obtener los valores iniciales de los campos ocultos
+        var initialMinValue = minInput.value || 0;
+        var initialMaxValue = maxInput.value || 200000;
+
+        rangeInput.addEventListener('input', function() {
+            var value = rangeInput.value;
+            priceMin.innerHTML = 0;
+            priceMax.innerHTML = value;
+            minInput.value = 0;
+            maxInput.value = value;
+        });
+
+        // Inicializa el control deslizante y el texto al cargar la página
+        rangeInput.value = initialMaxValue;
+        rangeInput.dispatchEvent(new Event('input'));
+    });
+</script>
+{% endblock script %}
+

@@ -16,7 +16,17 @@ from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
-    return render(request,'vet/index.html')
+    queryset = producto.objects.all()
+    filter_form = ProductoFilterForm(request.GET or None)
+
+    if filter_form.is_valid():
+        queryset = filter_form.filter_queryset(queryset)
+        
+    datos = {
+        'productos': queryset,
+        'filter_form': filter_form,
+    }
+    return render(request,'vet/index.html',datos)
 
 @login_required
 def index_trabajador(request):
@@ -468,15 +478,4 @@ def revision_reclamo(request,id):
     return render(request,'vet/revision_reclamo.html' ,datos)
     
     
-def Home(request):
-    queryset = producto.objects.all()
-    filter_form = ProductoFilterForm(request.GET or None)
 
-    if filter_form.is_valid():
-        queryset = filter_form.filter_queryset(queryset)
-        
-    datos = {
-        'productos': queryset,
-        'filter_form': filter_form,
-    }
-    return render(request,'vet/Home.html',datos)

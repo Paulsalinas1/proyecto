@@ -10,7 +10,7 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Columna del filtro a la izquierda -->
-        <div class="col-md-3 col-sm-12 mb-4">
+        <div class="col-md-3 col-sm-12">
             <div class="card">
                 <div class="card-header">
                     <h5>Filtros</h5>
@@ -61,22 +61,5 @@
 {% endblock contenido %}
 
 {% block script %}
-    <!-- Vinculación del archivo js -->
-    <script src="{% static 'vet/js/tienda.js' %}"></script>
-    <script>
-        function mostrarMensaje() {
-            var mensajeError = document.createElement("span");
-            mensajeError.textContent = "Producto agregado al carrito ✅";
-            mensajeError.style.color = "green";
-            
-            // Insertar el mensaje después del botón "Agregar al carrito"
-            var boton = document.getElementById("botonAgregar");
-            boton.parentNode.insertBefore(mensajeError, boton.nextSibling);
-            
-            // Temporizador para que el mensaje desaparezca después de 4 segundos
-            setTimeout(function() {
-                mensajeError.remove();
-            }, 4000);
-        }
-    </script>
+    
 {% endblock script %}
