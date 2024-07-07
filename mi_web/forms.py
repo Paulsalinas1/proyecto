@@ -211,7 +211,7 @@ class ProductoFilterForm(forms.Form):
         self.helper.form_method = 'get'
         self.helper.layout = Layout(
             Row(
-                Column('nombre', css_class='form-group col-md-6 mb-0'),
+                Column('nombre', css_class='form-group mb-0'),
                 css_class='form-row'
             ),
             Row(
