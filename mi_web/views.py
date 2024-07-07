@@ -354,7 +354,6 @@ def ver_carrito(request):
     items = ItemCarrito.objects.filter(carrito=carrito) if carrito else []
     for item in items:
         item.subtotal = item.producto.precio * item.cantidad
-        item.cantidad2 = item.producto.stock
     total = sum(item.producto.precio * item.cantidad for item in items)
     
     if request.method == 'POST':
