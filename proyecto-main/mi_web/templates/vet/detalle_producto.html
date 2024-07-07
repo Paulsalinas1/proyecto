@@ -17,6 +17,7 @@
                     <p class="card-text">Descripción del producto: {{ producto.descripción }}</p>
                     <p class="card-text text-success">Stock disponible: {{ producto.stock }}</p>
                     <p class="card-text">Precio: <span class="precio">${{ producto.precio }}</span></p>
+                    
                     {% if request.user.is_authenticated %}
                         <form action="{% url 'agregar_producto' producto.id %}" method="post">
                             {% csrf_token %}
@@ -32,13 +33,16 @@
                             Por favor, <a href="{% url 'tienda_login' %}" class="alert-link">inicie sesión</a> para agregar productos al carrito.
                         </div>
                     {% endif %}
+                    
                     <a href='{% url "tienda_login" %}' class="btn btn-primary mt-3">Volver</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock contenido %}
+
 {% block script %}
 <script>
     function increment(cosa) {
@@ -47,6 +51,7 @@
             cantidadInput.value = parseInt(cantidadInput.value) + 1;
         }
     }
+
     function decrement(cosa) {
         var cantidadInput = document.getElementById(cosa);
         if (cantidadInput.value > 1) {
@@ -55,3 +60,6 @@
     }
 </script>
 {% endblock script %}
+        
+
+        
