@@ -62,7 +62,11 @@ class CarritoDeCompras(models.Model):
     def __str__(self):
         return f'Carrito de {self.user.nombre}'
     
-
+    @property
+    def cant(self):
+        itens = ItemCarrito.objects.filter(carrito=self.pk)
+        
+        return len(itens)
 class ItemCarrito(models.Model):
     carrito = models.ForeignKey(CarritoDeCompras, on_delete=models.CASCADE)
     producto = models.ForeignKey(producto, on_delete=models.CASCADE)

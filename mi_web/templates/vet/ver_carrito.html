@@ -31,10 +31,9 @@
                                                 <input type="hidden" name="item_id" value="{{ item.id }}">
                                                 <div class="input-group input-group-sm mb-3">
                                                     <button type="button" class="btn btn-outline-secondary" onclick="decrement('cantidad_producto_{{ item.id }}')">-</button>
-                                                    <input type="number" name="cantidad" id="cantidad_producto_{{ item.id }}" value="{{ item.cantidad }}" min="1" class="form-control form-control-sm" readonly>
-                                                    <button type="button" class="btn btn-outline-secondary" onclick="increment('cantidad_producto_{{ item.id }}')">+</button>
+                                                    <input type="number" name="cantidad" id="cantidad_producto_{{ item.id }}" value="{{ item.cantidad }}" min="1" max="{{item.producto.stock}}" class="form-control form-control-sm" readonly>
+                                                    <button type="button" class="btn btn-outline-secondary" onclick="increment('cantidad_producto_{{ item.id }}',{{item.producto.stock}})">+</button>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary btn-sm">Actualizar Cantidad</button>
                                             </form>
                                         </td>
                                         <td>${{ item.producto.precio }}</td>
@@ -69,10 +68,11 @@
 
 {% block script %}
 <script>
-    function increment(cosa) {
+    function increment(cosa,max) {
         var cantidadInput = document.getElementById(cosa);
-        if (cantidadInput.value < 500) {
+        if (cantidadInput.value < max) {
             cantidadInput.value = parseInt(cantidadInput.value) + 1;
+            cantidadInput.form.submit(); // Envía el formulario asociado al input
         }
     }
 
@@ -80,6 +80,7 @@
         var cantidadInput = document.getElementById(cosa);
         if (cantidadInput.value > 1) {
             cantidadInput.value = parseInt(cantidadInput.value) - 1;
+            cantidadInput.form.submit(); // Envía el formulario asociado al input
         }
     }
 </script>
