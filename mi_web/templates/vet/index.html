@@ -14,9 +14,9 @@
 <!-- Section-->
 <div class="row">
     <div class="col-md-2 col-sm-12 py-5 px-2">
-        <div class="card ">
+        <div class="card">
             <div class="card-header">
-                <h5>Filtros</h5>
+                <h5>Filtro</h5>
             </div>
             <div class="card-body">
                 <form method="get">
@@ -25,39 +25,41 @@
             </div>
         </div>
     </div>
-<section class="py-5 col-md-10">
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                {% if productos %}
-                {% for p in productos %}
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="{{ p.foto.url }}" alt="{{ p.nombre }}" />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{ p.nombre }}</h5>
-                                <!-- Product price-->
-                                ${{ p.precio }}
+    <section class="py-5 col-md-10">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% if productos %}
+                    {% for p in productos %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ p.foto.url }}" alt="{{ p.nombre }}" />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ p.nombre }}</h5>
+                                    <!-- Product price with formatted number -->
+                                    <p>Precio: <span class="precio">{{ p.precio }}</span></p>
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" href='{% url "detalle_producto" p.id %}'>Ver producto</a>
+                                </div>
                             </div>
                         </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href='{% url "detalle_producto" p.id %}'>Ver producto</a></div>
-                        </div>
                     </div>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="col-12 text-center">
-                    <p>No hay productos disponibles.</p>
-                </div>
-                {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <div class="col-12 text-center">
+                        <p>No hay productos disponibles.</p>
+                    </div>
+                    {% endif %}
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 </div>
 {% endblock contenido %}
 {% block script %}
@@ -84,6 +86,19 @@
         // Inicializa el control deslizante y el texto al cargar la página
         rangeInput.value = initialMaxValue;
         rangeInput.dispatchEvent(new Event('input'));
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtener todos los elementos con la clase 'precio'
+        var precios = document.querySelectorAll('.precio');
+
+        // Iterar sobre cada elemento y formatear el texto como se desea
+        precios.forEach(function(elemento) {
+            var precio = parseFloat(elemento.textContent);
+            var precioFormateado = precio.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' }); // Cambiar 'CLP' según la moneda
+
+            elemento.textContent = precioFormateado;
+        });
     });
 
     function formatNumber(number) {
