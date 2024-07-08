@@ -7,7 +7,7 @@
 <section class="py-5 col-md-12">
     <div class="container px-4 px-lg-5">
         <h1 class="text-center">Tienda Online</h1>                   
-        <a class="btn btn-success btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+        <a class="btn btn-secondary btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
             Añadir producto
         </a>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">               
@@ -29,8 +29,8 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div>
-                                <a  class="text-center"><a class="btn btn-outline-dark mt-auto"  href='{% url "detalleP_trabajador" p.nombre %}' >Modificar producto</a> 
-                                <a  class="text-center"><a class="btn btn-outline-dark mt-auto"  href="{% url "eliminarP_trabajador" p.nombre %}" >Eliminar producto</a>  
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href='{% url "detalleP_trabajador" p.nombre %}' >Modificar producto</a> </div> 
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href='{% url "eliminarP_trabajador" p.nombre %}' >Eliminar producto</a> </div> 
                                 </div>
                             </div>
                         </div>
