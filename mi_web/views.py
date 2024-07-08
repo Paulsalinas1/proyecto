@@ -12,8 +12,6 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse
 
-
-
 # Create your views here.
 def index(request):
     queryset = producto.objects.all()
@@ -29,8 +27,18 @@ def index(request):
     return render(request,'vet/index.html',datos)
 
 @login_required
-def index_trabajador(request):
-    return render(request,'vet/index_trabajador.html')
+def lista_compras(request):
+    queryset = Boleta.objects.all()
+    filter_form = BoletaFilterForm(request.GET or None)
+
+    if filter_form.is_valid():
+        queryset = filter_form.filter_queryset(queryset)
+
+    context = {
+        'boletas': queryset,
+        'filter_form': filter_form,
+    }
+    return render(request,'vet/lista_compras.html',context)
 
 @login_required
 def mi_cuenta(request, id):
@@ -122,17 +130,7 @@ def Revision_estado(request,id):
 
 @login_required
 def trabajador(request):
-    queryset = Boleta.objects.all()
-    filter_form = BoletaFilterForm(request.GET or None)
-
-    if filter_form.is_valid():
-        queryset = filter_form.filter_queryset(queryset)
-
-    context = {
-        'boletas': queryset,
-        'filter_form': filter_form,
-    }
-    return render(request,'vet/trabajador.html',context)
+    return render(request,'vet/trabajador.html')
 
 @login_required
 def usuarios_admin(request):
@@ -240,19 +238,6 @@ def tienda_trabajador(request):
         "form2":form 
     }
     return render(request,'vet/tienda_trabajador.html',datos)
-
-def tienda_login(request):
-    queryset = producto.objects.all()
-    filter_form = ProductoFilterForm(request.GET or None)
-
-    if filter_form.is_valid():
-        queryset = filter_form.filter_queryset(queryset)
-        
-    datos = {
-        'productos': queryset,
-        'filter_form': filter_form,
-    }
-    return render(request,'vet/tienda_login.html',datos)
 
 @login_required
 def detalleP_trabajador(request, id):

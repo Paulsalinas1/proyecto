@@ -4,7 +4,7 @@
 {% block title %}Mi_cuenta{% endblock title %}
 {% block contenido %}
     <div class="row">
-        <div class="col-2">
+        <div class="col-2 d-none d-md-block">
           <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" style="height: 100px;" id="list-home-list" data-bs-toggle="list" href="#Perfil" role="tab" aria-controls="list-home" >Perfil </a>
             <a class="list-group-item list-group-item-action" style="height: 100px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">tarjetas</a>
@@ -14,7 +14,24 @@
             <a class="list-group-item list-group-item-action" style="height: 100px;"  id="list-messages-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">Cambiar contraseña</a>
           </div>
         </div>
-        <div class="col-10">
+        <div class="col-sm-12 d-md-none">
+            <div class="btn-group d-flex">
+                <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownMenuButton">
+                    Perfil
+                </button>
+                <ul class="dropdown-menu">
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <a class="list-group-item list-group-item-action active" style="height: 40px;" id="list-home-list" data-bs-toggle="list" href="#Perfil" role="tab" aria-controls="list-home">Perfil </a>
+                        <a class="list-group-item list-group-item-action" style="height: 40px;" id="list-profile-list" data-bs-toggle="list" href="#targetas" role="tab" aria-controls="list-profile">tarjetas</a>
+                        <a class="list-group-item list-group-item-action" style="height: 40px;" id="list-compras-list" data-bs-toggle="list" href="#Compras" role="tab" aria-controls="list-profile">Compras</a>
+                        <a class="list-group-item list-group-item-action" style="height: 40px;" id="list-historial-list" data-bs-toggle="list" href="#Historial" role="tab" aria-controls="list-messages">Historial</a>
+                        <a class="list-group-item list-group-item-action" style="height: 40px;" id="list-reclamos-list" data-bs-toggle="list" href="#Reclamos" role="tab" aria-controls="list-messages">Reclamos</a>
+                        <a class="list-group-item list-group-item-action" style="height: 40px;" id="list-configuracion-list" data-bs-toggle="list" href="#configuración" role="tab" aria-controls="list-messages">Cambiar contraseña</a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-12">
           <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="Perfil" role="tabpanel" aria-labelledby="list-home-list">
                 <form class="pt-3" action="" method="post" enctype="multipart/form-data">
@@ -152,6 +169,18 @@
     <script src="{% static 'vet/js/user_cuenta.js'%}"></script>
     <script src="{% static 'vet/js/user_cuenta_jq.js'%}"></script> 
     <script src="{% static 'vet/js/registro2.js'%}"></script>   
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var dropdownItems = document.querySelectorAll('.list-group-item');
+            var dropdownButton = document.getElementById('dropdownMenuButton');
+        
+            dropdownItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    dropdownButton.textContent = this.textContent;
+                });
+            });
+        });
+        </script>
 {% endblock script %}
 
      

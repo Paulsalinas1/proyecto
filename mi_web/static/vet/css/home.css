@@ -11,6 +11,18 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 /* Cambiar el color de fondo del botón primario al hacer clic (focus) */
+@media (max-width: 576px) {
+  .list-group-item {
+    height: auto; /* Ajusta la altura automáticamente */
+    padding: 10px; /* Ajusta el relleno para mejor presentación */
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+  }
+  
+  .list-group {
+    flex-direction: column; /* Asegura que los items se apilen verticalmente */
+  }
+}
+
 .dropdown-item:focus,
 .dropdown-item:active {
   background-color: #6c757d; /* Gris oscuro */
