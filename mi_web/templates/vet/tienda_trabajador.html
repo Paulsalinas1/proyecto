@@ -1,16 +1,16 @@
-{% extends "vet\base_admin.html" %}
+{% extends "vet/base_admin.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title %}adm producto{% endblock title %}
+{% block title %}Admin productos{% endblock title %}
 {% block contenido %}
-<!--Productos existentes en la tienda-->        
+<!--Productos existentes en la tienda-->
 <section class="py-5 col-md-12">
     <div class="container px-4 px-lg-5">
-        <h1 class="text-center">Tienda Online</h1>                   
-        <a class="btn btn-secondary btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+        <h1 class="text-center">Tienda Online</h1>
+        <a class="btn btn-dark btn-block mb-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
             Añadir producto
         </a>
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">               
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             {% if productos %}
                 {% for p in productos %}
                     <div class="col mb-5">
@@ -28,9 +28,9 @@
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div>
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href='{% url "detalleP_trabajador" p.nombre %}' >Modificar producto</a> </div> 
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href='{% url "eliminarP_trabajador" p.nombre %}' >Eliminar producto</a> </div> 
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-2 w-100" href="{% url 'detalleP_trabajador' p.nombre %}">Modificar producto</a>
+                                    <a class="btn btn-outline-dark mt-2 w-100" href="{% url 'eliminarP_trabajador' p.nombre %}">Eliminar producto</a>
                                 </div>
                             </div>
                         </div>
@@ -44,31 +44,26 @@
         </div>
     </div>
 </section>
-
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Añadir producto</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-                <div>
-                    <p class="text-center"> Ingrese datos del producto </p>
-                    <form action="" method="post" enctype="multipart/form-data">
-                        {% csrf_token %} 
-                         {{form2 | crispy}}
-                        <div class="mb-3">
-                            <button type="submit" value="Crear producto" class="btn btn-success w-100 " >Agregar</button>
-                        </div>
-                    </form>  
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Añadir producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            <p class="text-center">Ingrese datos del producto</p>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form2|crispy}}
+                <div class="mb-3">
+                    <button type="submit" value="Crear producto" class="btn btn-success w-100">Agregar</button>
                 </div>
-        
- 
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock contenido %}
-        
 {% block script %}
-<script src="{% static 'vet/js/adm_tienda.js'%}"></script>
-<script src="{% static 'vet/js/adm_tienda_jq.js'%}"></script>
+<script src="{% static 'vet/js/adm_tienda.js' %}"></script>
+<script src="{% static 'vet/js/adm_tienda_jq.js' %}"></script>
 {% endblock script %}
-        
-        
-        

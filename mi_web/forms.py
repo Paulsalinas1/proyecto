@@ -218,8 +218,8 @@ class ProductoFilterForm(forms.Form):
                 Column(
                     HTML("""
                         <label for="priceRange" class="form-label">Rango de Precio</label>
-                        <input type="range" class="form-range" id="priceRange" min="0" max="150000" step="1000">
-                        <p>Precio: <span id="priceMin">0</span> - <span id="priceMax">150000</span></p>
+                        <input type="range" class="form-range" id="priceRange" min="0" max="150000" step="1000" oninput="updatePriceRange(this.value)">
+                        <p>Precio: <span id="priceMinFormatted">0</span> - <span id="priceMaxFormatted">150000</span></p>
                     """),
                     css_class='form-group col-md-12 mb-0'
                 ),
@@ -227,8 +227,9 @@ class ProductoFilterForm(forms.Form):
             ),
             'precio_min',
             'precio_max',
-            Submit('submit', 'Filtrar', css_class='btn btn-primary mt-2')
+            Submit('submit', 'Filtrar', css_class='btn btn-dark mt-2')
         )
+
 
     def filter_queryset(self, queryset):
         nombre = self.cleaned_data.get('nombre')

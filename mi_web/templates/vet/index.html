@@ -1,13 +1,13 @@
 {% extends "vet/base_p.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title %} home {% endblock title %}
+{% block title %} Menú {% endblock title %}
 {% block contenido %}
 <div class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Encuentra su alimento Favorito</h1>
-            <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+            <h1 class="display-4 fw-bolder">Encuentre su alimento favorito</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Envíos gratis por compras desde $39.990</p>
         </div>
     </div>
 </div>
@@ -85,6 +85,15 @@
         rangeInput.value = initialMaxValue;
         rangeInput.dispatchEvent(new Event('input'));
     });
+
+    function formatNumber(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function updatePriceRange(value) {
+        document.getElementById('priceMinFormatted').textContent = formatNumber(value);
+        document.getElementById('priceMaxFormatted').textContent = formatNumber(150000); // Aquí puedes ajustar el valor máximo según sea necesario
+    }
 </script>
 {% endblock script %}
 
