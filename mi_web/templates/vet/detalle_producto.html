@@ -30,11 +30,11 @@
                         </form>
                     {% else %}
                         <div class="alert alert-warning" role="alert">
-                            Por favor, <a href="{% url 'tienda_login' %}" class="alert-link">inicie sesión</a> para agregar productos al carrito.
+                            Por favor, <a href="{% url 'login' %}" class="alert-link">inicie sesión</a> para agregar productos al carrito.
                         </div>
                     {% endif %}
                     
-                    <a href='{% url "tienda_login" %}' class="btn btn-primary mt-3">Volver</a>
+                    <a href='{% url "index" %}' class="btn btn-dark mt-3">Volver</a>
                 </div>
             </div>
         </div>
