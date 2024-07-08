@@ -14,6 +14,8 @@ from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
+    if request.user.is_authenticated:
+        carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
     queryset = producto.objects.all()
     filter_form = ProductoFilterForm(request.GET or None)
 
@@ -42,6 +44,7 @@ def lista_compras(request):
 
 @login_required
 def mi_cuenta(request, id):
+    carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
     usera=get_object_or_404(Usuario,correo=id)
     form=updateUser(instance=usera) 
     form2=upPassUser(user=request.user)

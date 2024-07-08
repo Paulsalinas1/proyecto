@@ -12,7 +12,6 @@ $("#tarjeta").after("<div id='mensajeErrortarjeta'></div>");
 $("#fecha").after("<div id='mensajeErrorfecha'></div>");
 $("#cs").after("<div id='mensajeErrorcs'></div>");
 
-
 $("#correo").on("input", validarCorreoCrear);
 $("#contraseña").on("input", contra_1);
 $("#repetirContraseña").on("input", contra_2);
