@@ -69,7 +69,7 @@ class TarjetaForm(forms.ModelForm):
         self.helper.form_method="post"
         self.helper.form_class="needs-validation"
         self.helper.attrs={"novalidate":""}
-        self.fields['tarjeta_de_credito'].widget.attrs.update({'id': 'targeta'})
+        self.fields['tarjeta_de_credito'].widget.attrs.update({'id': 'tarjeta'})
         self.fields['fecha_de_vencimiento'].widget.attrs.update({'id': 'fecha'})
         self.fields['codigo_de_seguridad'].widget.attrs.update({'id': 'cs'})
         

@@ -8,7 +8,7 @@ $("#fono2").after("<div id='mensajeErrorTelefono'></div>");
 $("#comuna").after("<div id='mensajeErrorComuna'></div>");
 $("#direc").after("<div id='mensajeErrorDirec'></div>");
 
-$("#targeta").after("<div id='mensajeErrortargeta'></div>");
+$("#tarjeta").after("<div id='mensajeErrortarjeta'></div>");
 $("#fecha").after("<div id='mensajeErrorfecha'></div>");
 $("#cs").after("<div id='mensajeErrorcs'></div>");
 
@@ -22,13 +22,17 @@ $("#comuna").on("input", comuna);
 $("#direc").on("input", direc);
 $("#fono").on("input", telefono);
 
-$("#targeta").on("input", tageta_v);
+$("#tarjeta").on("input", tageta_v);
 $("#fecha").on("input", vencimiento_v);
 $("#cs").on("input", codigo_v);
 
 $("#Rut").on("input", function () {
     formatRut();
     validaRut();
+});
+
+$("#tarjeta").on("keypress", function (event) {
+    return soloNumeros(event);
 });
 
 $("#fono").on("keypress", function (event) {
@@ -296,12 +300,12 @@ function direc() {
     }
 }
 function tageta_v() {
-    var tarinp = document.getElementById("targeta");
-    var numeroTarjeta = document.getElementById("targeta").value;
-    var mensajeError = document.getElementById("mensajeErrortargeta");
+    var tarinp = document.getElementById("tarjeta");
+    var numeroTarjeta = document.getElementById("tarjeta").value;
+    var mensajeError = document.getElementById("mensajeErrortarjeta");
 
     if (numeroTarjeta === "") {
-        mensajeError.innerText = "Por favor, ingrese su targeta.";
+        mensajeError.innerText = "Por favor, ingrese su tarjeta.";
         mensajeError.style.color = "red";
         tarinp.setCustomValidity("no");
         return false;
@@ -311,7 +315,7 @@ function tageta_v() {
         tarinp.setCustomValidity("no");
         return false;
     } else if (numeroTarjeta.length !== 16) {
-        mensajeError.innerText = "Por favor, ingrese una targeta válida ";
+        mensajeError.innerText = "Por favor, ingrese una tarjeta válida ";
         mensajeError.style.color = "red";
         tarinp.setCustomValidity("no");
         return false;
@@ -391,7 +395,6 @@ function codigo_v() {
     }
     
 }
-
 
 // Función para agregar la barra automáticamente después de ingresar el mes
 document.getElementById('fecha').addEventListener('input', function (e) {
