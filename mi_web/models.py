@@ -45,9 +45,9 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
 
 class Tarjeta(models.Model):  
     uusuario=models.ForeignKey("mi_web.Usuario", verbose_name=("usuario"), on_delete=models.CASCADE , null=True)
-    tarjeta_de_credito = models.IntegerField("numero tarjeta", unique=True)
-    fecha_de_vencimiento = models.CharField("fecha vencimiento", max_length=50)
-    codigo_de_seguridad = models.IntegerField("cv")
+    tarjeta_de_credito = models.CharField("numero tarjeta", max_length=16, unique=True)
+    fecha_de_vencimiento = models.CharField("fecha vencimiento", max_length=5)
+    codigo_de_seguridad = models.CharField("cv",max_length=3)
     
     def __str__(self):
         numero_str = str(self.tarjeta_de_credito)
