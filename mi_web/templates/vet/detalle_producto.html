@@ -16,15 +16,15 @@
                     <h3 class="card-title">{{ producto.nombre }}</h3>
                     <p class="card-text">Descripción del producto: {{ producto.descripción }}</p>
                     <p class="card-text text-success">Stock disponible: {{ producto.stock }}</p>
-                    <p class="card-text">Precio: <span class="precio">${{ producto.precio }}</span></p>
-                    
+                    <!-- Precio formateado con JavaScript -->
+                    <p class="card-text">Precio: <span class="precio">{{ producto.precio }}</span></p>
                     {% if request.user.is_authenticated %}
                         <form action="{% url 'agregar_producto' producto.id %}" method="post">
                             {% csrf_token %}
                             <div class="input-group mb-3">
-                                <button type="button" class="btn btn-outline-secondary" onclick="decrement('cantidad_producto_{{ item.id }}')">-</button>
-                                <input type="number" class="form-control text-center" id="cantidad_producto_{{ item.id }}" name="cantidad" min="1" max="{{ producto.stock }}" value="1" readonly>
-                                <button type="button" class="btn btn-outline-secondary" onclick="increment('cantidad_producto_{{ item.id }}')">+</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="decrement('cantidad_producto_{{ producto.id }}')">-</button>
+                                <input type="number" class="form-control text-center" id="cantidad_producto_{{ producto.id }}" name="cantidad" min="1" max="{{ producto.stock }}" value="1" readonly>
+                                <button type="button" class="btn btn-outline-secondary" onclick="increment('cantidad_producto_{{ producto.id }}')">+</button>
                             </div>
                             <button type="submit" class="btn btn-success">Agregar al Carrito</button>
                         </form>
@@ -45,6 +45,20 @@
 
 {% block script %}
 <script>
+    // Función para formatear el número con puntos como separadores de miles
+    function formatNumber(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    // Obtener el elemento donde está el precio y formatearlo
+    document.addEventListener("DOMContentLoaded", function() {
+        var precioElemento = document.querySelector('.precio');
+        var precio = parseFloat(precioElemento.textContent.trim());
+        var precioFormateado = formatNumber(precio);
+
+        precioElemento.textContent = '$' + precioFormateado;
+    });
+
     function increment(cosa) {
         var cantidadInput = document.getElementById(cosa);
         if (cantidadInput.value < {{ producto.stock }}) {
