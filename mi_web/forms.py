@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo,Reclamo , Usuario
+from .models import producto , Tarjeta , ItemCarrito , Boleta ,Bloqueo ,Desbloqueo,Reclamo , Usuario ,Provincia, Comuna
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm ,UserChangeForm ,PasswordChangeForm
 from django.contrib.auth import get_user_model
 from crispy_forms.helper import FormHelper
@@ -25,7 +25,7 @@ class loginForm(AuthenticationForm):
 
 
 class createUser(UserCreationForm):
-    
+    comuna = forms.ModelChoiceField(queryset=Comuna.objects.all(), empty_label="Selecciona comuna")
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(attrs={"id":"password1"}))
     password2 = forms.CharField(label="Confirmar contraseña", widget=forms.PasswordInput(attrs={"id":"password2"}))
     
@@ -88,25 +88,24 @@ class UpdateTarjetaForm(forms.ModelForm):
             Field('tarjeta_de_credito', css_class='form-control', id='tarjeta'),
             Field('fecha_de_vencimiento', css_class='form-control', id='fecha'),
             Field('codigo_de_seguridad', css_class='form-control', id='cs'),
-            Div(
-                Submit('submit', 'Actualizar Tarjeta', css_class='btn btn-primary'),
-                css_class='form-group'
-            )
+            
         )
 
         # Custom attributes for fields
-        self.fields['tarjeta_de_credito'].widget.attrs.update({'placeholder': 'Número de Tarjeta'})
-        self.fields['fecha_de_vencimiento'].widget.attrs.update({'placeholder': 'MM/AA'})
-        self.fields['codigo_de_seguridad'].widget.attrs.update({'placeholder': 'CVV'})
+        self.fields['tarjeta_de_credito'].widget.attrs.update({'id': 'tarjeta'})
+        self.fields['tarjeta_de_credito'].widget.attrs['readonly'] = True
+        self.fields['fecha_de_vencimiento'].widget.attrs.update({'id': 'fecha'})
+        self.fields['codigo_de_seguridad'].widget.attrs.update({'id': 'cs'})
         
 class updateUser(UserChangeForm):
     
     class Meta:
         model = useru 
         fields =["nombre","apellido","telefono","comuna","direccion"]
-
+        
     def __init__(self, *args , **kwargs ):
         super().__init__(*args, **kwargs)
+        
         self.helper= FormHelper()
         self.helper.form_method="post"
         self.helper.form_class="needs-validation"
@@ -127,6 +126,8 @@ class updateUser(UserChangeForm):
         # Elimina los campos de contraseña ya que no se necesitan para actualizar el perfil
         if 'password' in self.fields:
             del self.fields['password']
+        # Establecer el valor actual del usuario para el campo comuna
+        
 class upPassUser(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -148,6 +149,9 @@ class ItemCarritoForm(forms.ModelForm):
 
 
 class BoletaForm(forms.ModelForm):
+    
+    comuna2 = forms.ModelChoiceField(queryset=Comuna.objects.all(), empty_label="Selecciona comuna")
+
     class Meta:
         model = Boleta
         fields = ['metodoDePago', 'telefono2', 'comuna2', 'direccion2', 'rut_receptor', 'nombre_receptor']
@@ -157,8 +161,7 @@ class BoletaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user is not None:
             self.fields['metodoDePago'].queryset = Tarjeta.objects.filter(uusuario=user)
-        
-        # Cambiar la etiqueta del campo
+
         self.fields['metodoDePago'].label = "Método de Pago"
         
         self.helper = FormHelper()
@@ -166,29 +169,23 @@ class BoletaForm(forms.ModelForm):
         self.helper.form_class = "needs-validation"
         self.helper.attrs = {"novalidate": ""}
         
-        # Configurar el layout del formulario
         self.helper.layout = Layout(
-            HTML('<h3>Datos de pago</h3>'),  # Título personalizado
+            HTML('<h3>Datos de pago</h3>'),
             Field("metodoDePago", id="metodoDePago"),
-            HTML('<h3>datos de direccion y metodo de contacto</h3>'),  # Título personalizado
+            HTML('<h3>Datos de dirección y método de contacto</h3>'),
             Field("comuna2", id="comuna"),
             Field("direccion2", id="direc"),
             Field("telefono2", id="fono"),
-            HTML('<h3>Datos del Receptor</h3>'),  # Título personalizado
+            HTML('<h3>Datos del Receptor</h3>'),
             Field("rut_receptor", id="Rut"),
             Field("nombre_receptor", id="nombre"),
-            Submit('submit', 'Pagar', css_class='btn btn-primary')  # Botón personalizado
-            
-            
+            Submit('submit', 'Pagar', css_class='btn btn-primary')
         )
         
-        # Agregar atributos a los otros campos
         self.fields['telefono2'].widget.attrs.update({'id': 'fono'})
-        self.fields['comuna2'].widget.attrs.update({'id': 'comuna'})
         self.fields['direccion2'].widget.attrs.update({'id': 'direc'})
         self.fields['rut_receptor'].widget.attrs.update({'id': 'Rut'})
         self.fields['nombre_receptor'].widget.attrs.update({'id': 'nombre'})
-        
         
 class UsuarioFilterForm(forms.Form):
     nombre = forms.CharField(required=False, label='Nombre')

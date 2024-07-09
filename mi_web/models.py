@@ -128,7 +128,6 @@ class Desbloqueo(models.Model):
         ordering = ['-fecha_desbloqueo']
 
 class Reclamo(models.Model):
-    
     usuario = models.ForeignKey("mi_web.Usuario", verbose_name=("Usuario"), on_delete=models.CASCADE)
     boleta = models.ForeignKey(Boleta, verbose_name=("Boleta"),on_delete=models.CASCADE)
     tipo = models.CharField("Tipo de reclamo", max_length=20, choices=MOTIVO_REEMBOLSO)
@@ -138,3 +137,19 @@ class Reclamo(models.Model):
 
     def __str__(self):
         return f'Reclamo {self.id} - {self.usuario.nombre}'
+
+class Provincia(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Comuna(models.Model):
+    nombre = models.CharField(max_length=100)
+    provincia = models.ForeignKey("mi_web.Provincia", verbose_name=("provincia"), on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['nombre', 'provincia']
+
+    def __str__(self):
+        return f'{self.nombre}'

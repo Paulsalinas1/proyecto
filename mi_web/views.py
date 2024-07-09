@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse
 
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -92,10 +93,10 @@ def mi_cuenta(request, id):
 @login_required
 def mi_cuenta_td(request,id,usuario):
     tar=get_object_or_404(Tarjeta,id = id)
-    form=TarjetaForm(instance=tar)
+    form=UpdateTarjetaForm(instance=tar)
     
     if request.method=="POST":
-        form=TarjetaForm(data=request.POST)
+        form=UpdateTarjetaForm(data=request.POST ,instance=tar)
         if 'eliminar_tarjeta' in request.POST:   
             tar.delete()
             return redirect(reverse("mi_cuenta",args=[usuario])) 
@@ -103,10 +104,12 @@ def mi_cuenta_td(request,id,usuario):
            if form.is_valid():
                 form.save()
                 return redirect(reverse("mi_cuenta",args=[usuario]))  
+      
             
     datos={
         "form":form
-    }        
+    } 
+           
     return render(request,'vet/mi_cuenta_td.html' , datos)
 
 def recordando(request):
@@ -371,6 +374,7 @@ def eliminar_producto(request, item_id):
 def carrito_login(request):
     form = BoletaForm(user=request.user)
     carrito_de_compras = CarritoDeCompras.objects.get(user=request.user)
+    
     if request.method == 'POST':
         form = BoletaForm(request.POST,files=request.FILES,user=request.user)
         if form.is_valid():
@@ -388,8 +392,10 @@ def carrito_login(request):
             return redirect(reverse("ver_boleta",args=[id]))
     datos={
         "form":form
+        
     }
     return render(request,'vet/carrito_login.html',datos)
+
 
 @login_required
 def ver_boleta(request,id):
