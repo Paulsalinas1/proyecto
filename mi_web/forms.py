@@ -88,16 +88,14 @@ class UpdateTarjetaForm(forms.ModelForm):
             Field('tarjeta_de_credito', css_class='form-control', id='tarjeta'),
             Field('fecha_de_vencimiento', css_class='form-control', id='fecha'),
             Field('codigo_de_seguridad', css_class='form-control', id='cs'),
-            Div(
-                Submit('submit', 'Actualizar Tarjeta', css_class='btn btn-primary'),
-                css_class='form-group'
-            )
+            
         )
 
         # Custom attributes for fields
-        self.fields['tarjeta_de_credito'].widget.attrs.update({'placeholder': 'Número de Tarjeta'})
-        self.fields['fecha_de_vencimiento'].widget.attrs.update({'placeholder': 'MM/AA'})
-        self.fields['codigo_de_seguridad'].widget.attrs.update({'placeholder': 'CVV'})
+        self.fields['tarjeta_de_credito'].widget.attrs.update({'id': 'tarjeta'})
+        self.fields['tarjeta_de_credito'].widget.attrs['readonly'] = True
+        self.fields['fecha_de_vencimiento'].widget.attrs.update({'id': 'fecha'})
+        self.fields['codigo_de_seguridad'].widget.attrs.update({'id': 'cs'})
         
 class updateUser(UserChangeForm):
     
