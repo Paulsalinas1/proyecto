@@ -292,7 +292,7 @@ function direc() {
         direcinp.setCustomValidity("no");
         return false; // Evita que se envíe el formulario si el nombre está vacío
     } else {
-        mensajeError.innerText = "Nombre correcto ✅";
+        mensajeError.innerText = "direccion correcto ✅";
         mensajeError.style.color = "green";
         direcinp.setCustomValidity("");
         return true;
