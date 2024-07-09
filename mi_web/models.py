@@ -84,7 +84,7 @@ class Boleta(models.Model):
     comuna2 = models.CharField("comuna2", max_length=50)
     direccion2 = models.CharField("direccion2", max_length=50)
     fecha_emision = models.DateTimeField("fecha_emision",auto_now_add=True)
-    rut_receptor = models.CharField("RUT del Receptor", max_length=12)
+    rut_receptor = models.CharField("RUT del Receptor", max_length=10)
     nombre_receptor = models.CharField("Nombre del Receptor", max_length=100)
     
     def __str__(self):

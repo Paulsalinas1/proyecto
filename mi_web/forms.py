@@ -16,10 +16,18 @@ class ProductoForm(forms.ModelForm):
          
          
 class upProductoForm(forms.ModelForm):
-     class Meta:
-         model = producto
-         fields = ['nombre','stock','descripción','precio','foto']
-              
+    class Meta:
+        model = producto
+        fields = ['nombre','stock','descripción','precio','foto']  
+         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre'].widget.attrs.update({'id': 'nombre_id'})
+        self.fields['stock'].widget.attrs.update({'id': 'stock_id'})
+        self.fields['descripción'].widget.attrs.update({'id': 'descripción_id'})  # Corrige 'descripción' a 'descripcion' si no tiene acento en el modelo
+        self.fields['precio'].widget.attrs.update({'id': 'precio_id'})
+        self.fields['foto'].widget.attrs.update({'id': 'foto_id'})
+        
 class loginForm(AuthenticationForm):
     pass
 

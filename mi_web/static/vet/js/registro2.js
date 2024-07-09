@@ -12,6 +12,7 @@ $("#tarjeta").after("<div id='mensajeErrortarjeta'></div>");
 $("#fecha").after("<div id='mensajeErrorfecha'></div>");
 $("#cs").after("<div id='mensajeErrorcs'></div>");
 
+
 $("#correo").on("input", validarCorreoCrear);
 $("#contraseña").on("input", contra_1);
 $("#repetirContraseña").on("input", contra_2);
@@ -46,7 +47,13 @@ $("#cs").on("keypress", function (event) {
     return soloNumeros(event);
 });
 
+$("#stock_id").on("keypress", function (event) {
+    return soloNumeros(event);
+});
 
+$("#precio_id").on("keypress", function (event) {
+    return soloNumeros(event);
+});
 
 function validarCorreoCrear() {
     var coreoinp = document.getElementById("correo");
@@ -210,12 +217,18 @@ function nombre_v() {
     var nombinp = document.getElementById("nombre");
     var nombre = document.getElementById("nombre").value;
     var mensajeError = document.getElementById("mensajeErrorNombre");
+    var regex = /^[a-zA-Z\s]+$/;
 
     if (nombre === "") {
         mensajeError.innerText = "Por favor, ingrese su nombre.";
         mensajeError.style.color = "red";
         nombinp.setCustomValidity("no");
         return false; // Evita que se envíe el formulario si el nombre está vacío
+    } else if (!regex.test(nombre) || !nombre.replace(/\s/g, '').length) {
+        mensajeError.innerText = "Por favor, ingrese un nombre valido.";
+        mensajeError.style.color = "red";
+        nombinp.setCustomValidity("no");
+        return false;
     } else {
         mensajeError.innerText = "Nombre correcto ✅";
         mensajeError.style.color = "green";
@@ -227,13 +240,19 @@ function apellido_v() {
     var apeinp = document.getElementById("apellido");
     var apellido = document.getElementById("apellido").value;
     var mensajeError = document.getElementById("mensajeErrorApellido");
+    var regex = /^[a-zA-Z\s]+$/;
 
     if (apellido === "") {
         mensajeError.innerText = "Por favor, ingrese su apellido.";
         mensajeError.style.color = "red";
         apeinp.setCustomValidity("no");
         return false; // Evita que se envíe el formulario si el apellido está vacío
-    } else {
+    } else if (!regex.test(apellido) || !apellido.replace(/\s/g, '').length) {
+        mensajeError.innerText = "Por favor, ingrese un apellido valido.";
+        mensajeError.style.color = "red";
+        apeinp.setCustomValidity("no");
+        return false;
+    }else {
         mensajeError.innerText = "Apellido correcto ✅";
         mensajeError.style.color = "green";
         apeinp.setCustomValidity("");
@@ -292,7 +311,7 @@ function direc() {
         direcinp.setCustomValidity("no");
         return false; // Evita que se envíe el formulario si el nombre está vacío
     } else {
-        mensajeError.innerText = "Nombre correcto ✅";
+        mensajeError.innerText = "direccion correcto ✅";
         mensajeError.style.color = "green";
         direcinp.setCustomValidity("");
         return true;
