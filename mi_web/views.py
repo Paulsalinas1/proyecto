@@ -262,8 +262,7 @@ def detalleP_trabajador(request, id):
                     if imagen_nueva.name != path.basename(imagen_anterior):
                     # Eliminar la imagen anterior
                         if path.exists(imagen_anterior):
-                            remove(imagen_anterior)
-                    
+                            remove(imagen_anterior) 
                 form.save()
                 return redirect(to="tienda_trabajador")
                 
