@@ -64,6 +64,8 @@ urlpatterns = [
     path('reclamos_admin/', views.reclamos_admin, name='reclamos_admin'),
     path('revision_reclamo/<id>', views.revision_reclamo, name='revision_reclamo'),
     
+    
+    
 ]
 
 if settings.DEBUG:

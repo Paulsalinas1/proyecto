@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import producto , Usuario , Tarjeta , CarritoDeCompras ,Reclamo ,Desbloqueo ,Bloqueo ,Boleta
+from .models import producto , Usuario , Tarjeta , CarritoDeCompras ,Reclamo ,Desbloqueo ,Bloqueo ,Boleta ,Provincia,Comuna
 # Register your models here.
 
 class admProducto(admin.ModelAdmin):
@@ -30,6 +30,13 @@ class admBoleta(admin.ModelAdmin):
     list_display = ['id' ,'user','estado','fecha_emision','nombre_receptor']
     #list_editable      
 
+class admProvincia(admin.ModelAdmin):
+    list_display = ['id' ,'nombre']
+    #list_editable  
+    
+class admComuna(admin.ModelAdmin):
+    list_display = ['id' ,'nombre']
+    #list_editable  
 # Register your models here.
 
 admin.site.register(producto, admProducto)
@@ -38,5 +45,7 @@ admin.site.register(Tarjeta, admTarjeta)
 admin.site.register(CarritoDeCompras, admCarritos)
 admin.site.register(Reclamo, admReclamo)
 admin.site.register(Desbloqueo, admDesbloqueo)
-admin.site.register(Bloqueo, admBloqueo)
+admin.site.register(Provincia, admProvincia)
 admin.site.register(Boleta, admBoleta)
+admin.site.register(Bloqueo, admBloqueo)
+admin.site.register(Comuna, admComuna)

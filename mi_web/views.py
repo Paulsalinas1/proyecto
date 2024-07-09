@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse
 
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -371,6 +372,7 @@ def eliminar_producto(request, item_id):
 def carrito_login(request):
     form = BoletaForm(user=request.user)
     carrito_de_compras = CarritoDeCompras.objects.get(user=request.user)
+    
     if request.method == 'POST':
         form = BoletaForm(request.POST,files=request.FILES,user=request.user)
         if form.is_valid():
@@ -388,8 +390,10 @@ def carrito_login(request):
             return redirect(reverse("ver_boleta",args=[id]))
     datos={
         "form":form
+        
     }
     return render(request,'vet/carrito_login.html',datos)
+
 
 @login_required
 def ver_boleta(request,id):
