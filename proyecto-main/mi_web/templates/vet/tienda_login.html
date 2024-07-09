@@ -1,0 +1,98 @@
+{% extends "vet/base_p.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stilos %}
+{% endblock stilos %}
+{% block title %} Tienda {% endblock title %}
+{% block contenido %}
+<!-- Contenedor principal -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Columna del filtro a la izquierda -->
+        <div class="col-md-3 col-sm-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Filtros</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="" class="form">
+                        {% crispy filter_form %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Columna de productos a la derecha -->
+        <div class="col-md-9 col-sm-12">
+            <div class="row justify-content-center align-items-center mb-4">
+                <div class="col-12 text-center">
+                    <h1>Tienda Online</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                {% if productos %}
+                    {% for p in productos %}
+                    <div class="col-lg-4 col-md-4 mt-2">
+                        <div class="card h-100 d-flex flex-column">
+                            <div class="card-body">
+                                <h5 class="text-center">{{ p.nombre }}</h5>
+                                <img src="{{ p.foto.url }}" class="card-img-left img-fluid" alt="{{ p.nombre }}" style="max-width: 100%; max-height: 100%; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                            </div>
+                            <div class="card-footer">
+                                <p class="card-text">{{ p.descripción }}</p>
+                                <p class="text-success">Stock disponible: {{ p.stock }}</p>
+                                <!-- Añadir clase especial para el precio -->
+                                <p>Precio: <span class="precio" data-precio="{{ p.precio }}"></span></p>
+                                <a href='{% url "detalle_producto" p.id %}' class="btn btn-success mt-auto">Ver producto</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center">
+                        <p>No hay productos disponibles.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
+{% block script %}
+    <!-- Vinculación del archivo js -->
+    <script src="{% static 'vet/js/tienda.js' %}"></script>
+    <script>
+        // Formatear precios
+        function formatearPrecios() {
+            // Selecciona todos los elementos con la clase 'precio'
+            var precios = document.querySelectorAll('.precio');
+            precios.forEach(function(precio) {
+                // Obtén el valor de data-precio
+                var valor = parseFloat(precio.getAttribute('data-precio'));
+                // Formatear el valor con separadores de miles
+                var valorFormateado = valor.toLocaleString('es-ES');
+                // Asignar el valor formateado al contenido del elemento
+                precio.textContent = '$' + valorFormateado;
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            formatearPrecios();
+        });
+        
+        // Función para mostrar el mensaje de éxito
+        function mostrarMensaje() {
+            var mensajeError = document.createElement("span");
+            mensajeError.textContent = "Producto agregado al carrito ✅";
+            mensajeError.style.color = "green";
+            
+            // Insertar el mensaje después del botón "Agregar al carrito"
+            var boton = document.getElementById("botonAgregar");
+            boton.parentNode.insertBefore(mensajeError, boton.nextSibling);
+            
+            // Temporizador para que el mensaje desaparezca después de 4 segundos
+            setTimeout(function() {
+                mensajeError.remove();
+            }, 4000);
+        }
+    </script>
+{% endblock script %}

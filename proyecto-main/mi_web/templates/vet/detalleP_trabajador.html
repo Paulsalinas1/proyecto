@@ -10,7 +10,6 @@
         <div class="col-sm-6">
             <div class="mt-4 p-2 border rounded">
                 <h3 class="text-center mt-3">Editar producto</h3>
-                
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% crispy form %}
@@ -18,22 +17,15 @@
                         <input type="submit" value="Guardar Cambios" class="btn btn-warning text-light">
                         <a href='{% url "tienda_trabajador" %}' role='button' class="btn btn-light border">Volver</a>
                     </div>
-                   
                 </form>
-                
             </div>
         </div>
         <div class="col-sm-3"></div>
     </div>
 </div> 
 {% endblock contenido %}   
-        
 {% block script %}
     <script src="{% static 'vet/js/jquery-3.7.1.min.js'%}"></script>
     <script src="{% static 'vet/js/adm_tienda.js'%}"></script>
     <script src="{% static 'vet/js/adm_tienda_jq.js'%}"></script>
 {% endblock script %}
-
-
-        
- 
