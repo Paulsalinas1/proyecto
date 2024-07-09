@@ -387,8 +387,13 @@ def carrito_login(request):
             items_carrito = ItemCarrito.objects.filter(carrito=carrito_de_compras)
             for item in items_carrito:
                 ProductoBoleta.objects.create(boleta=boleta, producto=item.producto.nombre, cantidad=item.cantidad)
+                 # Reducir el stock del producto vendido
+                producto = item.producto
+                producto.stock -= item.cantidad
+                producto.save()
             # Vaciar el carrito de compras del usuario
             carrito_de_compras.productos.clear()
+            
             return redirect(reverse("ver_boleta",args=[id]))
     datos={
         "form":form
