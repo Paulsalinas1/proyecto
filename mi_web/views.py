@@ -136,6 +136,8 @@ def Revision_estado(request,id):
 
 @login_required
 def trabajador(request):
+    if request.user.is_authenticated:
+        carrito, created = CarritoDeCompras.objects.get_or_create(user=request.user, is_active=True)
     return render(request,'vet/trabajador.html')
 
 @login_required
