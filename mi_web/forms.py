@@ -10,9 +10,14 @@ from .enumeraciones import *
   
 useru = get_user_model()
 class ProductoForm(forms.ModelForm):
-     class Meta:
-         model = producto
-         fields = ['nombre','stock','descripción','precio','foto']
+    class Meta:
+        model = producto
+        fields = ['nombre','stock','descripción','precio','foto']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['stock'].widget.attrs.update({'id': 'stock_id'})
+        self.fields['precio'].widget.attrs.update({'id': 'precio_id'})
          
          
 class upProductoForm(forms.ModelForm):
